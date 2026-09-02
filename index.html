@@ -254,7 +254,7 @@ main{
   min-height:38px;
 }
 .k.cy{background:linear-gradient(180deg,#48c1f0,#1f9ed3);color:#fff;border-color:#8fdcff}
-.k.cy .gl{font-size:clamp(13px,2.4vw,19px);line-height:1}
+.k .gl{width:clamp(15px,2.6vw,21px);height:clamp(15px,2.6vw,21px);fill:currentColor;display:block}
 .k i{font-style:normal;background:#111;color:#fff;font-size:8px;padding:0 4px;border-radius:2px;letter-spacing:.08em}
 .k u{text-decoration:none;font-size:clamp(6.5px,1.1vw,8.5px);font-weight:700;opacity:.72}
 .k.cy u{opacity:.9}
@@ -279,7 +279,7 @@ body.guiding .blunik{box-shadow:0 24px 48px -20px #000c, 0 0 0 2px #ffb02066, 0 
   .k{min-height:44px;font-size:clamp(8px,2.25vw,11px);border-radius:8px;padding:5px 1px;gap:0}
   .k i{font-size:7px;padding:0 3px}
   .k .kb{display:none}
-  .k.cy .gl{font-size:clamp(15px,4.4vw,20px)}
+  .k .gl{width:clamp(17px,4.6vw,22px);height:clamp(17px,4.6vw,22px)}
   .logobar .lg{font-size:13px}
   .blunik{padding:9px}
   .lcdbox{padding:6px}
@@ -325,7 +325,7 @@ body.guiding .blunik{box-shadow:0 24px 48px -20px #000c, 0 0 0 2px #ffb02066, 0 
   background:var(--surface-2)}
 /* sur téléphone le guidage reste collé en bas : l'appareil et la consigne
    sont visibles en même temps */
-@media (max-width:1040px){
+@media (max-width:1040px) and (min-height:561px){
   body.guiding #gdock{
     position:fixed;left:0;right:0;bottom:0;z-index:55;
     border-radius:0;border-left:none;border-right:none;border-bottom:none;
@@ -611,6 +611,82 @@ textarea.jsbox{width:100%;min-height:180px;background:var(--surface-2);border:1p
   #printArea .zrblock{page-break-inside:avoid;margin-bottom:12px}
 }
 
+/* ================================ VUE COURSE ==========================
+   Téléphone en paysage : l'appareil en grand, les chiffres à côté, rien d'autre.
+   ===================================================================== */
+.cockpit{display:none;flex-direction:column;gap:8px;min-width:0}
+.ck-main{background:var(--bench);border-radius:var(--r);padding:10px 12px;color:#eef1f2;
+  display:flex;flex-direction:column;justify-content:center;min-height:0;flex:1 1 auto}
+.ck-l{font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
+.ck-main .ck-l{color:#8fa3ae}
+.ck-v{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-weight:600;
+  font-size:clamp(30px,7.4vh,52px);line-height:1.02;letter-spacing:-.01em}
+.ck-s{font-family:var(--f-mono);font-size:13px;color:#8fa3ae;margin-top:1px}
+.ck-top{display:flex;align-items:baseline;gap:8px}
+.ck-st{margin-left:auto;font-family:var(--f-mono);font-size:11px;font-weight:600;color:#8fa3ae;
+  border:1px solid #ffffff26;border-radius:4px;padding:1px 5px}
+.ck-drv{display:flex;align-items:center;gap:7px;margin-top:auto;padding-top:10px;
+  font-size:11.5px;color:#8fa3ae;font-weight:500}
+.ck-drv i{width:9px;height:9px;border-radius:50%;background:#ffffff1f;flex:0 0 9px}
+.ck-drv.late i{background:#ff7a70;box-shadow:0 0 9px #ff7a7099}
+.ck-drv.ok   i{background:#57d98a;box-shadow:0 0 9px #57d98a99}
+.ck-drv.early i{background:#6fb0ff;box-shadow:0 0 9px #6fb0ff99}
+.ck-main.ok  .ck-v{color:#57d98a} .ck-main.ok  .ck-s{color:#57d98a}
+.ck-main.warn .ck-v{color:#ffc65c} .ck-main.warn .ck-s{color:#ffc65c}
+.ck-main.bad .ck-v{color:#ff7a70} .ck-main.bad .ck-s{color:#ff7a70}
+.ck-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);
+  border:1px solid var(--rule);border-radius:var(--r);overflow:hidden}
+.ck-grid > div{background:var(--surface);padding:5px 9px;min-width:0}
+.ck-grid b{display:block;font-family:var(--f-mono);font-variant-numeric:tabular-nums;
+  font-size:clamp(13px,2.6vh,17px);font-weight:500;color:var(--ink);margin-top:1px}
+.ck-run{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.ck-run .btn{padding:9px 6px;font-size:14px;font-weight:600}
+
+@media (orientation:landscape) and (max-height:560px){
+  header.top, footer, .a2hs, .ctx, .console, .course, .rothint{display:none !important}
+  body{padding:0 !important;overflow:hidden}
+  main{display:block;padding:0;max-width:none;height:100dvh}
+  .bench{position:static;display:grid;height:100dvh;gap:7px;
+    grid-template-columns:minmax(0,1fr) clamp(178px,30vw,268px);
+    grid-template-rows:minmax(0,1fr) auto;
+    padding:6px calc(6px + env(safe-area-inset-right,0px))
+            calc(6px + env(safe-area-inset-bottom,0px)) calc(6px + env(safe-area-inset-left,0px))}
+  .stage{grid-column:1;grid-row:1/3;padding:8px;display:flex;min-width:0;min-height:0;border-radius:10px}
+  .blunik{--w:100%;width:100%;height:100%;margin:0;display:flex;flex-direction:column;padding:8px}
+  .face{flex:1;min-height:0;padding:8px;grid-template-rows:auto minmax(0,1.15fr) minmax(0,1fr)}
+  .face.m2{grid-template-rows:auto minmax(0,1.15fr) minmax(0,1fr)}
+  .lcdbox{padding:8px}
+  .k{min-height:0;font-size:clamp(8px,1.6vh,13px)}
+  .k .kb{display:none}
+  .k .gl{width:clamp(14px,2.6vh,20px);height:clamp(14px,2.6vh,20px)}
+  .k i{font-size:7px}
+  .k u{font-size:7px}
+  @supports (font-size:1cqi){ .ch{font-size:min(44px,8.6cqi)} .m2 .ch{font-size:min(48px,9.4cqi)} }
+  .cockpit{display:flex;grid-column:2;grid-row:1;min-height:0;overflow:hidden}
+  /* pendant un guidage, la colonne se concentre sur l'écart et la consigne */
+  body.guiding .ck-grid{display:none}
+  body.guiding .ck-v{font-size:clamp(26px,6.6vh,42px)}
+  body.guiding .ck-drv{padding-top:6px}
+  .gdock{grid-column:2;grid-row:2}
+  body.guiding #gdock{position:static;max-height:38vh;overflow:auto;
+    border-radius:var(--r);border:1px solid var(--rule);border-left:4px solid #ffb020;box-shadow:var(--shadow)}
+  body.guiding .gd-hd{padding:7px 10px} body.guiding .gd-bd{padding:9px 10px;gap:9px}
+  body.guiding .gd-n{flex:0 0 24px;height:24px;font-size:12px}
+  body.guiding .gd-step{font-size:13.5px;line-height:1.35}
+  body.guiding .gd-val{font-size:15px;padding:4px 8px;margin-top:6px}
+  body.guiding .gd-key{display:none}
+  body.guiding .gd-ft{padding:7px 10px}
+  body.guiding .gd-live{padding:8px 10px} body.guiding .gd-clk{font-size:20px}
+  .modal{padding:0} .modal .box{max-height:100%;height:100%;border-radius:0}
+}
+
+/* invite de rotation, une seule fois, sur téléphone en portrait */
+.rothint{display:flex;align-items:center;gap:9px;width:100%;
+  border:1px solid var(--rule);background:var(--surface-2);border-radius:var(--r);
+  padding:9px 12px;font-size:13px;color:var(--ink-2);font-weight:500;text-align:left}
+.rothint svg{width:16px;height:16px;fill:var(--accent);flex:0 0 16px}
+@media (min-width:1041px){ .rothint{display:none !important} }
+
 /* ------------------------------------------- invite d'installation iOS */
 .a2hs{display:flex;align-items:center;gap:10px;margin:10px clamp(14px,3vw,28px) 0;
   padding:10px 12px;background:var(--accent-soft);border:1px solid #b9dde9;
@@ -679,16 +755,38 @@ footer button:hover{color:var(--ink)}
           <div class="keys">
             <button class="k" data-k="SELECT"><span class="kb">↵</span>SELECT</button>
             <button class="k" data-k="PARAM"><span class="kb">P</span>PARAM</button>
-            <button class="k cy" data-k="PLUS"><span class="kb">+</span><span class="gl">✚</span></button>
+            <button class="k cy" data-k="PLUS"><span class="kb">+</span><svg class="gl" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.4 3h3.2v7.4H21v3.2h-7.4V21h-3.2v-7.4H3v-3.2h7.4z"/></svg></button>
             <button class="k" data-k="STAGE"><span class="kb">T</span>STAGE</button>
             <button class="k" data-k="FINISH"><span class="kb">F</span><b>FINISH</b><i>OFF</i></button>
-            <button class="k cy" data-k="LEFT"><span class="kb">←</span><span class="gl">⬅</span></button>
-            <button class="k cy" data-k="MINUS"><span class="kb">-</span><span class="gl">━</span></button>
-            <button class="k cy" data-k="RIGHT"><span class="kb">→</span><span class="gl">➡</span></button>
+            <button class="k cy" data-k="LEFT"><span class="kb">←</span><svg class="gl" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.6 3.6 2.2 12l8.4 8.4V14.4H21.8V9.6H10.6z"/></svg></button>
+            <button class="k cy" data-k="MINUS"><span class="kb">-</span><svg class="gl" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.4h18v3.2H3z"/></svg></button>
+            <button class="k cy" data-k="RIGHT"><span class="kb">→</span><svg class="gl" viewBox="0 0 24 24" aria-hidden="true"><path d="M13.4 3.6 21.8 12l-8.4 8.4V14.4H2.2V9.6h11.2z"/></svg></button>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- vue course : visible uniquement en paysage sur téléphone -->
+    <aside class="cockpit" id="cockpit" aria-hidden="true">
+      <div class="ck-main" id="ckMain">
+        <div class="ck-top"><span class="ck-l" id="ckMainL">Vitesse</span><span class="ck-st" id="ckSt">ST01</span></div>
+        <b class="ck-v" id="ckMainV">0</b>
+        <span class="ck-s" id="ckMainS">km/h</span>
+        <div class="ck-drv" id="ckDrv"><i></i><span id="ckDrvT">Voiture à l'arrêt</span></div>
+      </div>
+      <div class="ck-grid">
+        <div><span class="ck-l">Total</span><b id="ckTot">0.000</b></div>
+        <div><span class="ck-l">Partiel</span><b id="ckPar">0.000</b></div>
+        <div><span class="ck-l">Moyenne</span><b id="ckAs">—</b></div>
+        <div><span class="ck-l">Reste</span><b id="ckRest">—</b></div>
+        <div><span class="ck-l">Vitesse</span><b id="ckV">0</b></div>
+        <div><span class="ck-l">Heure</span><b id="ckClk">--:--:--</b></div>
+      </div>
+      <div class="ck-run">
+        <button class="btn primary" id="ckRun">Rouler</button>
+        <button class="btn" id="ckStop">Arrêt</button>
+      </div>
+    </aside>
 
     <div class="gdock hidden" id="gdock">
       <div class="gd-hd">
@@ -716,8 +814,13 @@ footer button:hover{color:var(--ink)}
 
     <div class="ctx">
       <span class="name" id="ctxName">Éteint</span>
-      <span class="txt" id="ctxText">Appuyez sur START / ON pour allumer l'appareil.</span>
+      <span class="txt" id="ctxText">START allume l'appareil.</span>
     </div>
+
+    <button class="rothint hidden" id="rotHint">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5.2V2L7.2 6.4 12 10.8V7.6a6.4 6.4 0 1 1-6.4 6.4H3.2A8.8 8.8 0 1 0 12 5.2z"/></svg>
+      Tournez l'écran pour la vue course
+    </button>
 
     <div class="console">
       <div class="bar">
@@ -739,7 +842,7 @@ footer button:hover{color:var(--ink)}
           <span class="s3 early" id="rEarly">Avance</span>
           <span class="num" id="rNum">—</span>
         </div>
-        <span class="dnote" id="drvNote">Le pilote conduit seul. Vous gardez la commande Rouler / Arrêt.</span>
+        <span class="dnote" id="drvNote">Voiture à l'arrêt</span>
       </div>
       <div class="gauges">
         <div class="gauge"><div class="g-l">Vitesse</div><div class="g-v" id="gSpeed">0.0<small>km/h</small></div></div>
@@ -749,16 +852,6 @@ footer button:hover{color:var(--ink)}
       </div>
     </div>
 
-    <div class="card">
-      <div class="hd"><h2>Feux tricolores</h2></div>
-      <div class="leg">
-        <span class="d"><i class="r"></i>Rouge fixe</span><span>Avant l'heure de départ. En secteur : retard sur la moyenne.</span>
-        <span class="d"><i class="r"></i>Rouge clignotant</span><span>Moins de dix secondes avant le départ.</span>
-        <span class="d"><i class="g"></i>Vert</span><span>Heure de départ atteinte. En secteur : avance sur la moyenne.</span>
-        <span class="d"><i class="r"></i><i class="g"></i>Rouge et vert</span><span>Heure de départ dépassée.</span>
-        <span class="d"><i class="b"></i>Bleu</span><span>Dans la tolérance réglée.</span>
-      </div>
-    </div>
   </div>
 
   <!-- ============================ FORMATION =========================== -->
@@ -784,7 +877,7 @@ footer button:hover{color:var(--ink)}
 <div id="printArea"></div>
 
 <footer>
-  <span>Simulateur Blunik — v1.1</span>
+  <span>Simulateur Blunik — v1.2</span>
   <span class="sep"></span>
   <button id="btnSources">Sources et conformité</button>
   <button id="btnWake" class="hidden">Écran allumé : non</button>
@@ -2147,52 +2240,52 @@ function renderLeds(){
 
 /* ------------------------------ BARRE DE CONTEXTE ----------------------- */
 const CTX = {
-  OFF:['Éteint','Appuyez sur <b>START / ON</b> pour allumer l\'appareil.'],
-  FLASH:['Message','Message temporaire de l\'appareil.'],
-  CLOCK:['Horloge','Heure interne et heure de départ du secteur sélectionné. <b>+ / −</b> changent de secteur, <b>STAGE</b> le programme, <b>VIEW</b> passe aux sondes.'],
-  SENSORS:['Sondes','Sondes, vitesse instantanée et distance partielle. Écran de l\'étalonnage automatique.'],
-  PARTIAL:['En secteur · Partiel','Distance totale et vitesse en haut, distance partielle et moyenne imposée en bas. <b>FINISH</b> deux fois clôture le secteur.'],
-  CHRONO:['En secteur · Chrono','Temps écoulé depuis le départ et moyenne réalisée. <b>FINISH</b> deux fois clôture le secteur.'],
-  LIAISON:['En secteur · Liaison','Heure, distance restante, temps restant et moyenne imposée. <b>FINISH</b> deux fois clôture le secteur.'],
-  REG:['En secteur · Régularité','Avance <b>+</b> ou retard <b>−</b> sur la moyenne imposée. <b>FINISH</b> deux fois clôture le secteur.'],
-  MENU_STAGE_HEAD:['Programmation · Secteur','Heure de départ, offset et temps imparti. <b>VIEW</b> passe au tronçon A.'],
-  MENU_STAGE_SEC:['Programmation · Tronçon','Moyenne imposée puis distance de fin. <b>VIEW</b> ajoute le tronçon suivant.'],
-  MENU_STAGE_END:['Programmation · Fin','Moyenne calculée pour la liaison. <b>SELECT</b> valide et quitte.'],
-  MENU_PARAM_CLOCK:['Paramètre · Synchronisation','Réglez l\'heure au dixième, puis <b>SELECT</b> au top.'],
-  MENU_PARAM_WD:['Paramètre · Diamètre de roue','Constante d\'étalonnage, quatre mémoires.'],
-  MENU_PARAM_ADAPT:['Paramètre · Adaptateur de sonde','Nombre d\'impulsions par tour de roue.'],
-  MENU_PARAM_LED:['Paramètre · LED et unités','Tolérance de la LED bleue, écart en mètres ou secondes, dernier chiffre.'],
-  MENU_PARAM_SENSOR:['Paramètre · Sondes','Sonde gauche, droite, ou moyenne des deux.'],
-  MENU_UPDATE:['Correction du total','Ajoute ou retranche des mètres sans modifier l\'étalonnage.'],
-  MENU_MODE:['Mode de comptage','Normal, à rebours ou neutralisé. <b>SELECT</b> active.'],
-  MENU_CALIB:['Étalonnage','Alignez la ligne Road Book sur la distance officielle, puis <b>SELECT</b>.'],
-  MENU_FINISH:['Fin de secteur','<b>FINISH</b> confirme, <b>SELECT</b> annule.'],
-  II_CLOCK:['Horloge','Heure interne et heure de départ. <b>+ / −</b> changent de secteur, <b>◄ / ►</b> corrigent la distance.'],
-  II_START:['Procédure de départ','<b>Reste!</b> : temps avant le départ. <b>Retard</b> : heure dépassée.'],
-  II_SENSORS:['Sondes','SG sonde gauche, SD sonde droite. Écran de l\'étalonnage.'],
-  II_REG:['En secteur · Régularité','Écart en secondes ou en mètres, et moyenne imposée du tronçon. <b>FINISH</b> clôture le secteur.'],
-  II_PARTIAL:['En secteur · Partiels','Distance totale, distance partielle et moyenne imposée. <b>FINISH</b> clôture le secteur.'],
-  II_CHRONO:['En secteur · Chrono','Chronomètre du secteur au dixième de seconde. <b>FINISH</b> clôture le secteur.'],
-  II_LIAISON:['En secteur · Liaison','Heure, distance restante et temps théorique restant. <b>FINISH</b> clôture le secteur.'],
-  II_STAGE_HEAD:['Programmation · Secteur','Mode MI, heure de départ, offset et temps imparti.'],
-  II_STAGE_SEC:['Programmation · Partiel','Moyenne au centième et distance de fin. <b>ZERO</b> calcule la moyenne manquante.'],
-  II_STAGE_END:['Programmation · Fin','Moyenne calculée du dernier partiel. <b>ENTER</b> valide.'],
-  II_CALIB:['Étalonnage','Saisissez la distance officielle, puis <b>ENTER</b>.'],
-  II_COUNT:['Mode de comptage','<b>MODE</b> fait défiler, <b>ENTER</b> active.'],
-  II_FINISH:['Fin de secteur','<b>FINISH</b> termine le secteur, <b>VIEW</b> le poursuit.'],
-  II_P_CLOCK:['Paramètre · Horloge','Heure de synchronisation, <b>ENTER</b> au top. <b>MODE</b> ajuste au dixième.'],
-  II_P_TYRE:['Paramètre · Pneus','Quatre jeux de roues, chacun avec son étalonnage.'],
-  II_P_CAL:['Paramètre · Étalonnage','Constante du pneu en cours et diviseur d\'impulsions.'],
-  II_P_SENSOR:['Paramètre · Sondes','Gauche, droite, moyenne, roue la plus rapide ou la plus lente.'],
-  II_P_LED:['Paramètre · LED bleue','Tolérance de 0,1 à 9,9 secondes.'],
-  II_P_LASTDIGIT:['Paramètre · Dernier chiffre','Affichage au mètre ou au décamètre.'],
-  II_P_ECART:['Paramètre · Écart','Écart affiché en temps ou en distance.'],
-  II_P_UNITS:['Paramètre · Unités','Kilomètres ou miles.'],
-  II_P_CORR:['Paramètre · Corrections','Pas des touches ◄ et ►.'],
-  II_P_STARTKEY:['Paramètre · Touche START','Synchro, entraînement, et option offset.'],
-  II_P_SIS:['Paramètre · START en secteur','Action de START pendant une spéciale.'],
-  II_P_TOTAL:['Paramètre · Distance totale','Distance cumulée. <b>ZERO</b> la remet à zéro.'],
-  II_P_LIGHT:['Paramètre · Intensité','Luminosité de l\'écran et des LED, de 1 à 5.'],
+  OFF:['Éteint','<b>START</b> allume l\'appareil.'],
+  FLASH:['Message',''],
+  CLOCK:['Horloge','<b>+ −</b> secteur · <b>STAGE</b> programme · <b>VIEW</b> sondes'],
+  SENSORS:['Sondes','Vitesse et distance partielle'],
+  PARTIAL:['Partiel','Distance totale, partielle et moyenne'],
+  CHRONO:['Chrono','Temps écoulé et moyenne réalisée'],
+  LIAISON:['Liaison','Distance et temps restants'],
+  REG:['Régularité','Avance <b>+</b> ou retard <b>−</b> sur la moyenne'],
+  MENU_STAGE_HEAD:['Secteur','Départ, offset, temps imparti · <b>VIEW</b> tronçon A'],
+  MENU_STAGE_SEC:['Tronçon','Moyenne puis distance de fin · <b>VIEW</b> suivant'],
+  MENU_STAGE_END:['Fin de programmation','Moyenne de liaison · <b>SELECT</b> valide'],
+  MENU_PARAM_CLOCK:['Synchronisation','<b>SELECT</b> au top de l\'heure affichée'],
+  MENU_PARAM_WD:['Diamètre de roue','Constante d\'étalonnage, quatre mémoires'],
+  MENU_PARAM_ADAPT:['Adaptateur de sonde','Impulsions par tour de roue'],
+  MENU_PARAM_LED:['LED et unités','Tolérance bleue, mètres ou secondes'],
+  MENU_PARAM_SENSOR:['Sondes','Gauche, droite ou moyenne'],
+  MENU_UPDATE:['Correction du total','Ajoute ou retranche des mètres'],
+  MENU_MODE:['Comptage','Normal, à rebours ou neutralisé'],
+  MENU_CALIB:['Étalonnage','Saisissez la distance du road-book · <b>SELECT</b>'],
+  MENU_FINISH:['Fin de secteur','<b>FINISH</b> confirme · <b>SELECT</b> annule'],
+  II_CLOCK:['Horloge','<b>+ −</b> secteur · <b>◄ ►</b> corrigent la distance'],
+  II_START:['Départ','<b>Reste!</b> avant l\'heure · <b>Retard</b> après'],
+  II_SENSORS:['Sondes','SG gauche, SD droite'],
+  II_REG:['Régularité','Écart et moyenne du partiel en cours'],
+  II_PARTIAL:['Partiels','Distance totale, partielle et moyenne'],
+  II_CHRONO:['Chrono','Chronomètre du secteur au dixième'],
+  II_LIAISON:['Liaison','Distance et temps théorique restants'],
+  II_STAGE_HEAD:['Secteur','Mode, départ, offset, temps imparti'],
+  II_STAGE_SEC:['Partiel','Moyenne au centième · <b>ZERO</b> la calcule'],
+  II_STAGE_END:['Fin de programmation','<b>ENTER</b> valide'],
+  II_CALIB:['Étalonnage','Distance du road-book · <b>ENTER</b>'],
+  II_COUNT:['Comptage','<b>MODE</b> défile · <b>ENTER</b> active'],
+  II_FINISH:['Fin de secteur','<b>FINISH</b> termine · <b>VIEW</b> poursuit'],
+  II_P_CLOCK:['Horloge','<b>ENTER</b> au top · <b>MODE</b> ajuste au dixième'],
+  II_P_TYRE:['Pneus','Quatre jeux, chacun son étalonnage'],
+  II_P_CAL:['Étalonnage','Constante du pneu et diviseur'],
+  II_P_SENSOR:['Sondes','Gauche, droite, moyenne, rapide ou lente'],
+  II_P_LED:['LED bleue','Tolérance de 0,1 à 9,9 s'],
+  II_P_LASTDIGIT:['Dernier chiffre','Mètre ou décamètre'],
+  II_P_ECART:['Écart','En temps ou en distance'],
+  II_P_UNITS:['Unités','Kilomètres ou miles'],
+  II_P_CORR:['Corrections','Pas des touches ◄ et ►'],
+  II_P_STARTKEY:['Touche START','Synchro, entraînement, offset'],
+  II_P_SIS:['START en secteur','Action pendant une spéciale'],
+  II_P_TOTAL:['Distance totale','<b>ZERO</b> remet à zéro'],
+  II_P_LIGHT:['Intensité','Écran et LED, de 1 à 5'],
 };
 let ctxSig='';
 function renderCtx(name){
@@ -2423,7 +2516,7 @@ const ex = {
     if(this.cur==null){
       p.innerHTML =
         '<div class="hd"><h2>Bienvenue</h2></div><div class="body" style="display:flex;flex-direction:column;gap:12px">'+
-        '<p class="sub">Ce simulateur reproduit le fonctionnement des ordinateurs de régularité <b>Blunik Classic</b> et <b>Blunik II</b> : mêmes écrans, mêmes touches, mêmes calculs.</p>'+
+        '<p class="sub">Mêmes écrans, mêmes touches, mêmes calculs que l\'appareil.</p>'+
         '<div class="brief"><b>Comment procéder</b><div class="rb">'+
         '<dt>1</dt><dd>Choisissez votre appareil en haut de la page.</dd>'+
         '<dt>2</dt><dd>Suivez les leçons dans l\'ordre : la touche à presser clignote sur le boîtier.</dd>'+
@@ -2475,7 +2568,7 @@ function renderPractice(){
   if(sig===practiceSig) return; practiceSig=sig;
 
   let h = '<div class="card"><div class="hd"><h2>Séance libre</h2></div><div class="body">'+
-    '<p class="sub">Programmez un secteur de votre choix, prenez le départ et roulez. Le débriefing chiffré s\'affiche à la clôture du secteur.</p>'+
+    '<p class="sub">Programmez, partez, roulez. Débriefing chiffré à la clôture.</p>'+
     '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">'+
     '<button class="btn primary" id="pvPreset">Charger une ZR type</button>'+
     '<button class="btn" id="pvDecal">Dérégler l\'étalonnage</button>'+
@@ -2506,7 +2599,7 @@ function renderPractice(){
   const err = calErr();
   h += '<div class="card"><div class="hd"><h2>Étalonnage</h2>'+
        '<span class="k-l">'+(err<0.2?'<span class="pill ok">conforme</span>':(err<1?'<span class="pill warn">à vérifier</span>':'<span class="pill bad">à refaire</span>'))+'</span></div>'+
-       '<div class="body"><p class="sub">Le simulateur applique une constante de roue que l\'appareil ignore. Tant qu\'elle ne correspond pas, la distance mesurée dérive.</p>'+
+       '<div class="body"><p class="sub">Tant que la constante ne correspond pas, la distance dérive.</p>'+
        '<div class="rb mono" style="margin-top:10px;display:grid;grid-template-columns:auto 1fr;gap:2px 16px;font-size:13px">'+
        '<span style="color:var(--ink-3)">Constante réelle</span><span>'+Math.round(calTrue())+'</span>'+
        '<span style="color:var(--ink-3)">Écart de mesure</span><span>'+(measureK()>=1?'+':'−')+err.toFixed(2)+' %</span>'+
@@ -2594,6 +2687,17 @@ function renderRef(){
       '<td class="c2"><b style="color:var(--ink)">'+r[1]+'</b><br>'+r[2]+'</td></tr>').join('')+
     '</tbody></table></div></div>';
 
+  h += '<div class="card"><div class="hd"><h2>Feux</h2></div>'+
+    '<div class="leg">'+
+    [['r','Rouge fixe','Avant le départ · en secteur : retard'],
+     ['r','Rouge clignotant','Dix dernières secondes'],
+     ['g','Vert','Heure de départ · en secteur : avance'],
+     ['rg','Rouge et vert','Heure de départ dépassée'],
+     ['b','Bleu','Dans la tolérance réglée']]
+    .map(r=>'<span class="d">'+(r[0]==='rg'?'<i class="r"></i><i class="g"></i>':'<i class="'+r[0]+'"></i>')+
+      r[1]+'</span><span>'+r[2]+'</span>').join('')+
+    '</div></div>';
+
   h += '<div class="card"><div class="hd"><h2>Vocabulaire</h2></div>'+
     '<div class="scroll"><table class="ref"><tbody>'+
     GLOSS.map(r=>'<tr><td class="c1">'+r[0]+'</td><td class="c2">'+r[1]+'</td></tr>').join('')+
@@ -2618,6 +2722,7 @@ function renderPanels(){
   } else { $('#gReg').textContent='—'; $('#gReg').className='g-v'; }
 
   renderDriver();
+  renderCockpit();
   $('#btnRun').classList.toggle('on', C.run);
 
   ex.render();
@@ -2629,11 +2734,11 @@ function renderPanels(){
 
 /* afficheur deporte du pilote : retard / dans les temps / avance */
 const DRVNOTE = {
-  stop : 'Voiture à l\'arrêt. Appuyez sur Rouler quand le pilote peut repartir.',
-  libre: 'Le pilote roule à son allure. Aucun secteur en cours.',
-  ok   : 'Le pilote est dans les temps ; il tient l\'allure.',
-  late : 'Le pilote est en retard ; il accélère dans les portions rapides.',
-  early: 'Le pilote est en avance ; il lève le pied.'
+  stop : 'Voiture à l\'arrêt',
+  libre: 'Allure libre, hors secteur',
+  ok   : 'Le pilote tient l\'allure',
+  late : 'Le pilote accélère pour rattraper',
+  early: 'Le pilote lève le pied'
 };
 function renderDriver(){
   const st = C.run ? (C.drv.state||'libre') : 'stop';
@@ -2650,6 +2755,86 @@ function renderDriver(){
   if(note.textContent !== tx) note.textContent = tx;
 }
 
+/* ================================ VUE COURSE ============================
+   Téléphone en paysage : tout ce que le copilote doit lire d'un coup d'oeil. */
+const cockpitOn = () => getComputedStyle($('#cockpit')).display !== 'none';
+
+function ckStage(){                       /* tronçon en cours et distance restante */
+  const st = curStage(), d = S.total - st.off;
+  for(let i=0;i<st.sec.length;i++){
+    if(d < st.sec[i].end) return {i, sec:st.sec[i], rest:(st.sec[i].end - d)/1000};
+  }
+  const last = st.sec.length-1;
+  return {i:last, sec:st.sec[last], rest:0};
+}
+
+function renderCockpit(){
+  if(!cockpitOn()) return;
+  seenCockpit();
+  const main = $('#ckMain');
+  let l = 'Vitesse', v = (C.v*3.6).toFixed(0), sub = 'km/h', cls = '';
+
+  if(S.on && S.inStage){
+    const sec = regSeconds(), m = regMeters();
+    const tol = MODEL==='ii' ? Math.abs(sec) <= S.ii.ledSec : Math.abs(m) <= S.p.blue;
+    l = 'Écart';
+    v = (sec>=0?'+':'−') + Math.abs(sec).toFixed(1);
+    sub = 's · ' + (m>=0?'+':'−') + Math.abs(m).toFixed(0) + ' m';
+    cls = tol ? 'ok' : (Math.abs(m) < 80 ? 'warn' : 'bad');
+  } else if(S.on){
+    const st = curStage();
+    let d = st.start ? st.start - S.clock : 0;
+    if(st.start && d > -60 && d < 5400){
+      l = d >= 0 ? 'Départ dans' : 'Départ dépassé';
+      const a = Math.abs(Math.round(d));
+      v = Math.floor(a/60) + ':' + pad(a%60,2);
+      sub = hms(st.start);
+      cls = d < 0 ? 'bad' : (d < 10 ? 'warn' : '');
+    }
+  }
+  const M = $('#ckMainL'), V = $('#ckMainV'), Sb = $('#ckMainS');
+  if(M.textContent !== l) M.textContent = l;
+  if(V.textContent !== v) V.textContent = v;
+  if(Sb.textContent !== sub) Sb.textContent = sub;
+  main.className = 'ck-main ' + cls;
+
+  const dst = C.run ? (C.drv.state||'libre') : 'stop';
+  const drv = $('#ckDrv'), drvT = $('#ckDrvT');
+  drv.className = 'ck-drv ' + (['late','ok','early'].includes(dst) ? dst : '');
+  const dtx = DRVNOTE[dst] || DRVNOTE.libre;
+  if(drvT.textContent !== dtx) drvT.textContent = dtx;
+  $('#ckSt').textContent = 'ST'+pad(S.sel,2);
+
+  const st = curStage(), cs = ckStage();
+  $('#ckTot').textContent  = ((S.total - st.off)/1000).toFixed(3);
+  $('#ckPar').textContent  = (S.partial/1000).toFixed(3);
+  $('#ckAs').textContent   = st.sec.length && cs.sec && cs.sec.as > 0
+      ? IDX[cs.i] + ' ' + cs.sec.as.toFixed(MODEL==='ii'?2:1) : '—';
+  $('#ckRest').textContent = S.inStage && cs.rest > 0 ? cs.rest.toFixed(3) : '—';
+  $('#ckV').textContent    = (C.v*3.6).toFixed(0);
+  $('#ckClk').textContent  = hms(S.clock);
+  $('#ckRun').classList.toggle('on', C.run);
+}
+
+/* l'invite « tournez l'écran » disparaît dès la première vue course */
+const ROTK = 'blunik.rot.v1';
+function seenCockpit(){
+  try{
+    if(localStorage.getItem(ROTK) !== '1'){
+      localStorage.setItem(ROTK,'1');
+      const h = $('#rotHint'); if(h) h.classList.add('hidden');
+    }
+  }catch(e){}
+}
+function initRotHint(){
+  const h = $('#rotHint'); if(!h) return;
+  let seen = true; try{ seen = localStorage.getItem(ROTK) === '1'; }catch(e){}
+  const touch = matchMedia('(hover: none)').matches || 'ontouchstart' in window;
+  if(!seen && touch) h.classList.remove('hidden');
+  h.addEventListener('click', ()=>{ h.classList.add('hidden');
+    try{ localStorage.setItem(ROTK,'1'); }catch(e){} });
+}
+
 /* =============================== DEBRIEF ================================ */
 function showDebrief(rec){
   const log = rec.log;
@@ -2659,7 +2844,7 @@ function showDebrief(rec){
   const cl = v=>v<3?'ok':(v<8?'warn':'bad');
   $('#modalTitle').textContent = 'Débriefing — secteur ST'+pad(rec.stage,2);
   $('#modalBody').innerHTML =
-    '<div class="body"><p class="sub">Écart de régularité relevé tout au long du secteur. Positif : en avance. Négatif : en retard.</p></div>'+
+    '<div class="body"><p class="sub">Écart sur tout le secteur. Positif : avance. Négatif : retard.</p></div>'+
     '<div class="gauges" style="border-top:1px solid var(--rule-2)">'+
       '<div class="gauge"><div class="g-l">Écart moyen</div><div class="g-v '+cl(mean)+'">'+mean.toFixed(1)+'<small>s</small></div></div>'+
       '<div class="gauge"><div class="g-l">Écart maxi</div><div class="g-v '+cl(max/2)+'">'+max.toFixed(1)+'<small>s</small></div></div>'+
@@ -2732,26 +2917,26 @@ function drawChart(log){
 const KEYLABELS = {
   classic:{
     SELECT:'<span class="kb">↵</span>SELECT', PARAM:'<span class="kb">P</span>PARAM',
-    PLUS:'<span class="kb">+</span><span class="gl">✚</span>', STAGE:'<span class="kb">T</span>STAGE',
+    PLUS:'<span class="kb">+</span><svg class="gl" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.4 3h3.2v7.4H21v3.2h-7.4V21h-3.2v-7.4H3v-3.2h7.4z"/></svg>', STAGE:'<span class="kb">T</span>STAGE',
     FINISH:'<span class="kb">F</span><b>FINISH</b><i>OFF</i>',
-    LEFT:'<span class="kb">←</span><span class="gl">⬅</span>',
-    MINUS:'<span class="kb">-</span><span class="gl">━</span>',
-    RIGHT:'<span class="kb">→</span><span class="gl">➡</span>',
+    LEFT:'<span class="kb">←</span><svg class="gl" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.6 3.6 2.2 12l8.4 8.4V14.4H21.8V9.6H10.6z"/></svg>',
+    MINUS:'<span class="kb">-</span><svg class="gl" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.4h18v3.2H3z"/></svg>',
+    RIGHT:'<span class="kb">→</span><svg class="gl" viewBox="0 0 24 24" aria-hidden="true"><path d="M13.4 3.6 21.8 12l-8.4 8.4V14.4H2.2V9.6h11.2z"/></svg>',
     START:'<span class="kb">S</span><b>START</b><i>ON</i>',
     MODE:'<span class="kb">M</span>MODE', VIEW:'<span class="kb">V</span>VIEW', ZERO:'<span class="kb">Z</span>ZERO'
   },
   ii:{
     SELECT:'<span class="kb">↵</span><b>ENTER</b><u>SELECT</u>',
-    PARAM:'<span class="kb">P</span><b>PARAM</b><u>◄VIEW</u>',
-    PLUS:'<span class="kb">+</span><span class="gl">✚</span><u>STAGE</u>',
+    PARAM:'<span class="kb">P</span><b>PARAM</b><u>VIEW</u>',
+    PLUS:'<span class="kb">+</span><svg class="gl" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.4 3h3.2v7.4H21v3.2h-7.4V21h-3.2v-7.4H3v-3.2h7.4z"/></svg><u>STAGE</u>',
     STAGE:'<span class="kb">T</span>STAGE',
     FINISH:'<span class="kb">F</span><b>FINISH</b><i>OFF</i>',
-    LEFT:'<span class="kb">←</span><span class="gl">◄</span><u>-10</u>',
-    MINUS:'<span class="kb">-</span><span class="gl">━</span><u>STAGE</u>',
-    RIGHT:'<span class="kb">→</span><span class="gl">►</span><u>+10</u>',
+    LEFT:'<span class="kb">←</span><svg class="gl" viewBox="0 0 24 24" aria-hidden="true"><path d="M16.5 3 6 12l10.5 9z"/></svg><u>-10</u>',
+    MINUS:'<span class="kb">-</span><svg class="gl" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.4h18v3.2H3z"/></svg><u>STAGE</u>',
+    RIGHT:'<span class="kb">→</span><svg class="gl" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 3 18 12 7.5 21z"/></svg><u>+10</u>',
     START:'<span class="kb">S</span><b>START</b><i>ON</i>',
     MODE:'<span class="kb">M</span><b>MODE</b><u>CALIBRAT.</u>',
-    VIEW:'<span class="kb">V</span>VIEW ►',
+    VIEW:'<span class="kb">V</span>VIEW',
     ZERO:'<span class="kb">Z</span><b>ZERO</b><u>CALCULATE</u>'
   }
 };
@@ -2936,13 +3121,13 @@ function renderRally(){
        '<div class="clockbox"><div class="bigclock" id="rClock">--:--:--<small id="rTenth">.0</small></div>'+
        '<div class="clockside"><div class="g-l">Prochaine minute</div><div class="mono" id="rNext">—</div>'+
        '<div class="g-l" style="margin-top:8px">Heure à saisir (+30 s)</div><div class="mono" id="rTarget">—</div></div></div>'+
-       '<div class="body" style="border-top:1px solid var(--rule-2)"><p class="sub">Réglez l\'appareil sur l\'heure à saisir, puis validez à l\'instant où l\'horloge ci-dessus l\'atteint. Si votre horloge diffère de l\'officielle, corrigez-la dans le carnet.</p></div></div>';
+       '<div class="body" style="border-top:1px solid var(--rule-2)"><p class="sub">Saisissez l\'heure indiquée, validez quand l\'horloge l\'atteint.</p></div></div>';
 
   /* --- zones de régularité --- */
   h += '<div class="card"><div class="hd"><h2>Zones de régularité</h2>'+
        '<span class="k-l">'+z.length+' ZR</span></div>';
   if(!z.length){
-    h += '<div class="body"><p class="sub">Aucune ZR enregistrée. Ajoutez-en une, puis saisissez les moyennes et les distances du road-book.</p></div>';
+    h += '<div class="body"><p class="sub">Aucune ZR. Ajoutez-en une avec les données du road-book.</p></div>';
   }
   z.forEach((x,i)=>{
     const ok = zrValid(x);
@@ -3001,7 +3186,7 @@ function renderRally(){
   const WI = whatIf();
   h += '<div class="card"><div class="hd"><h2>Que faire si…</h2>'+
        '<span class="k-l">dépannage en course</span></div>'+
-       '<div class="body"><p class="sub">Les situations qui arrivent vraiment, et la marche à suivre touche par touche. Ouvrez-en une : le guidage s\'affiche sous l\'appareil.</p></div>'+
+       
        '<div class="tasks">';
   WI.forEach((w,i)=>{
     h += '<div class="task">'+
@@ -3127,7 +3312,7 @@ async function exportRally(){
 }
 function showJSON(json){
   openModal('Sauvegarde du carnet',
-    '<div class="body"><p class="sub">Copiez ce texte et conservez-le. Vous pourrez le recharger depuis « Importer ».</p>'+
+    '<div class="body"><p class="sub">Copiez et conservez ce texte. Rechargeable par « Importer ».</p>'+
     '<textarea id="jsOut" class="jsbox" readonly>'+json.replace(/</g,'&lt;')+'</textarea>'+
     '<div class="row-btns"><button class="btn primary" id="jsCopy">Copier</button></div></div>');
   const t=$('#jsOut'), c=$('#jsCopy');
@@ -3140,7 +3325,7 @@ function showJSON(json){
 }
 function importRally(){
   openModal('Importer un carnet',
-    '<div class="body"><p class="sub">Choisissez un fichier enregistré, ou collez ci-dessous le texte d\'une sauvegarde.</p>'+
+    '<div class="body"><p class="sub">Choisissez un fichier, ou collez le texte d\'une sauvegarde.</p>'+
     '<div class="row-btns" style="margin:0 0 12px"><button class="btn" id="jsFile">Choisir un fichier</button></div>'+
     '<textarea id="jsIn" class="jsbox" placeholder=\'{ "name": "...", "zrs": [ ... ] }\'></textarea>'+
     '<div class="row-btns"><button class="btn primary" id="jsLoad">Charger</button></div></div>');
@@ -3226,7 +3411,7 @@ function showPace(idx){
   const seg = [0.5,1,2,5].map(v=>'<button data-ps="'+v+'" aria-pressed="'+(v===paceStep)+'">'+
     (v<1 ? '500 m' : v+' km')+'</button>').join('');
   openModal(all ? 'Tableau de marche — toutes les ZR' : 'Tableau de marche — '+zrLabel(list[0]),
-    '<div class="body"><p class="sub">Heure théorique de passage à chaque repère, calculée depuis l\'heure de départ et les moyennes imposées. Les lignes surlignées sont les changements de moyenne.</p>'+
+    '<div class="body"><p class="sub">Heure théorique de passage. Surligné : changement de moyenne.</p>'+
     '<div class="modesw"><span class="lbl">Pas</span><div class="seg" id="psSeg">'+seg+'</div>'+
     '<button class="btn sm primary" id="psPrint" style="margin-left:auto">Imprimer</button></div></div>'+
     '<div id="psBody"></div>');
@@ -3499,6 +3684,8 @@ const HELP_HTML =
   '<div class="body" style="border-top:1px solid var(--rule-2)">'+
   '<h3 style="font-size:14px;margin-bottom:6px">Le pilote</h3>'+
   '<p class="sub">La voiture roule seule. Le pilote simulé tient la moyenne quand la route le permet, ralentit là où elle ne le permet pas et rattrape ensuite, en se corrigeant sur son afficheur déporté. Vous n\'avez que la commande <b>Rouler / Arrêt</b>, comme en course.</p>'+
+  '<h3 style="font-size:14px;margin:14px 0 6px">Vue course</h3>'+
+  '<p class="sub">Tournez le téléphone : l\'appareil passe en grand, avec l\'écart, les distances, la moyenne et l\'heure à côté. Revenez au portrait pour le carnet et les leçons.</p>'+
   '<h3 style="font-size:14px;margin:14px 0 6px">Le jour du rallye</h3>'+
   '<p class="sub">L\'onglet <b>Rallye</b> reçoit les données du road-book, calcule le tableau de marche imprimable et vous guide étape par étape : la touche à presser est encadrée sur l\'appareil et la procédure avance dès que vous l\'appuyez. La rubrique <b>Que faire si…</b> couvre les incidents de course.</p></div>';
 
@@ -3607,8 +3794,11 @@ function init(){
     if(C.prof.stopAt!=null) C.realDist = 0;
     practiceSig=''; renderAll();
   });
-  $('#btnRun').addEventListener('click', ()=>{ C.run=true; renderAll(); });
-  $('#btnStop').addEventListener('click', ()=>{ C.run=false; renderAll(); });
+  const go = v => ()=>{ C.run = v; renderAll(); };
+  $('#btnRun').addEventListener('click', go(true));
+  $('#btnStop').addEventListener('click', go(false));
+  $('#ckRun').addEventListener('click', go(true));
+  $('#ckStop').addEventListener('click', go(false));
   $$('#tfSeg button').forEach(b=>b.addEventListener('click',()=>{
     C.tf = +b.dataset.tf;
     $$('#tfSeg button').forEach(x=>x.setAttribute('aria-pressed', x===b ? 'true':'false'));
@@ -3632,7 +3822,7 @@ function init(){
   setProfile('sinueux');
   setModel('classic');
   wireGuide();
-  initWake(); initA2HS(); initSW();
+  initWake(); initA2HS(); initSW(); initRotHint();
   showView('lessons');
   requestAnimationFrame(t=>{ lastT=t; requestAnimationFrame(tick); });
 }
