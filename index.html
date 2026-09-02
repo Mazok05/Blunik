@@ -1,0 +1,3642 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Simulateur Blunik</title>
+<meta name="description" content="Simulateur d'entraînement pour les ordinateurs de régularité Blunik Classic et Blunik II.">
+<meta name="theme-color" content="#f2f3f1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1215" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Blunik">
+<meta name="format-detection" content="telephone=no">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32">
+<link rel="icon" href="icons/icon-192.png" sizes="192x192" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="152x152" href="icons/apple-touch-icon-152.png">
+<link rel="apple-touch-icon" sizes="167x167" href="icons/apple-touch-icon-167.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+<link rel="apple-touch-startup-image" href="splash/splash-1320x2868.png"
+      media="(device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="splash/splash-1206x2622.png"
+      media="(device-width: 402px) and (device-height: 874px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="splash/splash-1290x2796.png"
+      media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="splash/splash-1179x2556.png"
+      media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="splash/splash-1284x2778.png"
+      media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="splash/splash-1170x2532.png"
+      media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="splash/splash-1125x2436.png"
+      media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="splash/splash-1242x2688.png"
+      media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="splash/splash-828x1792.png"
+      media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="splash/splash-750x1334.png"
+      media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="splash/splash-1242x2208.png"
+      media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="splash/splash-1640x2360.png"
+      media="(device-width: 820px) and (device-height: 1180px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="splash/splash-1536x2048.png"
+      media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+<style>
+/* ==========================================================================
+   Palette : papier de road-book, encre d'instrument, cyan Blunik assourdi
+   ========================================================================== */
+:root{
+  color-scheme: light;
+  --paper:#f2f3f1;  --surface:#ffffff;  --surface-2:#f7f8f7;
+  --rule:#dcdfdd;   --rule-2:#eceeec;
+  --ink:#15191c;    --ink-2:#59636c;    --ink-3:#8a949c;
+  --accent:#0a7ea4; --accent-ink:#065a76; --accent-soft:#e4f2f7;
+  --ok:#12703f;     --warn:#96590a;      --bad:#a52820;
+  --ok-soft:#e3f2e9; --warn-soft:#faf0dd; --bad-soft:#fbe8e6;
+  --bench:#15191c;  --bench-2:#0d1013;
+  --shadow:0 1px 2px #15191c14, 0 8px 24px -16px #15191c40;
+  --r:10px;
+  --f-display:"Barlow Condensed","Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-body:"Barlow",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+    --paper:#0f1214; --surface:#171b1e; --surface-2:#1d2225;
+    --rule:#2b3236;  --rule-2:#232a2e;
+    --ink:#eef1f2;   --ink-2:#a7b1b8;   --ink-3:#7c868d;
+    --accent:#3fb2d6; --accent-ink:#8ad4ea; --accent-soft:#0e2c37;
+    --ok:#4cc07f; --warn:#dda63f; --bad:#e8756a;
+    --ok-soft:#10281c; --warn-soft:#2b2313; --bad-soft:#2c1614;
+    --shadow:0 1px 2px #0006, 0 10px 28px -18px #000a;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --paper:#0f1214; --surface:#171b1e; --surface-2:#1d2225;
+  --rule:#2b3236;  --rule-2:#232a2e;
+  --ink:#eef1f2;   --ink-2:#a7b1b8;   --ink-3:#7c868d;
+  --accent:#3fb2d6; --accent-ink:#8ad4ea; --accent-soft:#0e2c37;
+  --ok:#4cc07f; --warn:#dda63f; --bad:#e8756a;
+  --ok-soft:#10281c; --warn-soft:#2b2313; --bad-soft:#2c1614;
+  --shadow:0 1px 2px #0006, 0 10px 28px -18px #000a;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--paper); color:var(--ink);
+  font:15px/1.5 var(--f-body); -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{margin:0;font-family:var(--f-display);font-weight:600;letter-spacing:.01em;text-wrap:balance}
+p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:var(--accent-ink)}
+.hidden{display:none !important}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){ *{animation:none !important;transition:none !important} }
+
+/* ------------------------------------------------- application mobile */
+html{-webkit-text-size-adjust:100%}
+body{overscroll-behavior-y:none;-webkit-tap-highlight-color:transparent}
+button,select,input{-webkit-tap-highlight-color:transparent}
+.k,.btn,.seg button,.mainnav button,.tick,.gd-x,.close{touch-action:manipulation}
+.blunik,.ctx,.gauges,.remote{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+/* encoches et barre d'accueil de l'iPhone */
+.top{padding-top:calc(10px + env(safe-area-inset-top,0px))}
+main{padding-left:calc(clamp(16px,2.4vw,28px) + env(safe-area-inset-left,0px));
+     padding-right:calc(clamp(16px,2.4vw,28px) + env(safe-area-inset-right,0px))}
+footer{padding-bottom:calc(28px + env(safe-area-inset-bottom,0px))}
+@media (display-mode:standalone){
+  /* lancée depuis l'écran d'accueil : on gagne la place du navigateur */
+  .brand span{display:none}
+  footer{padding-top:12px}
+}
+
+/* ---------------------------------------------------------------- header */
+.top{
+  position:sticky;top:0;z-index:40;
+  background:var(--surface);border-bottom:1px solid var(--rule);
+  display:flex;align-items:center;gap:20px;flex-wrap:wrap;
+  padding:10px clamp(14px,3vw,28px);
+}
+.brand{display:flex;align-items:baseline;gap:10px;font-family:var(--f-display)}
+.brand b{font-size:20px;font-weight:700;letter-spacing:.02em}
+.brand b i{font-style:normal;background:var(--ink);color:var(--surface);padding:0 4px;border-radius:2px;margin-right:1px}
+.brand span{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+.top .right{margin-left:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+
+.seg{display:inline-flex;background:var(--surface-2);border:1px solid var(--rule);border-radius:8px;padding:2px;gap:2px}
+.seg button{
+  border:none;background:none;border-radius:6px;padding:5px 12px;
+  font-size:13.5px;font-weight:500;color:var(--ink-2);white-space:nowrap;
+}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--surface);font-weight:600}
+.lbl{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+
+.btn{
+  border:1px solid var(--rule);background:var(--surface);border-radius:8px;
+  padding:7px 13px;font-size:13.5px;font-weight:500;color:var(--ink-2);
+}
+.btn:hover{border-color:var(--ink-3);color:var(--ink)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+.btn.primary:hover{background:var(--accent-ink);border-color:var(--accent-ink);color:#fff}
+.btn.sm{padding:4px 9px;font-size:12.5px}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.btn.on{background:var(--ink);border-color:var(--ink);color:var(--surface)}
+
+/* ---------------------------------------------------------------- layout */
+main{
+  display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,.98fr);
+  gap:clamp(16px,2.4vw,30px);
+  padding:clamp(16px,2.4vw,28px);max-width:1560px;margin:0 auto;align-items:start;
+}
+@media (max-width:1040px){ main{grid-template-columns:1fr} }
+.bench{position:sticky;top:66px;display:flex;flex-direction:column;gap:12px}
+@media (max-width:1040px){
+  .bench{position:static}
+  body.rallyview .bench{display:none}          /* le jour du rallye, l'assistant d'abord */
+  body.rallyview.guiding .bench{display:flex;order:-1}   /* sauf pendant un guidage */
+}
+
+/* ------------------------------------------------------------- l'appareil */
+.stage{
+  background:linear-gradient(180deg,var(--bench),var(--bench-2));
+  border-radius:14px;padding:clamp(14px,2.4vw,26px);
+  box-shadow:var(--shadow);
+}
+.blunik{
+  --w:min(100%,660px); width:var(--w);margin:0 auto;
+  background:linear-gradient(165deg,#3a3d40 0%,#202325 18%,#141618 55%,#0c0d0f 100%);
+  border-radius:16px;padding:14px;border:1px solid #000;
+  box-shadow:0 24px 48px -20px #000c, 0 2px 0 #4a4e52 inset, 0 -2px 0 #000 inset;
+}
+.face{
+  background:linear-gradient(180deg,#1c1f21,#141618);
+  border:1px solid #303538;border-radius:10px;padding:10px;
+  display:grid;grid-template-columns:58px minmax(0,1fr) 80px;
+  grid-template-rows:auto minmax(0,1fr) auto;gap:8px;
+}
+.logobar{grid-column:1/4;display:flex;align-items:center;gap:10px;height:26px}
+.logobar .lg{
+  background:#f2f4f5;color:#111;font-weight:900;letter-spacing:.04em;font-family:var(--f-body);
+  font-size:16px;padding:1px 9px 1px 5px;border-radius:2px;line-height:20px;
+  clip-path:polygon(0 0,100% 0,96% 100%,0% 100%);
+}
+.logobar .lg i{color:#2fb0e6;font-style:normal;background:#111;padding:0 2px;margin-right:1px;border-radius:1px}
+.logobar .lg em{font-style:normal;border:1.5px solid #111;border-radius:2px;padding:0 3px;margin-left:5px;font-size:11px;line-height:1}
+.logobar .flag{
+  flex:1;height:16px;border-radius:2px;opacity:.85;
+  background-image:linear-gradient(45deg,#fff 25%,transparent 25%,transparent 75%,#fff 75%),
+                   linear-gradient(45deg,#fff 25%,#151719 25%,#151719 75%,#fff 75%);
+  background-size:12px 12px;background-position:0 0,6px 6px;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 55%);
+  mask-image:linear-gradient(90deg,transparent,#000 55%);
+}
+.ledpanel{
+  grid-column:1;grid-row:2/4;background:linear-gradient(180deg,#2fb0e6,#1e93c7);
+  border-radius:8px;padding:8px 0;display:flex;flex-direction:column;align-items:center;gap:9px;
+}
+.led{width:26px;height:26px;border-radius:50%;background:#2a2f31;border:3px solid #101315;
+  box-shadow:0 1px 2px #0008 inset;transition:background .08s,box-shadow .08s}
+.led.on.red{background:#ff3b32;box-shadow:0 0 14px 3px #ff3b3299,0 0 4px #fff5 inset}
+.led.on.green{background:#28e35e;box-shadow:0 0 14px 3px #28e35e99,0 0 4px #fff5 inset}
+.led.on.blue{background:#3f8dff;box-shadow:0 0 14px 3px #3f8dff99,0 0 4px #fff5 inset}
+.led.blink{animation:blk .5s steps(1) infinite}
+@keyframes blk{50%{background:#2a2f31;box-shadow:0 1px 2px #0008 inset}}
+.stripes{margin-top:auto;width:34px;height:34px;border-radius:2px;
+  background:repeating-linear-gradient(180deg,#0d3d52 0 3px,transparent 3px 8px)}
+.m2 .ledpanel{background:linear-gradient(180deg,#23282b,#15181a);border:1px solid #2d3439;
+  justify-content:flex-start;gap:11px;padding:9px 0}
+.m2 .ledpanel .stripes{display:none}
+.face.m2{grid-template-columns:46px minmax(0,1fr) 88px;grid-template-rows:auto auto auto;
+  border-color:#1d5f80;box-shadow:0 0 0 1px #2fb0e633 inset}
+.m2 .lcdbox{grid-column:2;grid-row:2}
+.m2 .rightcol{grid-column:3;grid-row:2/4}
+.m2 .keys{grid-column:1/3;grid-row:3}
+.m2 .ledpanel{grid-column:1;grid-row:2}
+
+.lcdbox{grid-column:2;grid-row:2;background:#0a0c0b;border-radius:6px;padding:7px;border:1px solid #000;
+  box-shadow:0 3px 8px #0009 inset;display:flex}
+.lcd{flex:1;container-type:inline-size;background:linear-gradient(180deg,#a9bda0,#93ab8a);
+  border-radius:3px;padding:8px 6px;position:relative;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:center;gap:3px}
+.lcd::after{content:"";position:absolute;inset:0;pointer-events:none;mix-blend-mode:multiply;
+  background:repeating-linear-gradient(0deg,#0000 0 2px,#0002 2px 3px),
+             repeating-linear-gradient(90deg,#0000 0 2px,#0001 2px 3px)}
+.lcd.off{background:#5c6a58}
+.lcd.off .row{opacity:0}
+.row{display:grid}
+.ch{font-family:var(--f-mono);font-size:clamp(11px,3.1vw,26px);font-weight:600;line-height:1.18;
+  color:#0e1a0c;text-align:center;white-space:pre;position:relative}
+@supports (font-size:1cqi){ .ch{font-size:min(26px,8.6cqi)} }
+.m2 .lcd{padding:14px 8px}
+.m2 .ch{font-size:clamp(12px,3.6vw,30px)}
+@supports (font-size:1cqi){ .m2 .ch{font-size:min(30px,9.4cqi)} }
+.ch.cur::after{content:"";position:absolute;left:6%;right:6%;bottom:0;height:3px;background:#0e1a0c;
+  animation:cb .55s steps(1) infinite}
+@keyframes cb{50%{opacity:0}}
+
+.keys{grid-column:2;grid-row:3;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+.rightcol{grid-column:3;grid-row:2/4;display:grid;grid-template-rows:repeat(4,minmax(0,1fr));gap:7px}
+.k{
+  border-radius:9px;border:2px solid #2fb0e6;background:#f3f6f7;color:#12181c;
+  font-family:var(--f-body);font-weight:700;font-size:clamp(9px,1.55vw,12px);
+  padding:8px 2px;user-select:none;position:relative;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
+  box-shadow:0 2px 0 #0008,0 1px 0 #fff9 inset;transition:transform .04s,box-shadow .04s,filter .12s;
+  min-height:38px;
+}
+.k.cy{background:linear-gradient(180deg,#48c1f0,#1f9ed3);color:#fff;border-color:#8fdcff}
+.k.cy .gl{font-size:clamp(13px,2.4vw,19px);line-height:1}
+.k i{font-style:normal;background:#111;color:#fff;font-size:8px;padding:0 4px;border-radius:2px;letter-spacing:.08em}
+.k u{text-decoration:none;font-size:clamp(6.5px,1.1vw,8.5px);font-weight:700;opacity:.72}
+.k.cy u{opacity:.9}
+.k:active,.k.down{transform:translateY(2px);box-shadow:0 0 0 #0000,0 1px 0 #fff9 inset;filter:brightness(.94)}
+.k .kb{position:absolute;top:2px;right:4px;font-size:8px;color:#6a7a84;font-weight:700}
+.k.next{box-shadow:0 0 0 3px #2fb0e6, 0 0 0 8px #2fb0e63d, 0 2px 0 #0008;animation:nx 1.4s ease-in-out infinite}
+@keyframes nx{50%{box-shadow:0 0 0 3px #2fb0e6, 0 0 0 14px #2fb0e600, 0 2px 0 #0008}}
+/* guidage rallye : bien plus marqué que dans les leçons */
+.k.guide{box-shadow:0 0 0 5px #ffb020, 0 0 0 11px #ffb0205c, 0 2px 0 #0008;
+  animation:gx .95s ease-in-out infinite;z-index:3;filter:brightness(1.14)}
+@keyframes gx{50%{box-shadow:0 0 0 5px #ffe6a8, 0 0 0 26px #ffb02000, 0 2px 0 #0008;
+  filter:brightness(1.3)}}
+body.gkey .k:not(.guide){opacity:.55}
+.k{transition:transform .04s,box-shadow .04s,filter .12s,opacity .18s}
+body.guiding .blunik{box-shadow:0 24px 48px -20px #000c, 0 0 0 2px #ffb02066, 0 2px 0 #4a4e52 inset, 0 -2px 0 #000 inset}
+@media (max-width:620px){
+  .face{grid-template-columns:42px minmax(0,1fr) 60px;gap:6px;padding:7px}
+  .face.m2{grid-template-columns:34px minmax(0,1fr) 64px}
+  .led{width:20px;height:20px;border-width:2px}
+  .stripes{width:26px;height:26px}
+  /* cibles tactiles : au moins 44 px de haut, comme une vraie touche */
+  .k{min-height:44px;font-size:clamp(8px,2.25vw,11px);border-radius:8px;padding:5px 1px;gap:0}
+  .k i{font-size:7px;padding:0 3px}
+  .k .kb{display:none}
+  .k.cy .gl{font-size:clamp(15px,4.4vw,20px)}
+  .logobar .lg{font-size:13px}
+  .blunik{padding:9px}
+  .lcdbox{padding:6px}
+}
+
+/* ------------------------------------------------------- barre de contexte */
+.ctx{
+  background:var(--surface);border:1px solid var(--rule);border-radius:var(--r);
+  padding:11px 14px;display:flex;gap:12px;align-items:baseline;box-shadow:var(--shadow);
+}
+.ctx .name{font-family:var(--f-display);font-weight:700;font-size:13px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--accent-ink);white-space:nowrap}
+.ctx .txt{font-size:14px;color:var(--ink-2)}
+.ctx .txt b{color:var(--ink);font-weight:600}
+
+/* ---------------------------------------------------- dock de guidage */
+.gdock{background:var(--surface);border:1px solid var(--rule);border-left:4px solid #ffb020;
+  border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
+.gd-hd{display:flex;align-items:center;gap:10px;padding:9px 12px;background:#ffb0201c;
+  border-bottom:1px solid var(--rule-2)}
+.gd-t{font-family:var(--f-display);font-weight:700;font-size:14px;letter-spacing:.02em;color:var(--ink)}
+.gd-c{font-family:var(--f-mono);font-size:12px;color:var(--ink-3);margin-left:auto;white-space:nowrap}
+.gd-x{border:none;background:none;color:var(--ink-3);font-size:16px;line-height:1;padding:0 2px}
+.gd-bd{display:flex;gap:12px;padding:13px 14px;align-items:flex-start}
+.gd-n{flex:0 0 30px;height:30px;border-radius:50%;background:#ffb020;color:#3a2600;
+  display:flex;align-items:center;justify-content:center;font-family:var(--f-mono);
+  font-weight:700;font-size:14px}
+.gd-tx{min-width:0;flex:1}
+.gd-step{font-size:16px;line-height:1.45;color:var(--ink);font-weight:500}
+.gd-step b{font-weight:700}
+.gd-val{margin-top:9px;font-family:var(--f-mono);font-size:clamp(16px,2.4vw,21px);font-weight:600;
+  letter-spacing:.08em;background:#a9bda0;color:#0e1a0c;padding:6px 11px;border-radius:5px;
+  width:fit-content;white-space:pre}
+.gd-key{margin-top:9px;font-size:13px;color:var(--ink-2)}
+.gd-key .kk{background:#ffb020;color:#3a2600}
+.gd-live{display:flex;align-items:center;gap:16px;padding:11px 14px;background:var(--bench);
+  color:#eef1f2;flex-wrap:wrap;border-top:1px solid var(--rule-2)}
+.gd-clk{font-family:var(--f-mono);font-size:clamp(22px,4vw,30px);font-weight:600;letter-spacing:.04em}
+.gd-clk small{font-size:.55em;color:#8fa3ae}
+.gd-side .g-l{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#8fa3ae;font-weight:600}
+.gd-side .mono{font-size:17px}
+.gd-ft{display:flex;gap:8px;justify-content:flex-end;padding:10px 12px;border-top:1px solid var(--rule-2);
+  background:var(--surface-2)}
+/* sur téléphone le guidage reste collé en bas : l'appareil et la consigne
+   sont visibles en même temps */
+@media (max-width:1040px){
+  body.guiding #gdock{
+    position:fixed;left:0;right:0;bottom:0;z-index:55;
+    border-radius:0;border-left:none;border-right:none;border-bottom:none;
+    border-top:4px solid #ffb020;box-shadow:0 -10px 28px -14px #0007;
+    max-height:56vh;overflow:auto;
+    padding-bottom:env(safe-area-inset-bottom,0px)
+  }
+  body.guiding{padding-bottom:210px}
+  body.guiding .gd-bd{padding:11px 12px}
+  body.guiding .gd-step{font-size:15px}
+  body.guiding .gd-ft{padding:8px 12px}
+}
+.wico{flex:0 0 22px;height:22px;border-radius:50%;background:var(--surface-2);border:1px solid var(--rule);
+  color:var(--ink-3);display:flex;align-items:center;justify-content:center;
+  font-family:var(--f-display);font-weight:700;font-size:13px}
+
+/* ------------------------------------------------------------- console */
+.console{background:var(--surface);border:1px solid var(--rule);border-radius:var(--r);
+  box-shadow:var(--shadow);overflow:hidden}
+.console .bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:11px 14px}
+.console .bar + .bar{border-top:1px solid var(--rule-2)}
+#selProfile{flex:1;min-width:170px}
+.driver{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:10px 14px;
+  border-top:1px solid var(--rule-2);background:var(--surface-2)}
+.driver .dl{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+.driver .dnote{font-size:12.5px;color:var(--ink-3);flex:1;min-width:160px}
+.remote{display:flex;align-items:center;gap:3px;background:var(--bench);border-radius:9px;padding:4px;
+  box-shadow:inset 0 1px 4px #0007;flex-wrap:wrap;max-width:100%}
+.remote .s3{font-family:var(--f-display);font-weight:700;font-size:11.5px;letter-spacing:.07em;
+  text-transform:uppercase;color:#ffffff24;padding:6px 11px;border-radius:6px;white-space:nowrap;
+  transition:background .12s,color .12s,box-shadow .12s}
+.remote .s3.on.late{background:#e4453c;color:#fff;box-shadow:0 0 16px #e4453c70}
+.remote .s3.on.ok{background:#2bb75d;color:#04220f;box-shadow:0 0 16px #2bb75d70}
+.remote .s3.on.early{background:#3f8dff;color:#fff;box-shadow:0 0 16px #3f8dff70}
+.remote .num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:15px;font-weight:600;
+  color:#eef1f2;padding:6px 10px;min-width:78px;text-align:right}
+@media (max-width:560px){ .remote .s3{font-size:10px;padding:5px 7px} .remote .num{min-width:62px;font-size:13px} }
+@media (max-width:440px){
+  .driver{padding:9px 11px;gap:8px}
+  .driver .dl{width:100%}
+  .remote{width:100%;justify-content:space-between;gap:2px}
+  .remote .s3{font-size:9.5px;padding:5px 6px;letter-spacing:.03em}
+  .remote .num{min-width:0;padding:5px 6px;font-size:12.5px}
+}
+select{
+  background:var(--surface);border:1px solid var(--rule);color:var(--ink);
+  border-radius:8px;padding:6px 9px;font:inherit;font-size:13.5px;max-width:100%;
+}
+.gauges{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--rule-2)}
+.gauge{padding:9px 14px;border-left:1px solid var(--rule-2)}
+.gauge:first-child{border-left:none}
+.gauge .g-l{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+.gauge .g-v{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:17px;font-weight:500;margin-top:1px}
+.gauge .g-v small{font-size:11px;color:var(--ink-3);margin-left:2px}
+.gauge .g-v.ok{color:var(--ok)} .gauge .g-v.warn{color:var(--warn)} .gauge .g-v.bad{color:var(--bad)}
+@media (max-width:560px){ .gauges{grid-template-columns:repeat(2,1fr)} .gauge:nth-child(3){border-left:none} }
+
+/* --------------------------------------------------------------- colonne */
+.course{display:flex;flex-direction:column;gap:14px;min-width:0}
+.mainnav{display:flex;flex-wrap:wrap;gap:4px;background:var(--surface);border:1px solid var(--rule);
+  border-radius:var(--r);padding:4px;box-shadow:var(--shadow)}
+.mainnav button{
+  flex:1 1 auto;min-width:0;white-space:nowrap;
+  border:none;background:none;border-radius:7px;padding:9px 10px;
+  font-family:var(--f-display);font-size:15px;font-weight:600;letter-spacing:.02em;color:var(--ink-2);
+}
+@media (max-width:620px){ .mainnav button{font-size:14px;padding:8px 7px} }
+@media (max-width:1040px){
+  .mainnav{position:sticky;top:calc(52px + env(safe-area-inset-top,0px));z-index:30}
+}
+@media (max-width:620px){
+  .top{gap:8px 12px;padding-bottom:8px}
+  .brand b{font-size:18px}
+  .brand span{display:none}
+  .top .right{gap:7px;margin-left:0;width:100%}
+  .top .right .lbl{display:none}
+  .top .right .seg{flex:1}
+  .top .right .seg button{flex:1;padding:6px 4px;font-size:12.5px}
+  /* barre de contexte empilée : le texte prend toute la largeur */
+  .ctx{flex-direction:column;align-items:flex-start;gap:3px;padding:10px 12px}
+  .ctx .txt{font-size:13.5px}
+  .console .bar{padding:9px 11px;gap:8px}
+  .gauge{padding:8px 11px}
+  .gauge .g-v{font-size:16px}
+}
+.mainnav button[aria-selected="true"]{background:var(--ink);color:var(--surface)}
+.view{display:none;flex-direction:column;gap:14px}
+.view.act{display:flex}
+
+.card{background:var(--surface);border:1px solid var(--rule);border-radius:var(--r);
+  box-shadow:var(--shadow);overflow:hidden}
+.card > h2{font-size:17px;padding:14px 16px 0}
+.card > .body{padding:14px 16px}
+.card .sub{color:var(--ink-2);font-size:14px}
+.hd{padding:12px 16px;border-bottom:1px solid var(--rule-2);display:flex;align-items:center;gap:10px}
+.hd h2{font-size:16px}
+.hd .k-l{margin-left:auto;font-size:12px;color:var(--ink-3);font-family:var(--f-mono)}
+
+/* ------------------------------------------------------------- leçons */
+.module{padding:14px 16px;border-top:1px solid var(--rule-2)}
+.module:first-of-type{border-top:none}
+.module > h3{font-family:var(--f-display);font-size:12px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--ink-3);margin-bottom:9px;display:flex;align-items:center;gap:9px}
+.module > h3::after{content:"";flex:1;height:1px;background:var(--rule-2)}
+.lessons{display:flex;flex-direction:column}
+.lesson{
+  display:flex;align-items:center;gap:12px;padding:9px 10px;border-radius:8px;
+  border:1px solid transparent;text-align:left;background:none;width:100%;
+}
+.lesson:hover{background:var(--surface-2)}
+.lesson[aria-current="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.lesson .num{
+  flex:none;width:26px;height:26px;border-radius:6px;border:1px solid var(--rule);
+  display:flex;align-items:center;justify-content:center;background:var(--surface);
+  font-family:var(--f-mono);font-size:12px;font-weight:600;color:var(--ink-3);
+}
+.lesson.done .num{background:var(--ok);border-color:var(--ok);color:#fff}
+.lesson .t{font-weight:500;font-size:14.5px;line-height:1.3}
+.lesson .d{font-size:12.5px;color:var(--ink-3);font-family:var(--f-mono)}
+
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.steps li{display:flex;gap:12px;padding:10px 0;border-top:1px solid var(--rule-2);align-items:flex-start}
+.steps li:first-child{border-top:none}
+.steps .n{
+  flex:none;width:22px;height:22px;border-radius:5px;background:var(--surface-2);
+  border:1px solid var(--rule);display:flex;align-items:center;justify-content:center;
+  font-family:var(--f-mono);font-size:11px;font-weight:600;color:var(--ink-3);margin-top:1px;
+}
+.steps .tx{font-size:14.5px;color:var(--ink-2);line-height:1.45}
+.steps li.done .n{background:var(--ok);border-color:var(--ok);color:#fff}
+.steps li.done .tx{color:var(--ink-3);text-decoration:line-through;text-decoration-color:var(--rule)}
+.steps li.now .n{background:var(--accent);border-color:var(--accent);color:#fff}
+.steps li.now .tx{color:var(--ink);font-weight:500}
+kbd{font-family:var(--f-mono);font-size:12px;font-weight:600;background:var(--surface-2);
+  border:1px solid var(--rule);border-bottom-width:2px;border-radius:5px;padding:1px 5px;color:var(--ink)}
+
+.brief{background:var(--surface-2);border-left:3px solid var(--accent);padding:12px 14px;
+  font-size:14.5px;line-height:1.55;color:var(--ink-2)}
+.brief b{color:var(--ink)}
+.brief .rb{margin-top:8px;font-family:var(--f-mono);font-size:13px;color:var(--ink);
+  display:grid;grid-template-columns:auto 1fr;gap:2px 14px}
+.brief .rb dt{color:var(--ink-3)}
+
+.result{display:flex;align-items:center;gap:14px;padding:12px 16px;border-top:1px solid var(--rule-2)}
+.result .v{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:24px;font-weight:600}
+.result .l{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+.result .v.ok{color:var(--ok)} .result .v.warn{color:var(--warn)} .result .v.bad{color:var(--bad)}
+.result .sp{margin-left:auto;display:flex;gap:8px}
+
+.pill{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:2px 9px;
+  font-size:11.5px;font-weight:600;letter-spacing:.03em}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}
+.pill.warn{background:var(--warn-soft);color:var(--warn)}
+.pill.bad{background:var(--bad-soft);color:var(--bad)}
+
+.prog{display:flex;align-items:center;gap:10px;padding:12px 16px;border-top:1px solid var(--rule-2);
+  font-size:13px;color:var(--ink-2)}
+.prog .track{flex:1;height:6px;border-radius:3px;background:var(--rule-2);overflow:hidden}
+.prog .track i{display:block;height:100%;background:var(--ok);width:0}
+
+/* ------------------------------------------------------------ référence */
+table.ref{width:100%;border-collapse:collapse;font-size:14px}
+table.ref th{text-align:left;font-family:var(--f-display);font-size:11.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-3);font-weight:600;padding:8px 16px;border-bottom:1px solid var(--rule)}
+table.ref td{padding:9px 16px;border-bottom:1px solid var(--rule-2);vertical-align:top}
+table.ref tr:last-child td{border-bottom:none}
+table.ref td.c1{font-family:var(--f-mono);font-size:13px;white-space:nowrap;color:var(--ink)}
+table.ref td.c2{color:var(--ink-2)}
+.scroll{overflow-x:auto}
+.screenshot{font-family:var(--f-mono);font-size:12.5px;background:#a9bda0;color:#0e1a0c;
+  border-radius:4px;padding:6px 8px;display:inline-block;white-space:pre;line-height:1.35}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media (max-width:620px){ .grid2,.grid3{grid-template-columns:1fr} }
+label.f{display:flex;flex-direction:column;gap:4px;min-width:0}
+label.f span{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+input[type=text],input[type=number],input[type=date]{
+  background:var(--surface);border:1px solid var(--rule);color:var(--ink);border-radius:8px;
+  padding:8px 10px;font:inherit;font-size:15px;width:100%;min-width:0;
+}
+input[type=text]:focus,input[type=number]:focus{border-color:var(--accent);outline:none}
+.row-btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+
+.zr{border-top:1px solid var(--rule-2)}
+.zr-hd{display:flex;align-items:center;gap:10px;padding:10px 16px;background:var(--surface-2);flex-wrap:wrap}
+.zr-n{font-family:var(--f-mono);font-weight:600;font-size:14px}
+.zr-name{flex:1;min-width:120px;border:1px solid transparent;background:none;font:inherit;
+  font-weight:500;padding:4px 6px;border-radius:6px;color:var(--ink)}
+.zr-name:hover{border-color:var(--rule)}
+.zr-name:focus{border-color:var(--accent);background:var(--surface);outline:none}
+.zr-body{padding:14px 16px;display:flex;flex-direction:column;gap:14px}
+table.sect input{padding:6px 8px;font-size:14px}
+table.sect td{padding:6px 8px}
+table.sect th{padding:6px 8px}
+.modesw{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+
+.clockbox{display:flex;align-items:center;gap:18px;padding:16px;background:var(--bench);color:#eef1f2;flex-wrap:wrap}
+.clockbox.live{border-radius:0}
+.bigclock{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:clamp(30px,7vw,44px);
+  font-weight:600;line-height:1}
+.bigclock small{font-size:.5em;color:#8fa3ad;font-weight:400}
+.clockside{margin-left:auto;text-align:right;font-family:var(--f-mono);font-size:16px}
+.clockside .g-l{font-family:var(--f-body);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:#8fa3ad;font-weight:600}
+
+.tasks{display:flex;flex-direction:column}
+.task{display:flex;align-items:center;gap:12px;padding:11px 16px;border-top:1px solid var(--rule-2)}
+.task:first-child{border-top:none}
+.task.dis{opacity:.5}
+.tick{width:24px;height:24px;border-radius:7px;border:1.5px solid var(--rule);background:var(--surface);
+  flex:none;display:flex;align-items:center;justify-content:center;padding:0}
+.task.done .tick{background:var(--ok);border-color:var(--ok)}
+.task.done .tick::after{content:"✓";color:#fff;font-size:13px;font-weight:700;line-height:1}
+.tinfo{display:flex;flex-direction:column;min-width:0;flex:1}
+.tt{font-weight:500;font-size:14.5px}
+.task.done .tt{color:var(--ink-3);text-decoration:line-through;text-decoration-color:var(--rule)}
+.td{font-size:12.5px;color:var(--ink-3)}
+
+.gsteps{list-style:none;margin:0;padding:0}
+.gsteps li{display:flex;gap:12px;padding:13px 16px;border-top:1px solid var(--rule-2);opacity:.45}
+.gsteps li:first-child{border-top:none}
+.gsteps li.now{opacity:1;background:var(--accent-soft)}
+.gsteps li.done{opacity:.45}
+.gsteps .n{flex:none;width:22px;height:22px;border-radius:5px;background:var(--surface-2);
+  border:1px solid var(--rule);display:flex;align-items:center;justify-content:center;
+  font-family:var(--f-mono);font-size:11px;font-weight:600;color:var(--ink-3);margin-top:2px}
+.gsteps li.now .n{background:var(--accent);border-color:var(--accent);color:#fff}
+.gsteps .tx{font-size:15px;line-height:1.5;color:var(--ink)}
+.gsteps li:not(.now) .tx{color:var(--ink-2)}
+.gsteps .val{display:block;margin-top:9px;font-family:var(--f-mono);font-size:clamp(17px,4.4vw,22px);
+  font-weight:600;letter-spacing:.08em;background:#a9bda0;color:#0e1a0c;padding:7px 12px;
+  border-radius:5px;width:fit-content;white-space:pre}
+textarea.jsbox{width:100%;min-height:180px;background:var(--surface-2);border:1px solid var(--rule);
+  border-radius:8px;padding:10px;font-family:var(--f-mono);font-size:12.5px;color:var(--ink);resize:vertical}
+.kk{font-family:var(--f-mono);font-size:.86em;font-weight:600;background:var(--ink);color:var(--surface);
+  padding:2px 7px;border-radius:4px;white-space:nowrap}
+
+/* ---------------------------------------------------------------- modal */
+.modal{position:fixed;inset:0;background:#0b0e10b8;display:flex;align-items:center;justify-content:center;
+  z-index:60;padding:18px}
+.modal .box{background:var(--surface);border:1px solid var(--rule);border-radius:12px;
+  max-width:680px;width:100%;max-height:88vh;overflow:auto;box-shadow:0 30px 60px -20px #0009}
+.modal .box .hd{position:sticky;top:0;background:var(--surface);z-index:2}
+@media (max-width:620px){
+  .modal{padding:0;align-items:stretch}
+  .modal .box{max-height:100%;height:100%;border-radius:0;border:none}
+}
+.close{margin-left:auto;border:none;background:none;font-size:22px;line-height:1;color:var(--ink-3);padding:0 2px}
+#chartWrap{position:relative;padding:0 16px 8px}
+#chartTip{position:absolute;pointer-events:none;background:var(--ink);color:var(--surface);
+  border-radius:6px;padding:5px 8px;font-family:var(--f-mono);font-size:12px;white-space:nowrap;
+  transform:translate(-50%,-135%);opacity:0;transition:opacity .1s}
+
+/* --------------------------------------------------- tableau de marche */
+.pace{width:100%;border-collapse:collapse;font-size:13.5px}
+.pace th,.pace td{padding:5px 9px;border-bottom:1px solid var(--rule-2);text-align:left}
+.pace th{font-family:var(--f-display);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink-3);border-bottom:1px solid var(--rule)}
+.pace td.n{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.pace tr.mark td{background:#ffb0201f;font-weight:600}
+.pace tr.mark td:first-child::after{content:' ●';color:#c98200}
+.psheet{padding:0 0 6px}
+.psheet h3{font-family:var(--f-display);font-size:16px;margin:16px 0 2px;padding:0 16px}
+.psheet .meta{font-size:12.5px;color:var(--ink-3);padding:0 16px 8px}
+#printArea{display:none}
+
+/* ------------------------------------------------------------ impression */
+@media print{
+  body{background:#fff;color:#000}
+  header.top, main, footer, .modal{display:none !important}
+  #printArea{display:block;padding:0}
+  #printArea h1{font:700 19px/1.3 Georgia,serif;margin:0 0 2px}
+  #printArea .sub{font-size:12px;color:#444;margin:0 0 14px}
+  #printArea h3{font:700 14px/1.3 Georgia,serif;margin:14px 0 1px;padding:0;
+    border-top:1px solid #000;padding-top:6px}
+  #printArea .meta{font-size:11px;color:#333;margin:0 0 6px;padding:0}
+  #printArea table{width:100%;border-collapse:collapse;font-size:11.5px;page-break-inside:auto}
+  #printArea th,#printArea td{border:1px solid #999;padding:3px 6px;text-align:left;color:#000}
+  #printArea th{background:#eee;font-weight:700}
+  #printArea tr{page-break-inside:avoid}
+  #printArea tr.mark td{background:#e8e8e8;font-weight:700}
+  #printArea .zrblock{page-break-inside:avoid;margin-bottom:12px}
+}
+
+/* ------------------------------------------- invite d'installation iOS */
+.a2hs{display:flex;align-items:center;gap:10px;margin:10px clamp(14px,3vw,28px) 0;
+  padding:10px 12px;background:var(--accent-soft);border:1px solid #b9dde9;
+  border-radius:var(--r);font-size:13.5px;color:var(--ink-2)}
+.a2hs .ic{flex:0 0 24px;height:24px;border-radius:7px;background:var(--accent);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700}
+.a2hs .tx{flex:1;min-width:0}
+.a2hs .tx b{color:var(--ink);font-weight:600}
+.a2hs .x{border:none;background:none;color:var(--ink-3);font-size:14px;padding:0 2px}
+
+/* --------------------------------------------------------------- footer */
+.leg{display:grid;grid-template-columns:auto 1fr;gap:7px 12px;padding:12px 16px;font-size:13.5px;color:var(--ink-2)}
+.leg .d{display:flex;gap:4px;align-items:center;white-space:nowrap;font-weight:500;color:var(--ink)}
+.leg i{width:10px;height:10px;border-radius:50%;display:inline-block;border:1px solid #0003}
+.leg i.r{background:#e4453c} .leg i.g{background:#2bb75d} .leg i.b{background:#3f8dff}
+footer{padding:18px clamp(14px,3vw,28px) 34px;color:var(--ink-3);font-size:13px;
+  display:flex;gap:16px;flex-wrap:wrap;align-items:center;border-top:1px solid var(--rule);margin-top:10px}
+footer .sep{flex:1}
+footer button{border:none;background:none;color:var(--ink-3);text-decoration:underline;
+  text-underline-offset:2px;font-size:13px;padding:0}
+footer button:hover{color:var(--ink)}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="brand">
+    <b><i>B</i>LUNIK</b><span>Simulateur d'entraînement</span>
+  </div>
+  <div class="right">
+    <span class="lbl">Appareil</span>
+    <div class="seg" id="modelSeg" role="group" aria-label="Choix de l'appareil">
+      <button data-model="classic" aria-pressed="true">Blunik Classic</button>
+      <button data-model="ii" aria-pressed="false">Blunik II</button>
+    </div>
+    <button class="btn" id="btnHelp">Aide</button>
+  </div>
+</header>
+
+<div class="a2hs hidden" id="a2hs">
+  <span class="ic">＋</span>
+  <span class="tx">Installez l'application : touchez <b>Partager</b> puis <b>Sur l'écran d'accueil</b>.</span>
+  <button class="x" id="a2hsX" aria-label="Masquer">✕</button>
+</div>
+
+<main>
+  <!-- ============================ APPAREIL ============================ -->
+  <div class="bench">
+    <div class="stage">
+      <div class="blunik">
+        <div class="face">
+          <div class="logobar"><div class="lg"><i>B</i>LUNIK</div><div class="flag"></div></div>
+          <div class="ledpanel">
+            <div class="led red" id="ledRed"></div>
+            <div class="led green" id="ledGreen"></div>
+            <div class="led blue" id="ledBlue"></div>
+            <div class="stripes"></div>
+          </div>
+          <div class="lcdbox"><div class="lcd off" id="lcd"></div></div>
+          <div class="rightcol">
+            <button class="k" data-k="START"><span class="kb">S</span><b>START</b><i>ON</i></button>
+            <button class="k" data-k="MODE"><span class="kb">M</span>MODE</button>
+            <button class="k" data-k="VIEW"><span class="kb">V</span>VIEW</button>
+            <button class="k" data-k="ZERO"><span class="kb">Z</span>ZERO</button>
+          </div>
+          <div class="keys">
+            <button class="k" data-k="SELECT"><span class="kb">↵</span>SELECT</button>
+            <button class="k" data-k="PARAM"><span class="kb">P</span>PARAM</button>
+            <button class="k cy" data-k="PLUS"><span class="kb">+</span><span class="gl">✚</span></button>
+            <button class="k" data-k="STAGE"><span class="kb">T</span>STAGE</button>
+            <button class="k" data-k="FINISH"><span class="kb">F</span><b>FINISH</b><i>OFF</i></button>
+            <button class="k cy" data-k="LEFT"><span class="kb">←</span><span class="gl">⬅</span></button>
+            <button class="k cy" data-k="MINUS"><span class="kb">-</span><span class="gl">━</span></button>
+            <button class="k cy" data-k="RIGHT"><span class="kb">→</span><span class="gl">➡</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="gdock hidden" id="gdock">
+      <div class="gd-hd">
+        <span class="gd-t" id="gdTitle">Procédure</span>
+        <span class="gd-c" id="gdCount"></span>
+        <button class="gd-x" id="gdClose" aria-label="Fermer le guidage">✕</button>
+      </div>
+      <div class="gd-bd">
+        <div class="gd-n" id="gdNum">1</div>
+        <div class="gd-tx">
+          <div class="gd-step" id="gdStep"></div>
+          <div class="gd-val hidden" id="gdVal"></div>
+          <div class="gd-key hidden" id="gdKey"></div>
+        </div>
+      </div>
+      <div class="gd-live hidden" id="gdLive">
+        <div class="gd-clk" id="gdClock">--:--:--<small id="gdTenth">.0</small></div>
+        <div class="gd-side"><div class="g-l" id="gdSideL">Heure à saisir</div><div class="mono" id="gdTarget">—</div></div>
+      </div>
+      <div class="gd-ft">
+        <button class="btn sm" id="gdPrev">Précédent</button>
+        <button class="btn sm primary" id="gdNext">Étape suivante</button>
+      </div>
+    </div>
+
+    <div class="ctx">
+      <span class="name" id="ctxName">Éteint</span>
+      <span class="txt" id="ctxText">Appuyez sur START / ON pour allumer l'appareil.</span>
+    </div>
+
+    <div class="console">
+      <div class="bar">
+        <button class="btn primary" id="btnRun">Rouler</button>
+        <button class="btn" id="btnStop">Arrêt</button>
+        <select id="selProfile" aria-label="Profil de route"></select>
+        <div class="seg" id="tfSeg" role="group" aria-label="Vitesse de simulation" style="margin-left:auto">
+          <button data-tf="1" aria-pressed="true">×1</button>
+          <button data-tf="2" aria-pressed="false">×2</button>
+          <button data-tf="5" aria-pressed="false">×5</button>
+          <button data-tf="10" aria-pressed="false">×10</button>
+        </div>
+      </div>
+      <div class="driver">
+        <span class="dl">Afficheur du pilote</span>
+        <div class="remote" id="remote" aria-live="polite">
+          <span class="s3 late"  id="rLate">Retard</span>
+          <span class="s3 ok"    id="rOk">Dans les temps</span>
+          <span class="s3 early" id="rEarly">Avance</span>
+          <span class="num" id="rNum">—</span>
+        </div>
+        <span class="dnote" id="drvNote">Le pilote conduit seul. Vous gardez la commande Rouler / Arrêt.</span>
+      </div>
+      <div class="gauges">
+        <div class="gauge"><div class="g-l">Vitesse</div><div class="g-v" id="gSpeed">0.0<small>km/h</small></div></div>
+        <div class="gauge"><div class="g-l">Distance réelle</div><div class="g-v" id="gReal">0.000<small>km</small></div></div>
+        <div class="gauge"><div class="g-l">Distance mesurée</div><div class="g-v" id="gBlu">0.000<small>km</small></div></div>
+        <div class="gauge"><div class="g-l">Écart</div><div class="g-v" id="gReg">—</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="hd"><h2>Feux tricolores</h2></div>
+      <div class="leg">
+        <span class="d"><i class="r"></i>Rouge fixe</span><span>Avant l'heure de départ. En secteur : retard sur la moyenne.</span>
+        <span class="d"><i class="r"></i>Rouge clignotant</span><span>Moins de dix secondes avant le départ.</span>
+        <span class="d"><i class="g"></i>Vert</span><span>Heure de départ atteinte. En secteur : avance sur la moyenne.</span>
+        <span class="d"><i class="r"></i><i class="g"></i>Rouge et vert</span><span>Heure de départ dépassée.</span>
+        <span class="d"><i class="b"></i>Bleu</span><span>Dans la tolérance réglée.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================ FORMATION =========================== -->
+  <div class="course">
+    <nav class="mainnav" role="tablist">
+      <button role="tab" data-view="lessons" aria-selected="true">Leçons</button>
+      <button role="tab" data-view="rally" aria-selected="false">Rallye</button>
+      <button role="tab" data-view="practice" aria-selected="false">Entraînement</button>
+      <button role="tab" data-view="ref" aria-selected="false">Référence</button>
+    </nav>
+
+    <section class="view act" id="v-lessons">
+      <div class="card" id="lessonPanel"></div>
+      <div class="card" id="lessonList"></div>
+    </section>
+
+    <section class="view" id="v-rally"><div id="rallyPanel"></div></section>
+    <section class="view" id="v-practice"><div id="practicePanel"></div></section>
+    <section class="view" id="v-ref"><div id="refPanel"></div></section>
+  </div>
+</main>
+
+<div id="printArea"></div>
+
+<footer>
+  <span>Simulateur Blunik — v1.1</span>
+  <span class="sep"></span>
+  <button id="btnSources">Sources et conformité</button>
+  <button id="btnWake" class="hidden">Écran allumé : non</button>
+  <button id="btnSound">Son : activé</button>
+  <button id="btnReset">Réinitialiser</button>
+</footer>
+
+<div class="modal hidden" id="modal">
+  <div class="box">
+    <div class="hd"><h2 id="modalTitle">Aide</h2><button class="close" id="modalClose" aria-label="Fermer">×</button></div>
+    <div id="modalBody"></div>
+  </div>
+</div>
+<script>
+'use strict';
+/* ==========================================================================
+   BLUNIK TRAINER — simulateur d'entraînement
+   Logique reconstituée d'après la notice "Débuter avec le Blunik" v4.01
+   ========================================================================== */
+
+const $  = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+const clamp = (v,a,b) => v<a?a:(v>b?b:v);
+const pad = (n,l) => String(Math.abs(Math.trunc(n))).padStart(l,'0');
+const hms = t => { t=((t%86400)+86400)%86400; return pad(t/3600,2)+':'+pad((t%3600)/60,2)+':'+pad(t%60,2); };
+const hmsT = t => hms(t)+':'+pad(Math.floor((t%1)*100),2);
+
+/* ---------------------------- ÉTAT DU BLUNIK ---------------------------- */
+const S = {
+  on:false,
+  clock: 9*3600 + 57*60 + 30,      // heure interne (s depuis minuit)
+  view:'CLOCK',                     // écran d'affichage courant
+  inStage:false,
+  sel:1,                            // secteur présélectionné (0..37)
+  stages:{},
+  total:0, partial:0,               // distances mesurées par le Blunik (m)
+  stageT0:0,                        // heure d'appui sur START
+  count:'NORMAL',                   // NORMAL | REVERSE | NOTCOUNT
+  zflag:false,
+  calMeasured:null,                 // mesure figée pour l'étalonnage (m)
+  p:{ wd:1885, wdMem:1, adapter:4, blue:10, DF:'mts', LD:'mt', sensor:'BOTH', snd:'Y' },
+  menu:null,
+  flash:null,
+  log:[],                           // échantillons de régularité de la ZR
+  lastKey:'',
+};
+
+const IDX = 'ABCDEF';
+function stage(n){
+  if(!S.stages[n]) S.stages[n] = { start: 10*3600, off:0, dur:0, sec:[{as:50, end:20000}] };
+  return S.stages[n];
+}
+function curStage(){ return stage(S.sel); }
+
+/* ---------------------------- ÉTAT DE LA VOITURE ------------------------ */
+const C = {
+  run:false, v:0, target:50, corr:0, manual:false,
+  realDist:0, tf:1, wdReal:1885, adapterReal:4, prof:null, dt:0,
+  /* pilote autonome : il conduit seul et corrige son allure sur son afficheur */
+  drv:{ cruise:0, want:0, react:0, wob:0, state:'idle', shown:0 },
+};
+
+const PROFILES = [
+  { id:'sinueux', name:'Route sinueuse · virages enchaînés', len:14,
+    kf:[[0,52],[.25,52],[1.4,44],[2.6,62],[3.8,39],[5.2,58],[6.6,47],[8,64],[9.4,41],[10.8,55],[12.2,46],[14,58]] },
+  { id:'village', name:'Traversées de village · ralentissements', len:12,
+    kf:[[0,54],[.25,54],[2.2,54],[2.8,29],[3.9,28],[4.5,55],[7,57],[7.6,30],[8.6,29],[9.2,56],[12,54]],
+    markers:[{km:2.8,label:'Panneau entrée village'},{km:4.5,label:'Panneau sortie village'},{km:7.6,label:'2e village'}] },
+  { id:'montagne', name:'Col de montagne · épingles', len:11,
+    kf:[[0,40],[.3,40],[1.1,26],[1.9,44],[2.7,25],[3.6,46],[4.4,27],[5.3,42],[6.1,26],[7.2,48],[8.4,28],[9.6,45],[11,33]],
+    markers:[{km:1.1,label:'Épingle n°1'},{km:5.3,label:'Croisement D18'},{km:9.6,label:'Belvédère'}] },
+  { id:'liaison', name:'Liaison rapide · route large', len:16,
+    kf:[[0,78],[.4,78],[3,82],[5.5,45],[6,80],[9,84],[11,50],[12,78],[16,70]],
+    markers:[{km:5.5,label:'Stop / croisement'},{km:11,label:'Rond-point'}] },
+  { id:'etalonnage', name:'Zone d\'étalonnage · 12,340 km', len:12.34, stopAt:12.34,
+    kf:[[0,62],[.3,62],[12.34,62]],
+    markers:[{km:0,label:'Départ étalonnage (p.k. 0)'},{km:12.34,label:'Fin étalonnage — road-book 12,340'}] },
+  { id:'plaine', name:'Route ouverte · peu de relief', len:15,
+    kf:[[0,55],[.4,55],[2.5,58],[5,52],[7.5,57],[10,53],[12.5,58],[15,55]] },
+  { id:'zr20', name:'Zone de régularité · 20,1 km, relief varié', len:20.1,
+    kf:[[0,58],[.3,58],[1.8,46],[3.2,64],[4.5,38],[5.9,60],[7.4,50],[8.8,66],[10.3,42],[11.9,57],[13.4,49],[15,63],[16.6,44],[18.2,58],[20.1,52]],
+    markers:[{km:4.51,label:'Pont — repère road-book 4,510'},{km:9.52,label:'Croisement — repère 9,520'},{km:14,label:'Église — repère 14,000'}] },
+];
+C.prof = PROFILES[0];
+
+/* ------------------------------ FORMATS LCD ----------------------------- */
+function L(n){ return new Array(n||16).fill(' '); }
+function put(l,c,t){ t=String(t); for(let i=0;i<t.length && c+i<l.length && c+i>=0;i++) l[c+i]=t[i]; }
+
+function dkm(m, kmDigits, sepUp){
+  m = Math.max(0, Math.round(m));
+  const km = Math.floor(m/1000), rest = m%1000;
+  const r = S.p.LD==='mt' ? pad(rest,3) : pad(Math.floor(rest/10),2);
+  return pad(km,kmDigits) + (sepUp===false?'k':'K') + r;
+}
+const spd = v => clamp(v,0,999.9).toFixed(1);
+
+/* Vitesse de consigne (moyenne imposée) à la distance parcourue */
+function consigne(){
+  const st = curStage(), d = S.total - st.off;
+  for(const s of st.sec){ if(d < s.end) return s.as; }
+  return st.sec.length ? st.sec[st.sec.length-1].as : 0;
+}
+/* Distance théorique parcourue après t secondes de course */
+function idealDist(t){
+  const st = curStage(); let d=0, rem=t;
+  for(const s of st.sec){
+    const len = Math.max(0, s.end - d);
+    if(s.as<=0) return d;
+    const need = len/(s.as/3.6);
+    if(rem <= need) return d + rem*(s.as/3.6);
+    rem -= need; d = s.end;
+  }
+  const last = st.sec[st.sec.length-1];
+  return d + (last && last.as>0 ? rem*(last.as/3.6) : 0);
+}
+/* Temps théorique pour parcourir d mètres */
+function idealTime(d){
+  const st = curStage(); let acc=0, prev=0;
+  for(const s of st.sec){
+    if(s.as<=0) return acc;
+    if(d <= s.end) return acc + (d-prev)/(s.as/3.6);
+    acc += (s.end-prev)/(s.as/3.6); prev = s.end;
+  }
+  const last = st.sec[st.sec.length-1];
+  return acc + (last && last.as>0 ? (d-prev)/(last.as/3.6) : 0);
+}
+function elapsed(){ return S.inStage ? Math.max(0, S.clock - S.stageT0) : 0; }
+/* écart : positif = avance */
+function regMeters(){ return (S.total - curStage().off) - idealDist(elapsed()); }
+function regSeconds(){ return idealTime(S.total - curStage().off) - elapsed(); }
+
+/* ------------------------------ ÉCRANS ---------------------------------- */
+/* Chaque écran renvoie {l0,l1,fields,name} — fields = cases éditables      */
+
+function scr(){
+  const l0=L(), l1=L(), F=[];
+  const out = (name)=>({l0,l1,fields:F,name});
+
+  if(S.flash){ put(l0,S.flash.c0||0,S.flash.a); put(l1,S.flash.c1||0,S.flash.b); return out('FLASH'); }
+
+  const m = S.menu;
+  if(m){
+    /* ---------- menu SECTEUR ---------- */
+    if(m.type==='stage'){
+      const b=m.buf;
+      if(m.page==='head'){
+        put(l0,0,'ST'+pad(S.sel,2)); put(l0,7,'S');
+        put(l0,8, b.start.slice(0,2)+':'+b.start.slice(2,4)+':'+b.start.slice(4,6));
+        [8,9,11,12,14,15].forEach((c,i)=>F.push({l:0,c,b:'start',i}));
+        put(l1,0,'OF'); put(l1,2,b.off.slice(0,3)); put(l1,5,'k'); put(l1,6,b.off.slice(3,6));
+        [2,3,4,6,7,8].forEach((c,i)=>F.push({l:1,c,b:'off',i}));
+        put(l1,10,'T'+b.dur.slice(0,2)+'h'+b.dur.slice(2,4));
+        [11,12,14,15].forEach((c,i)=>F.push({l:1,c,b:'dur',i}));
+        return out('MENU_STAGE_HEAD');
+      }
+      if(m.page==='end'){
+        const li = b.s.length-1;
+        put(l0,0,'ST'+pad(S.sel,2)+' ('+IDX[li+1<6?li+1:5]+') END');
+        put(l1,0,'A'); put(l1,1, liaisonAvg().toFixed(1).padStart(5,'0'));
+        const le = curStage().sec[curStage().sec.length-1];
+        put(l1,9, dkm(le?le.end:0,3,false));
+        return out('MENU_STAGE_END');
+      }
+      const i = m.page, s = b.s[i];
+      put(l0,0,'ST'+pad(S.sel,2)+' ('+IDX[i]+')');
+      put(l1,0,'A'); put(l1,1, s.as.slice(0,3)+'.'+s.as.slice(3,4));
+      [1,2,3,5].forEach((c,k)=>F.push({l:1,c,arr:'s',si:i,k:'as',i:k}));
+      put(l1,9, s.end.slice(0,3)); put(l1,12,'k'); put(l1,13, s.end.slice(3,6));
+      [9,10,11,13,14,15].forEach((c,k)=>F.push({l:1,c,arr:'s',si:i,k:'end',i:k}));
+      return out('MENU_STAGE_SEC');
+    }
+    /* ---------- menu PARAMÈTRES ---------- */
+    if(m.type==='param'){
+      const b=m.buf;
+      if(m.page===0){                                   /* écran montré dans la notice */
+        put(l0,1,'CLOCK  SYNCHRO');
+        put(l1,2, b.ck.slice(0,2)+':'+b.ck.slice(2,4)+':'+b.ck.slice(4,6)+':'+b.ck.slice(6,8));
+        [2,3,5,6,8,9,11,12].forEach((c,i)=>F.push({l:1,c,b:'ck',i}));
+        return out('MENU_PARAM_CLOCK');
+      }
+      if(m.page===1){                                   /* WHEEL DIAMETER : cité par la notice */
+        put(l0,1,'WHEEL DIAMETER');
+        put(l1,0,'WD'+b.mem); put(l1,5,b.wd); put(l1,10,'mm');
+        F.push({l:1,c:2,kind:'enum',next:d=>{ b.mem=String(clamp(+b.mem+d,1,4)); b.wd=pad(S.p.wdMems[+b.mem-1],4); }});
+        [5,6,7,8].forEach((c,i)=>F.push({l:1,c,b:'wd',i}));
+        return out('MENU_PARAM_WD');
+      }
+      if(m.page===2){                                   /* SENSOR ADAPTER : lexique de la notice */
+        put(l0,1,'SENSOR ADAPTER');
+        put(l1,0,'IMPULSES/TURN'); put(l1,14,b.adapter);
+        [14,15].forEach((c,i)=>F.push({l:1,c,b:'adapter',i}));
+        return out('MENU_PARAM_ADAPT');
+      }
+      if(m.page===3){                                   /* écran montré dans la notice p.7-8 */
+        put(l0,0,'BlueLED'); put(l0,8,'DF'); put(l0,12,'LD'); put(l0,15,'S');
+        put(l1,0,'+/-'); put(l1,3,b.blue); put(l1,6,'m');
+        [3,4,5].forEach((c,i)=>F.push({l:1,c,b:'blue',i}));
+        put(l1,8,b.DF); F.push({l:1,c:8,kind:'enum',next:()=>{ b.DF = b.DF==='mts'?'sec':'mts'; }});
+        put(l1,12,b.LD); F.push({l:1,c:12,kind:'enum',next:()=>{ b.LD = b.LD==='mt'?'Dm':'mt'; }});
+        put(l1,15,b.snd); F.push({l:1,c:15,kind:'enum',next:()=>{ b.snd = b.snd==='Y'?'N':'Y'; }});
+        return out('MENU_PARAM_LED');
+      }
+      put(l0,2,'SENSOR MODE'); put(l1,5,b.sensor);
+      F.push({l:1,c:5,kind:'enum',next:d=>{
+        const o=['BOTH','LEFT','RIGHT','FW']; b.sensor=o[(o.indexOf(b.sensor)+(d>0?1:3))%4];
+      }});
+      return out('MENU_PARAM_SENSOR');
+    }
+    /* ---------- CALCULATE (Blunik II) ---------- */
+    if(m.type==='calc'){
+      const d = +m.buf.d.slice(0,3)*1000 + +m.buf.d.slice(3,6);
+      const t = +m.buf.t.slice(0,2)*3600 + +m.buf.t.slice(2,4)*60 + +m.buf.t.slice(4,6);
+      put(l0,0,'DIST'); put(l0,9, m.buf.d.slice(0,3)); put(l0,12,'k'); put(l0,13, m.buf.d.slice(3,6));
+      [9,10,11,13,14,15].forEach((c,i)=>F.push({l:0,c,b:'d',i}));
+      put(l1,0,'T'+m.buf.t.slice(0,2)+':'+m.buf.t.slice(2,4)+':'+m.buf.t.slice(4,6));
+      [1,2,4,5,7,8].forEach((c,i)=>F.push({l:1,c,b:'t',i}));
+      put(l1,11,'A'); put(l1,12, t>0 ? clamp(d/t*3.6,0,999.9).toFixed(1).padStart(4) : '--.-');
+      return out('MENU_CALC');
+    }
+    /* ---------- UPDATE TOTAL ---------- */
+    if(m.type==='update'){
+      put(l0,2,'UPDATE TOTAL');
+      put(l1,3, m.sign>0?'+':'-'); put(l1,5,m.buf); put(l1,10,'mts');
+      [5,6,7,8].forEach((c,i)=>F.push({l:1,c,b:'buf',i,plain:true}));
+      return out('MENU_UPDATE');
+    }
+    /* ---------- MODE DE COMPTAGE ---------- */
+    if(m.type==='modesel'){
+      const t = ['NOT COUNT?','REVERSE COUNT?','NORMAL COUNT?'][m.idx];
+      put(l0, Math.floor((16-t.length)/2), t);
+      return out('MENU_MODE');
+    }
+    /* ---------- ÉTALONNAGE ---------- */
+    if(m.type==='calib'){
+      put(l0,0,'Measured'); put(l0,10, dkm(m.measured,2));
+      put(l1,0,'Road Book'); put(l1,10, m.buf.slice(0,2)+'K'+m.buf.slice(2,5));
+      [10,11,13,14,15].forEach((c,i)=>F.push({l:1,c,b:'buf',i,plain:true}));
+      return out('MENU_CALIB');
+    }
+    /* ---------- CONFIRMATION FINISH ---------- */
+    if(m.type==='finish'){
+      put(l0,1,'FINISH  ST'+pad(S.sel,2)+' ?');
+      put(l1,0,'FINISH=OK SEL=NO');
+      return out('MENU_FINISH');
+    }
+  }
+
+  /* ---------- affichages hors secteur ---------- */
+  if(!S.inStage){
+    if(S.view==='SENSORS'){
+      const ls = S.p.sensor==='RIGHT' ? '_' : (C.v>0.4 ? '*' : '_');
+      const rs = S.p.sensor==='LEFT'  ? '_' : (C.v>0.4 ? '*' : '_');
+      put(l0,0,'LS'+ls); put(l0,4,'RS'+rs); put(l0,10,'S'+spd(bluSpeed()).padStart(5));
+      put(l1,0,'ST'+pad(S.sel,2)); if(S.zflag) put(l1,6,'Z');
+      put(l1,8, 'P'+dkm(S.partial,3));
+      F.push({l:1,c:2,kind:'stagesel'}); F.push({l:1,c:3,kind:'stagesel'});
+      return out('SENSORS');
+    }
+    put(l0,0,'Time'); put(l0,6,'T'+hms(S.clock));
+    put(l1,0,'ST'+pad(S.sel,2));
+    if(MODEL==='ii' && S.sel===0){ put(l1,5,'L'); put(l1,7,'T'+dkm(S.longTotal||0,3)); }
+    else put(l1,6,'S'+hms(curStage().start));
+    F.push({l:1,c:2,kind:'stagesel'}); F.push({l:1,c:3,kind:'stagesel'});
+    return out(MODEL==='ii' && S.sel===0 ? 'LONGLINK' : 'CLOCK');
+  }
+
+  /* ---------- affichages en secteur ---------- */
+  const mc = S.count==='NORMAL' ? '=' : (S.count==='REVERSE' ? 'R' : 'N');
+  const line1 = () => { put(l0,0,'T'+dkm(S.total,2)); put(l0,8,mc); put(l0,10,'S'); put(l0,11, spd(bluSpeed()).padStart(5)); };
+
+  if(S.view==='CHRONO'){
+    line1();
+    const e = elapsed();
+    put(l1,0,'C'+hms(e));
+    put(l1,10,'A'); put(l1,11, spd(e>1 ? (S.total-curStage().off)/e*3.6 : 0).padStart(5));
+    return out('CHRONO');
+  }
+  if(S.view==='LIAISON'){
+    const st=curStage(), last=st.sec[st.sec.length-1];
+    put(l0,0,'T'+hms(S.clock));
+    put(l0,10, dkm(Math.max(0,last.end-(S.total-st.off)),2));
+    const rt = Math.max(0, idealTime(last.end) - elapsed());
+    put(l1,0,'R'+hms(rt));
+    put(l1,10,'A='); put(l1,12, spd(consigne()).padStart(4));
+    return out('LIAISON');
+  }
+  if(S.view==='REG'){
+    line1();
+    let txt;
+    if(S.p.DF==='sec'){
+      const s = regSeconds();
+      txt = (s>=0?'+':'-') + Math.min(999.9,Math.abs(s)).toFixed(1).padStart(5,'0') + 's';
+    } else {
+      const d = regMeters();
+      txt = (d>=0?'+':'-') + dkm(Math.abs(d),2,false);
+    }
+    put(l1,0,txt);
+    put(l1,10,'A='); put(l1,12, spd(consigne()).padStart(4));
+    return out('REG');
+  }
+  line1();
+  put(l1,0,'P'+dkm(S.partial,2));
+  put(l1,10,'A='); put(l1,12, spd(consigne()).padStart(4));
+  return out('PARTIAL');
+}
+
+/* vitesse lue par le Blunik (dépend de l'étalonnage) */
+function measureK(){
+  if(MODEL==='ii') return iiCal() / Math.max(1, C.calReal);
+  return (S.p.wd / Math.max(1,S.p.adapter)) / (C.wdReal / Math.max(1,C.adapterReal));
+}
+function bluSpeed(){ return C.v*3.6 * measureK(); }
+
+/* moyenne de la liaison affichée sur l'écran END (jusqu'au départ suivant) */
+/* Moyenne de la liaison : distance restante du secteur / temps restant,
+   d'après le temps imparti au secteur (guide Blunik II p.26). */
+function liaisonAvg(){
+  const st = curStage(), last = st.sec[st.sec.length-1];
+  if(st.dur > 60){
+    let t = 0, prev = 0;
+    for(let i=0;i<st.sec.length-1;i++){
+      const x = st.sec[i]; if(x.as>0) t += (x.end-prev)/(x.as/3.6); prev = x.end;
+    }
+    const rest = st.dur - t, dist = last.end - prev;
+    if(rest > 10 && dist > 10) return clamp(dist/rest*3.6, 0, 99.9);
+  }
+  const nx = S.stages[S.sel+1];
+  if(nx){
+    const dur = nx.start - st.start - idealTime(last.end);
+    const dist = Math.max(0, nx.off - last.end);
+    if(dur>60 && dist>100) return clamp(dist/dur*3.6, 0, 99.9);
+  }
+  return clamp(last.as*0.875, 0, 99.9);
+}
+</script>
+<script>
+/* ==========================================================================
+   BLUNIK II — modèle reconstitué d'après :
+     · « GUIDE PRATIQUE Blunik II » 12/2016 (55 p.)
+     · fiche « I BLUNIK II » (fonctions clavier, écrans, procédures)
+     · fiche « BLUNIK BASIC »
+     · fiche « PROGRAMMER UN SECTEUR »
+   Écran 2 lignes × 16 caractères, 45 secteurs, clavier à 12 touches.
+   ========================================================================== */
+
+const MODELS = {
+  classic: { cols:16, rows:2, name:'Blunik Classic', paramPages:5,  maxStage:37 },
+  ii:      { cols:16, rows:2, name:'Blunik II',      paramPages:14, maxStage:45 },
+};
+let MODEL = 'classic';
+const MC = () => MODELS[MODEL];
+
+/* ------------------------- paramètres du Blunik II ---------------------- */
+S.ii = {
+  tyre:'A',
+  cal:{A:5820,B:5820,C:5820,D:5820},
+  div:{A:1,B:1,C:1,D:1},
+  calOld:null,
+  sensors:'2sondes Moy.',            // Gauche Seule / Droite Seule / 2sondes Moy. / Fst.Wh / Slw.Wh
+  ledSec:1.0,                        // LED bleue : 0,1 à 9,9 secondes
+  lastDigit:'Oui',                   // Oui = mètres, Non = décamètres
+  ecart:'Temps',                     // Temps ou Distance
+  units:'Kilometers',
+  corr:10,                           // pas des touches -10 / +10
+  startKey:'Synchro',                // Synchro ou Entrainement
+  startOff:false,                    // + Offset : ne remet pas la distance à zéro
+  startInStage:'NON',
+  light:3,
+  adjust:false,                      // mode AJUSTER HORLOGE
+};
+C.calReal = 5820;                    // étalonnage « vrai » du simulateur
+
+const IIP = ['REGLAGE  HORLOGE','Choix de PNEUS','*  Etalonnage  *','Choix des Sondes',
+             '**  Led Bleu  **','Dernier chiffre','*    Ecart    *','Unités Distance',
+             '+ - Corrections','* TOUCHE START *','START in STAGE','Distance TOTALE',
+             'Intensité/JOUR','Intensité/NUIT'];
+
+/* ------------------------------- helpers -------------------------------- */
+const iiMt = () => S.ii.lastDigit === 'Oui';          // dernier chiffre = mètres
+function dII(m, kmDigits){
+  m = Math.max(0, Math.round(m));
+  const km = Math.floor(m/1000), r = m%1000;
+  return pad(km,kmDigits) + 'k' + (iiMt() ? pad(r,3) : pad(Math.floor(r/10),2));
+}
+const vFmt = v => clamp(v,0,999.9).toFixed(1).padStart(4);      // « 99.7 »
+const mFmt = v => clamp(v,0,999.99).toFixed(2).padStart(5);     // « 98.36 »
+function msd(t){                                                 // « 1:01:4 »
+  t = Math.max(0,t); const m=Math.floor(t/60), s=Math.floor(t%60), d=Math.floor((t%1)*10);
+  return (m>9?'9':String(m))+':'+pad(s,2)+':'+d;
+}
+function chrono(t){                                              // « 00:18.3 »
+  t = Math.max(0,t); return pad(Math.floor(t/60),2)+':'+pad(Math.floor(t%60),2)+'.'+Math.floor((t%1)*10);
+}
+function chronoR(t){                                             // « 09:39.2 »
+  return chrono(Math.max(0,t));
+}
+function iiCal(){ return S.ii.cal[S.ii.tyre]; }
+
+/* Point d'entrée unique : renvoie {lines, fields, name} */
+function screen(){
+  const s = (MODEL==='ii') ? scr2() : scr();
+  if(!s.lines) s.lines = [s.l0, s.l1];
+  return s;
+}
+
+/* ========================================================================= */
+function scr2(){
+  const l0 = L(16), l1 = L(16), F = [];
+  const out = n => ({lines:[l0,l1], fields:F, name:n});
+  const P0 = (c,t)=>put(l0,c,t), P1 = (c,t)=>put(l1,c,t);
+  const st = curStage();
+
+  if(S.flash){ P0(S.flash.c0||0, S.flash.a); P1(S.flash.c1||0, S.flash.b); return out('FLASH'); }
+
+  const m = S.menu;
+  if(m){
+    /* ---------------------- PROGRAMMER LE SECTEUR --------------------- */
+    if(m.type==='stage'){
+      const b = m.buf;
+      if(m.page==='head'){
+        P0(0,'ST'+pad(S.sel,2)); P0(5,'MI');
+        P0(8, b.start.slice(0,2)+':'+b.start.slice(2,4)+':'+b.start.slice(4,6));
+        [8,9,11,12,14,15].forEach((c,i)=>F.push({l:0,c,b:'start',i}));
+        P1(0,'\u00ba'); P1(1, b.off.slice(0,2)); P1(3,'k'); P1(4, b.off.slice(2,5));
+        [1,2,4,5,6].forEach((c,i)=>F.push({l:1,c,b:'off',i}));
+        P1(8,'T'+b.dur.slice(0,1)+'h'+b.dur.slice(1,3)+'m'+b.dur.slice(3,5));
+        [9,11,12,14,15].forEach((c,i)=>F.push({l:1,c,b:'dur',i}));
+        return out('II_STAGE_HEAD');
+      }
+      if(m.page==='end'){
+        P0(0,'ST'+pad(S.sel,2)+' ('+IDX[Math.min(b.s.length-1,23)]+')'); P0(12,'FIN');
+        const last = st.sec[st.sec.length-1];
+        P1(0,'m'+mFmt(last?last.as:0).replace(' ','0').padStart(6,'0'));
+        P1(9, dII(last?last.end:0, 3));
+        return out('II_STAGE_END');
+      }
+      const i = m.page, sc = b.s[i];
+      P0(0,'ST'+pad(S.sel,2)+' ('+IDX[i]+')');
+      P1(0,'m'); P1(1, sc.as.slice(0,3)+'.'+sc.as.slice(3,5));
+      [1,2,3,5,6].forEach((c,k)=>F.push({l:1,c,arr:'s',si:i,k:'as',i:k}));
+      P1(9, sc.end.slice(0,3)); P1(12,'k'); P1(13, sc.end.slice(3,6));
+      [9,10,11,13,14,15].forEach((c,k)=>F.push({l:1,c,arr:'s',si:i,k:'end',i:k}));
+      return out('II_STAGE_SEC');
+    }
+
+    /* --------------------------- PARAMÈTRES --------------------------- */
+    if(m.type==='param'){
+      const b = m.buf, p = m.page;
+      P0(0, IIP[p]);
+      if(p===0){
+        if(S.ii.adjust) P0(0,'AJUSTER HORLOGE');
+        P1(2, b.ck.slice(0,2)+':'+b.ck.slice(2,4)+':'+b.ck.slice(4,6)+'.'+b.ck.slice(6,8));
+        if(!S.ii.adjust) [2,3,5,6,8,9,11,12].forEach((c,i)=>F.push({l:1,c,b:'ck',i}));
+        return out('II_P_CLOCK');
+      }
+      if(p===1){
+        P1(3,'--> '+b.tyre+' <--');
+        F.push({l:1,c:7,kind:'enum',next:d=>{
+          const o=['A','B','C','D']; b.tyre=o[(o.indexOf(b.tyre)+(d>0?1:3))%4];
+          b.cal=pad(S.ii.cal[b.tyre],5); b.div=pad(S.ii.div[b.tyre],3);
+        }});
+        return out('II_P_TYRE');
+      }
+      if(p===2){
+        P1(0,'('+b.tyre+')'); P1(5,b.cal); P1(12,'/'); P1(13,b.div);
+        [5,6,7,8,9].forEach((c,i)=>F.push({l:1,c,b:'cal',i}));
+        [13,14,15].forEach((c,i)=>F.push({l:1,c,b:'div',i}));
+        return out('II_P_CAL');
+      }
+      if(p===3){
+        P1(0,b.tyre+' '+b.sensors);
+        F.push({l:1,c:2,kind:'enum',next:d=>{
+          const o=['Gauche Seule','Droite Seule','2sondes Moy.','2sondes Fst.Wh','2sondes Slw.Wh'];
+          b.sensors=o[(o.indexOf(b.sensors)+(d>0?1:o.length-1))%o.length];
+        }});
+        return out('II_P_SENSOR');
+      }
+      if(p===4){
+        P1(2, b.led.slice(0,1)+'.'+b.led.slice(1,2)+' Secondes');
+        [2,4].forEach((c,i)=>F.push({l:1,c,b:'led',i}));
+        return out('II_P_LED');
+      }
+      if(p===5){
+        P1(6, b.lastDigit);
+        F.push({l:1,c:6,kind:'enum',next:()=>{ b.lastDigit = b.lastDigit==='Oui'?'Non':'Oui'; }});
+        return out('II_P_LASTDIGIT');
+      }
+      if(p===6){
+        P1(5, b.ecart);
+        F.push({l:1,c:5,kind:'enum',next:()=>{ b.ecart = b.ecart==='Temps'?'Distance':'Temps'; }});
+        return out('II_P_ECART');
+      }
+      if(p===7){
+        P1(2, b.units);
+        F.push({l:1,c:2,kind:'enum',next:()=>{ b.units = b.units==='Kilometers'?'Miles':'Kilometers'; }});
+        return out('II_P_UNITS');
+      }
+      if(p===8){
+        P1(6, b.corr+' u');
+        [6,7].forEach((c,i)=>F.push({l:1,c,b:'corr',i}));
+        return out('II_P_CORR');
+      }
+      if(p===9){
+        P1(0, b.startKey + (b.startOff==='O' ? (b.startKey==='Synchro'?'  Offset':' Offset') : ''));
+        F.push({l:1,c:0,kind:'enum',next:()=>{ b.startKey = b.startKey==='Synchro'?'Entrainem':'Synchro'; }});
+        F.push({l:1,c:13,kind:'enum',next:()=>{ b.startOff = b.startOff==='O'?'N':'O'; }});
+        return out('II_P_STARTKEY');
+      }
+      if(p===10){
+        P1(4, b.sis);
+        F.push({l:1,c:4,kind:'enum',next:d=>{
+          const o=['NON','Secteur Suivant','Sect Suivant T=0'];
+          b.sis=o[(o.indexOf(b.sis)+(d>0?1:2))%3];
+        }});
+        return out('II_P_SIS');
+      }
+      if(p===11){
+        P1(8, dII(S.longTotal||0, 2));
+        return out('II_P_TOTAL');
+      }
+      P1(6, '<'+b.light+'>');
+      F.push({l:1,c:7,kind:'enum',next:d=>{ b.light = String(clamp(+b.light+d,1,5)); }});
+      return out('II_P_LIGHT');
+    }
+
+    /* ---------------------------- ÉTALONNAGE -------------------------- */
+    if(m.type==='calib'){
+      P0(0,'Mesuré'); P0(11, pad(Math.round(m.measured),5));
+      P1(0,'Road Book'); P1(11, m.buf);
+      [11,12,13,14,15].forEach((c,i)=>F.push({l:1,c,b:'buf',i}));
+      return out('II_CALIB');
+    }
+    /* -------------------------- MODE DE COMPTAGE ---------------------- */
+    if(m.type==='modesel'){
+      P0(0, ['NO  COMPTAGE','COMPTAGE NORMAL','COMPTAGE REVERS'][m.idx]);
+      return out('II_COUNT');
+    }
+    /* ------------------------ FIN DE SECTEUR (info) ------------------- */
+    if(m.type==='finish'){
+      const e = elapsed(), d = S.total - st.off;
+      P0(0,'T'+dII(S.total,2)); P0(8,'='); P0(11, mFmt(e>1 ? d/e*3.6 : 0));
+      const dif = (S.ii.ecart==='Temps') ? regSeconds() : regMeters();
+      P1(0, (dif>=0?'+':'-') + (S.ii.ecart==='Temps'
+              ? pad(Math.min(99,Math.abs(dif)),2)+'.'+Math.floor(Math.abs(dif)*10%10)+'s'
+              : dII(Math.abs(regMeters()),2)));
+      P1(8,'F'); P1(11, mFmt(consigne()));
+      return out('II_FINISH');
+    }
+  }
+
+  /* -------------------------- SECTEUR NON ACTIF ---------------------- */
+  if(!S.inStage){
+    if(S.view==='SENSORS'){
+      const on = C.v>0.4, s = S.ii.sensors;
+      P0(0,'SG'+(s.indexOf('Droite')===0?'_':(on?'*':'_')));
+      P0(5,'SD'+(s.indexOf('Gauche')===0?'_':(on?'*':'_')));
+      P0(10,'V '+vFmt(bluSpeed()));
+      P1(0,'ST'+pad(S.sel,2)); if(S.zflag) P1(6,'Z');
+      P1(8,'P'+dII(S.partial,3));
+      F.push({l:1,c:2,kind:'stagesel'}); F.push({l:1,c:3,kind:'stagesel'});
+      return out('II_SENSORS');
+    }
+    const dt = st.start - S.clock;
+    if(Math.abs(dt) < 120 && st.start > 0){
+      P0(0,'H'+hms(S.clock)); P0(10, dt>=0 ? 'Reste!' : 'Retard');
+      P1(0,'D'+hms(st.start)); P1(10, msd(Math.abs(dt)));
+      F.push({l:1,c:2,kind:'stagesel'}); F.push({l:1,c:3,kind:'stagesel'});
+      return out('II_START');
+    }
+    P0(0,'Heure'); P0(7,'H'+hms(S.clock));
+    P1(0,'ST'+pad(S.sel,2)); P1(7,'S'+hms(st.start));
+    F.push({l:1,c:2,kind:'stagesel'}); F.push({l:1,c:3,kind:'stagesel'});
+    return out('II_CLOCK');
+  }
+
+  /* ---------------------------- SECTEUR ACTIF ------------------------ */
+  const mc = S.count==='NORMAL' ? '=' : (S.count==='REVERSE' ? 'R' : 'N');
+  const last = st.sec[st.sec.length-1];
+  if(S.view==='PARTIAL'){
+    P0(0,'T'+dII(S.total,2)); P0(8,mc); P0(10,'V '+vFmt(bluSpeed()));
+    P1(0,'P'+dII(S.partial,2)); P1(9,'m='+mFmt(consigne()));
+    return out('II_PARTIAL');
+  }
+  if(S.view==='CHRONO'){
+    P0(0,'T'+dII(S.total,2)); P0(8,mc); P0(10,'V '+vFmt(bluSpeed()));
+    P1(0,'C:'+chrono(elapsed())); P1(10,'='+mFmt(consigne()));
+    return out('II_CHRONO');
+  }
+  if(S.view==='LIAISON'){
+    P0(0,'H'+hms(S.clock));
+    P0(10, dII(Math.max(0, last.end-(S.total-st.off)), 2));
+    P1(0,'R'+chronoR(Math.max(0, idealTime(last.end)-elapsed())));
+    P1(9,'m='+mFmt(consigne()));
+    return out('II_LIAISON');
+  }
+  P0(0,'T'+dII(S.total,2)); P0(8,mc); P0(10,'V '+vFmt(bluSpeed()));
+  if(S.ii.ecart==='Temps'){
+    const s = regSeconds();
+    P1(0,(s>=0?'+':'-')+pad(Math.min(99,Math.abs(s)),2)+'.'+Math.floor(Math.abs(s)*10%10)+'s');
+  } else {
+    const d = regMeters();
+    P1(0,(d>=0?'+':'-')+dII(Math.abs(d),2));
+  }
+  P1(9,'m='+mFmt(consigne()));
+  return out('II_REG');
+}
+
+/* ==========================================================================
+   CLAVIER DU BLUNIK II  (fiche « FONCTIONS CLAVIER »)
+   ========================================================================== */
+function iiDispKey(k){
+  switch(k){
+    case 'VIEW': case 'PARAM': {
+      if(k==='PARAM' && !S.inStage){ openParamII(); return; }
+      const arr = S.inStage ? VIEWS_IN : VIEWS_OUT;
+      let i = arr.indexOf(S.view) + (k==='VIEW'?1:arr.length-1);
+      S.view = arr[(i+arr.length)%arr.length];
+      return;
+    }
+    case 'START':
+      if(!S.inStage) iiStartStage();
+      return;
+    case 'FINISH':
+      if(S.inStage) S.menu = {type:'finish'};
+      return;
+    case 'ZERO':
+      if(!S.inStage && S.view==='SENSORS'){
+        if(S.calArmed && S.partial>100){ S.calMeasured = S.partial; S.calArmed=false; }
+        else { S.calArmed = true; S.calMeasured = null; }
+      }
+      S.partial = 0; S.zflag = true;                     /* Distance partielle = 0 */
+      return;
+    case 'STAGE':
+      if(!S.inStage) openStageII();
+      return;
+    case 'MODE':
+      if(S.inStage) S.menu = {type:'modesel', idx:0};
+      else { const mm = (S.calMeasured!=null ? S.calMeasured : S.partial);
+             S.menu = {type:'calib', cur:0, measured:mm, buf: pad(Math.round(mm),5)}; }
+      return;
+    case 'PLUS': case 'MINUS': {
+      const d = k==='PLUS'?1:-1;
+      if(S.inStage){ iiCorrect(d); }                       // correction variable
+      else S.sel = clamp(S.sel+d, 0, MC().maxStage);
+      return;
+    }
+    case 'LEFT': case 'RIGHT':                             // corrections discrètes ±10 u
+      iiCorrect((k==='RIGHT'?1:-1) * S.ii.corr);
+      return;
+  }
+}
+
+function iiCorrect(m){
+  S.total = Math.max(0, S.total + m);
+  S.partial = Math.max(0, S.partial + m);
+  S.longTotal = Math.max(0, (S.longTotal||0) + m);
+  S.lastUpdate = {v:m, at:Date.now()};
+}
+
+/* Départ : « Synchro » arrondit à la minute ou à la demie ; « Entrainement »
+   part à la seconde exacte (guide pratique p.19). */
+function iiStartStage(){
+  const st = curStage();
+  let t0 = S.clock;
+  if(S.ii.startKey==='Synchro'){
+    const s = S.clock % 60, base = S.clock - s;
+    t0 = (s >= 45) ? base + 60 : (s <= 14 ? base : base + 30);
+  }
+  S.inStage = true;
+  S.stageT0 = t0;
+  S.startErr = S.clock - st.start;
+  if(!S.ii.startOff){ S.total = st.off; S.partial = 0; }
+  S.count='NORMAL'; S.zflag=false; S.view='REG'; S.log=[];
+  S.stageRealD0 = C.realDist;
+}
+
+function openStageII(){
+  const st = curStage();
+  S.menu = { type:'stage', page:'head', cur:0, buf:{
+    start: hms(st.start).replace(/:/g,''),
+    off: pad(Math.floor(st.off/1000),2)+pad(st.off%1000,3),
+    dur: pad(Math.floor((st.dur||0)/3600),1)+pad(Math.floor(((st.dur||0)%3600)/60),2)+pad((st.dur||0)%60,2),
+    s: st.sec.map(x=>({ as: pad(Math.round(x.as*100),5), end: pad(Math.floor(x.end/1000),3)+pad(x.end%1000,3) }))
+  }};
+}
+function openParamII(){
+  S.ii.adjust = false;
+  S.menu = { type:'param', page:0, cur:0, buf:{
+    ck: hms(S.clock).replace(/:/g,'')+'00',
+    tyre:S.ii.tyre, cal:pad(iiCal(),5), div:pad(S.ii.div[S.ii.tyre],3),
+    sensors:S.ii.sensors, led:pad(Math.round(S.ii.ledSec*10),2),
+    lastDigit:S.ii.lastDigit, ecart:S.ii.ecart, units:S.ii.units,
+    corr:pad(S.ii.corr,2), startKey:S.ii.startKey, startOff:S.ii.startOff?'O':'N',
+    sis:S.ii.startInStage, light:String(S.ii.light)
+  }};
+}
+
+function iiMenuKey(k){
+  const m = S.menu, f = screen().fields;
+  if(k==='LEFT' || k==='RIGHT'){                       /* déplacer le curseur */
+    if(f.length) m.cur = clamp((m.cur||0)+(k==='RIGHT'?1:-1), 0, f.length-1);
+    return;
+  }
+  if(k==='PLUS' || k==='MINUS'){
+    const d = k==='PLUS'?1:-1;
+    if(m.type==='modesel'){ m.idx=(m.idx+(d>0?1:2))%3; return; }
+    if(m.type==='param' && m.page===0 && S.ii.adjust){ S.clock += d*0.1; return; }
+    const fld = f[clamp(m.cur||0,0,f.length-1)];
+    if(fld) bump(fld, d);
+    return;
+  }
+  if(k==='MODE'){
+    if(m.type==='modesel'){ m.idx=(m.idx+1)%3; return; }
+    if(m.type==='param' && m.page===0){ S.ii.adjust = !S.ii.adjust; return; }
+    return;
+  }
+  if(k==='VIEW' || k==='PARAM'){
+    const d = (k==='VIEW') ? 1 : -1;
+    if(m.type==='param'){ m.page=(m.page+d+MC().paramPages)%MC().paramPages; m.cur=0; return; }
+    if(m.type==='stage'){
+      if(m.page==='head') m.page = d>0 ? 0 : 'end';
+      else if(m.page==='end') m.page = d>0 ? 'head' : m.buf.s.length-1;
+      else{
+        const i = m.page;
+        if(d>0){
+          if(i<23){ if(!m.buf.s[i+1]) m.buf.s[i+1]={as:'00000',end:m.buf.s[i].end}; m.page=i+1; }
+        } else m.page = i>0 ? i-1 : 'head';
+      }
+      m.cur=0; return;
+    }
+    return;
+  }
+  if(k==='ZERO'){
+    if(m.type==='stage' && typeof m.page==='number'){    /* calcul du temps / moyenne */
+      iiCalculate(m); return;
+    }
+    if(m.type==='param' && m.page===11){ S.longTotal=0; return; }
+    return;
+  }
+  if(k==='FINISH'){
+    if(m.type==='finish'){ endStage(); return; }
+    S.menu=null; return;
+  }
+  if(k==='STAGE'){ S.menu=null; return; }
+  if(k==='START'){ return; }
+  if(k==='SELECT'){
+    switch(m.type){
+      case 'stage': commitStageII(m); S.menu=null; break;
+      case 'param': commitParamII(m); S.menu=null; break;
+      case 'calib': {
+        const rb = parseInt(m.buf,10);
+        if(m.measured>50 && rb>50 && rb/m.measured>0.5 && rb/m.measured<2){
+          S.ii.calOld = iiCal();
+          S.ii.cal[S.ii.tyre] = clamp(Math.round(iiCal()*rb/m.measured), 1000, 99999);
+          flash('Etalonné', '('+S.ii.tyre+')  '+pad(iiCal(),5)+'  / '+pad(S.ii.div[S.ii.tyre],2),
+                1800, 0, 0);
+        } else flash('Etalonnage', 'impossible', 1400, 0, 3);
+        S.menu=null; break;
+      }
+      case 'modesel': S.count = ['NOTCOUNT','NORMAL','REVERSE'][m.idx]; S.menu=null; break;
+      case 'finish': S.menu=null; break;
+    }
+  }
+}
+
+/* ZERO/CALCULATE dans la programmation : calcule la moyenne manquante à
+   partir du temps imparti au secteur (guide pratique p.26). */
+function iiCalculate(m){
+  commitStageII(m);
+  const st = curStage();
+  if(!st.dur){ flash('Temps secteur', 'a  programmer', 1400, 1, 1); return; }
+  let t = 0, prev = 0;
+  for(let i=0;i<st.sec.length-1;i++){
+    const s = st.sec[i];
+    if(s.as>0) t += (s.end-prev)/(s.as/3.6);
+    prev = s.end;
+  }
+  const lastS = st.sec[st.sec.length-1];
+  const rest = st.dur - t, dist = lastS.end - prev;
+  if(rest>10 && dist>10){
+    lastS.as = clamp(dist/rest*3.6, 0, 999.99);
+    m.buf.s[st.sec.length-1].as = pad(Math.round(lastS.as*100),5);
+    m.page = 'end';
+  } else flash('Calcul', 'impossible', 1200, 4, 4);
+}
+
+function commitStageII(m){
+  const st = curStage(), b = m.buf;
+  st.start = +b.start.slice(0,2)*3600 + +b.start.slice(2,4)*60 + +b.start.slice(4,6);
+  st.off   = +b.off.slice(0,2)*1000 + +b.off.slice(2,5);
+  st.dur   = +b.dur.slice(0,1)*3600 + +b.dur.slice(1,3)*60 + +b.dur.slice(3,5);
+  const secs = b.s.map(x=>({ as:+x.as/100, end:+x.end.slice(0,3)*1000 + +x.end.slice(3,6) }));
+  st.sec = secs.filter((x,i)=> i===0 || x.end>0);
+}
+function commitParamII(m){
+  const b = m.buf;
+  if(m.page===0 && !S.ii.adjust){
+    S.clock = +b.ck.slice(0,2)*3600 + +b.ck.slice(2,4)*60 + +b.ck.slice(4,6) + (+b.ck.slice(6,8))/100;
+    S.syncErr = S.clock - W.t;
+    flash('SYNCHRO OK !!!', '  '+hms(S.clock)+'.'+pad(Math.round(S.clock%1*100),2), 1400, 1, 0);
+  }
+  S.ii.adjust = false;
+  S.ii.tyre = b.tyre;
+  S.ii.cal[b.tyre] = clamp(+b.cal, 1000, 99999);
+  S.ii.div[b.tyre] = clamp(+b.div, 1, 999);
+  S.ii.sensors = b.sensors;
+  S.ii.ledSec = clamp(+b.led/10, 0.1, 9.9);
+  S.ii.lastDigit = b.lastDigit; S.ii.ecart = b.ecart; S.ii.units = b.units;
+  S.ii.corr = clamp(+b.corr, 1, 99);
+  S.ii.startKey = b.startKey; S.ii.startOff = (b.startOff==='O');
+  S.ii.startInStage = b.sis; S.ii.light = +b.light;
+}
+</script>
+<script>
+/* ==========================================================================
+   PARTIE 2 — CLAVIER, MENUS, SIMULATION
+   ========================================================================== */
+
+const W = { t: 9*3600 + 57*60 + 30 };   // heure "réelle" du rallye (commissaire)
+
+function flash(a,b,ms,c0,c1){ S.flash={a,b,c0:c0||0,c1:c1||0,until:Date.now()+ms}; }
+
+/* ------------------------------- ALIMENTATION --------------------------- */
+function powerOn(){
+  S.on = true; S.view='CLOCK'; S.menu=null;
+  flash('    BLUNIK','  v 4.01', 900, 0, 0);
+}
+function powerOff(){
+  S.on=false; S.menu=null; S.inStage=false; S.flash=null;
+}
+
+/* --------------------------------- TOUCHES ------------------------------ */
+function press(k){
+  beep(k==='SELECT'?880:660);
+  if(!S.on){ if(k==='START') powerOn(); }
+  else {
+    if(S.flash && Date.now()<S.flash.until) S.flash=null; // une touche efface le message
+    if(S.menu) menuKey(k); else dispKey(k);
+    ex.check();
+  }
+  if(typeof guideKey === 'function') guideKey(k);
+  renderAll();
+}
+
+const VIEWS_IN  = ['PARTIAL','CHRONO','LIAISON','REG'];
+const VIEWS_OUT = ['CLOCK','SENSORS'];
+
+function dispKey(k){
+  if(MODEL==='ii') return iiDispKey(k);
+  switch(k){
+    case 'VIEW': {
+      const arr = S.inStage?VIEWS_IN:VIEWS_OUT;
+      S.view = arr[(arr.indexOf(S.view)+1) % arr.length];
+      break;
+    }
+    case 'START':
+      if(!S.inStage) startStage();
+      break;
+    case 'FINISH':
+      if(S.inStage) S.menu={type:'finish'};
+      break;
+    case 'ZERO': zeroPress(); break;
+    case 'STAGE':
+      if(!S.inStage) openStageMenu();
+      break;
+    case 'PARAM':
+      openParamMenu();
+      break;
+    case 'MODE':
+      if(S.inStage) S.menu={type:'modesel', idx:0};
+      else openCalib();
+      break;
+    case 'PLUS': case 'MINUS': {
+      const d = k==='PLUS'?1:-1;
+      if(S.inStage) S.menu={type:'update', sign:d, buf:'0000', cur:0};
+      else S.sel = clamp(S.sel+d, 0, MC().maxStage);
+      break;
+    }
+    case 'LEFT': case 'RIGHT':
+      break;
+  }
+}
+
+
+function startStage(){
+  const st = curStage();
+  S.inStage = true;
+  S.stageT0 = S.clock;
+  S.startErr = S.clock - st.start;      // écart au départ idéal (s)
+  S.total = st.off; S.partial = 0;
+  S.count = 'NORMAL'; S.zflag = false;
+  S.view = 'REG';
+  S.log = [];
+  S.stageRealD0 = C.realDist;
+}
+
+function zeroPress(){
+  if(!S.inStage && S.view==='SENSORS'){
+    if(S.calArmed && S.partial>100){
+      S.calMeasured = S.partial; S.calArmed=false;
+      setTimeout(()=>{ S.partial=0; renderAll(); }, 1200);
+    } else {
+      S.partial = 0; S.calArmed = true; S.zflag = true; S.calMeasured=null;
+    }
+  } else {
+    S.partial = 0; S.zflag = true;
+  }
+}
+
+/* ----------------------------- OUVERTURE DES MENUS ---------------------- */
+function openStageMenu(){
+  const st = curStage();
+  S.menu = { type:'stage', page:'head', cur:0, buf:{
+    start: hms(st.start).replace(/:/g,''),
+    off: pad(Math.floor(st.off/1000),3)+pad(st.off%1000,3),
+    dur: pad(Math.floor((st.dur||0)/3600),2)+pad(Math.floor(((st.dur||0)%3600)/60),2),
+    s: st.sec.map(x=>({ as: pad(Math.round(x.as*10),4), end: pad(Math.floor(x.end/1000),3)+pad(x.end%1000,3) }))
+  }};
+}
+function openParamMenu(){
+  S.menu = { type:'param', page:0, cur:0, buf:{
+    ck: hms(S.clock).replace(/:/g,'')+'00',
+    mem: String(S.p.wdMem), wd: pad(S.p.wd,4), adapter: pad(S.p.adapter,2), blue: pad(S.p.blue,3),
+    DF:S.p.DF, LD:S.p.LD, sensor:S.p.sensor, snd:S.p.snd
+  }};
+}
+function openCalib(){
+  const meas = (S.calMeasured!=null ? S.calMeasured : S.partial);
+  S.menu = { type:'calib', cur:0, measured: meas,
+    buf: pad(Math.floor(meas/1000),2)+pad(Math.round(meas%1000),3) };
+}
+
+/* ------------------------------ TOUCHES EN MENU ------------------------- */
+function menuKey(k){
+  if(MODEL==='ii') return iiMenuKey(k);
+  const m = S.menu, f = screen().fields;
+
+  if(k==='LEFT' || k==='RIGHT'){
+    if(f.length){ m.cur = clamp((m.cur||0) + (k==='RIGHT'?1:-1), 0, f.length-1); }
+    return;
+  }
+  if(k==='PLUS' || k==='MINUS'){
+    if(m.type==='modesel'){ m.idx = (m.idx + (k==='PLUS'?1:2)) % 3; return; }
+    const fld = f[clamp(m.cur||0, 0, f.length-1)];
+    if(!fld) return;
+    bump(fld, k==='PLUS'?1:-1);
+    return;
+  }
+  if(k==='MODE'){
+    if(m.type==='modesel'){ m.idx=(m.idx+1)%3; return; }
+    return;
+  }
+  if(k==='VIEW'){
+    if(m.type==='stage'){
+      if(m.page==='head'){ m.page=0; m.cur=0; }
+      else if(m.page==='end'){ m.page='head'; m.cur=0; }
+      else{
+        const i=m.page;
+        if(i<5){
+          if(!m.buf.s[i+1]) m.buf.s[i+1] = { as:m.buf.s[i].as, end:m.buf.s[i].end };
+          m.page=i+1; m.cur=0;
+        }
+      }
+    } else if(m.type==='param'){ m.page=(m.page+1)%MC().paramPages; m.cur=0; }
+    return;
+  }
+  if(k==='STAGE'){ S.menu=null; return; }
+  if(k==='FINISH'){
+    if(m.type==='stage'){ commitStage(m); m.page='end'; m.cur=0; return; }
+    if(m.type==='finish'){ endStage(); return; }
+    S.menu=null; return;
+  }
+  if(k==='ZERO'){ return; }
+  if(k==='START'){ return; }
+  if(k==='PARAM'){
+    if(MODEL==='ii'){                                  /* touche PARAM = ◄VIEW : page précédente */
+      if(m.type==='param'){ m.page=(m.page-1+MC().paramPages)%MC().paramPages; m.cur=0; return; }
+      if(m.type==='stage'){
+        if(m.page==='end') m.page = m.buf.s.length-1;
+        else if(m.page===0) m.page='head';
+        else if(m.page!=='head') m.page = m.page-1;
+        m.cur=0; return;
+      }
+    }
+    if(m.type!=='param') openParamMenu(); return;
+  }
+  if(k==='SELECT'){
+    switch(m.type){
+      case 'stage':   commitStage(m); S.menu=null; break;
+      case 'param':   commitParam(m); S.menu=null; break;
+      case 'update': {
+        const v = parseInt(m.buf,10) * m.sign;
+        S.total = Math.max(0, S.total + v);
+        S.partial = Math.max(0, S.partial + v);
+        S.lastUpdate = {v:v, at:Date.now()};
+        S.menu=null; flash('UPDATE  TOTAL', (m.sign>0?'+':'-')+' '+pad(Math.abs(v),4)+' mts', 900, 1, 2);
+        break;
+      }
+      case 'calib': {
+        const rb = parseInt(m.buf.slice(0,2),10)*1000 + parseInt(m.buf.slice(2,5),10);
+        if(m.measured > 50 && (rb/m.measured < 0.5 || rb/m.measured > 2)){
+          flash('CHECK ROAD BOOK','TOO FAR  FROM',1600,0,1); S.menu=null; break;
+        }
+        if(m.measured > 50){
+          S.p.wdOld = S.p.wd;
+          S.p.wd = clamp(Math.round(S.p.wd * rb / m.measured), 500, 4000);
+          S.p.wdMems[S.p.wdMem-1] = S.p.wd;
+          flash('WHEEL DIAMETER', 'WD'+S.p.wdMem+'  '+S.p.wd+' mm', 1800, 1, 1);
+        } else {
+          flash('NO MEASURE', 'ZERO..ZERO FIRST', 1400, 3, 0);
+        }
+        S.menu=null; break;
+      }
+      case 'modesel':
+        S.count = ['NOTCOUNT','REVERSE','NORMAL'][m.idx];
+        S.menu=null; break;
+      case 'calc':   S.menu=null; break;
+      case 'finish': S.menu=null; break;
+    }
+  }
+}
+
+function bump(f, d){
+  if(f.kind==='enum'){ f.next(d); return; }
+  /* le tampon est soit un objet de champs, soit une chaîne unique
+     (écrans Étalonnage et UPDATE TOTAL) */
+  const flat = typeof S.menu.buf === 'string';
+  const get = () => f.arr ? S.menu.buf[f.arr][f.si][f.k] : (flat ? S.menu.buf : S.menu.buf[f.b]);
+  const set = v => {
+    if(f.arr) S.menu.buf[f.arr][f.si][f.k] = v;
+    else if(flat) S.menu.buf = v;
+    else S.menu.buf[f.b] = v;
+  };
+  const cur = get();
+  if(typeof cur !== 'string' || f.i >= cur.length) return;
+  const a = cur.split('');
+  a[f.i] = String((parseInt(a[f.i],10) + d + 10) % 10);
+  set(a.join(''));
+}
+
+function commitStage(m){
+  const st = curStage(), b = m.buf;
+  st.start = +b.start.slice(0,2)*3600 + +b.start.slice(2,4)*60 + +b.start.slice(4,6);
+  st.off   = +b.off.slice(0,3)*1000 + +b.off.slice(3,6);
+  st.dur   = +b.dur.slice(0,2)*3600 + +b.dur.slice(2,4)*60;
+  const secs = b.s.map(x=>({ as:+x.as/10, end:+x.end.slice(0,3)*1000 + +x.end.slice(3,6) }));
+  st.sec = secs.filter((x,i)=> i===0 || (x.as>0 && x.end>0));
+  st.sec.sort((a,b2)=>a.end-b2.end);
+}
+function commitParam(m){
+  const b = m.buf;
+  if(m.page===0){
+    S.clock = +b.ck.slice(0,2)*3600 + +b.ck.slice(2,4)*60 + +b.ck.slice(4,6) + (+b.ck.slice(6,8))/100;
+    S.syncErr = S.clock - W.t;
+    flash('  SYNCHRO OK','     !!!', 1200, 0, 0);
+  }
+  S.p.wdMem = +b.mem;
+  S.p.wdMems[S.p.wdMem-1] = clamp(+b.wd, 500, 4000);
+  S.p.wd = S.p.wdMems[S.p.wdMem-1];
+  S.p.adapter = clamp(+b.adapter, 1, 99);
+  S.p.blue = clamp(+b.blue, 1, 999);
+  S.p.DF = b.DF; S.p.LD = b.LD; S.p.sensor = b.sensor; S.p.snd = b.snd;
+  soundOn = (b.snd==='Y');
+}
+
+function endStage(){
+  const rec = { log:S.log.slice(), stage:S.sel, startErr:S.startErr };
+  S.inStage = false; S.menu = null; S.view = 'SENSORS';
+  S.count='NORMAL';
+  if(rec.log.length > 8) lastRun = rec;
+  ex.onFinish(rec);
+}
+
+/* ------------------------------ SIMULATION ------------------------------ */
+function profSpeed(km){
+  const p = C.prof;
+  if(!p.kf) return C.target;
+  const kf = p.kf, len = p.len || kf[kf.length-1][0];
+  let x = p.stopAt!=null ? km : (km % len);
+  for(let i=0;i<kf.length-1;i++){
+    if(x >= kf[i][0] && x <= kf[i+1][0]){
+      const r = (x-kf[i][0]) / Math.max(1e-6, kf[i+1][0]-kf[i][0]);
+      const s = r*r*(3-2*r);
+      return kf[i][1] + (kf[i+1][1]-kf[i][1])*s;
+    }
+  }
+  return kf[kf.length-1][1];
+}
+
+/* allure moyenne naturelle du profil : sert de reference au pilote */
+function profMean(p){
+  if(!p || !p.kf) return 50;
+  if(p._mean) return p._mean;
+  const len = p.len || p.kf[p.kf.length-1][0];
+  /* moyenne harmonique sur la distance : c'est elle qui donne le temps de parcours */
+  let sum = 0, n = 0;
+  const save = C.prof; C.prof = p;
+  for(let x=0; x<len; x+=len/240){ sum += 1/Math.max(5, profSpeed(x)); n++; }
+  C.prof = save;
+  p._mean = n ? n/sum : 50;
+  return p._mean;
+}
+
+/* ---------------------------- PILOTE AUTONOME ---------------------------
+   Le pilote conduit seul. Il suit le relief (lent en epingle, rapide en
+   ligne droite) et regle son allure sur son afficheur deporte : retard, dans
+   les temps, avance. Le copilote ne commande que Rouler / Arret.           */
+/* moyenne imposee a une distance donnee du debut du secteur (en metres) */
+function consigneAt(d){
+  const st = curStage();
+  for(const s of st.sec){ if(d < s.end) return s.as; }
+  return st.sec.length ? st.sec[st.sec.length-1].as : 0;
+}
+/* Anticipation : le pilote a le road-book, il sait qu'un village ou une serie
+   d'epingles arrive et qu'il va y perdre du temps. Il calcule l'avance a
+   prendre maintenant pour ne pas se retrouver en retard ensuite.            */
+function aheadDeficit(km, dStage, L){
+  const p = C.prof; if(!p.kf) return 0;
+  const N = 8, step = L/N, base = profMean(p);
+  let tReal = 0, tIdeal = 0;
+  for(let i=0;i<N;i++){
+    const dx  = (i+0.5)*step;
+    const cs  = consigneAt(dStage + dx);
+    if(cs <= 0) return 0;
+    const sh  = profSpeed(km + dx/1000) / base * cs * 1.16;
+    const v   = Math.min(cs, sh*1.08 + 2);
+    tReal  += (step/1000) / Math.max(5, v);
+    tIdeal += (step/1000) / Math.max(5, cs);
+  }
+  return clamp((tReal - tIdeal) * 3600, 0, 45);   /* secondes a prendre d'avance */
+}
+
+/* Le pilote : il tient la moyenne quand la route le permet, il perd du temps
+   la ou elle ne le permet pas (epingles, traversees), et il le rattrape
+   ensuite sur les portions rapides. C'est exactement ce que fait un equipage :
+   la vitesse varie beaucoup, la moyenne ne bouge pas.                        */
+function driverTarget(dt){
+  const d = C.drv, p = C.prof;
+  const km = C.realDist/1000;
+  const raw = p.kf ? profSpeed(km) : 50;         /* allure naturelle de la route */
+  let shape = raw, want, st = 'libre';
+
+  if(S.on && S.inStage){
+    const cs   = consigne();
+    /* le relief est mis a l'echelle de la moyenne imposee : une epingle reste
+       une epingle, qu'on roule a 40 ou a 60 de moyenne */
+    if(p.kf && cs > 0) shape = raw / profMean(p) * cs * 1.16;
+    const errS = regSeconds();                   /* + = en avance */
+    /* rattrapage etale sur une trentaine de secondes, plafonne a +/- 35 % */
+    const T = 30;
+    const goal = aheadDeficit(km, S.total - curStage().off, 1500);
+    const recov = clamp(T / (T + clamp(errS - goal, -25, 25)), 0.72, 1.38);
+    /* il ne roule pas au regulateur : son allure epouse un peu le relief,
+       la moyenne etant retablie par le rattrapage ci-dessus */
+    const rel = clamp(shape / Math.max(1, cs*1.16), 0.7, 1.35);
+    want = cs * recov * (0.66 + 0.34*rel);
+    st = Math.abs(errS) <= 1 ? 'ok' : (errS < 0 ? 'late' : 'early');
+  } else {
+    want = shape;                                /* hors secteur : allure libre */
+  }
+  /* la route est une limite : on ne prend pas une epingle a la moyenne */
+  want = Math.min(want, shape * 1.08 + 2);
+  d.state = C.run ? st : 'stop';
+
+  /* le pilote reagit toutes les ~0,8 s, pas en continu */
+  d.react -= dt;
+  if(d.react <= 0){ d.react = 0.8; d.want = want; }
+  if(!d.cruise) d.cruise = want;
+  const rate = 14 * dt;                          /* km/h par seconde de decision */
+  d.cruise += clamp(d.want - d.cruise, -rate, rate);
+  d.shown = d.cruise;
+
+  /* petite irregularite humaine */
+  d.wob += dt;
+  const wob = Math.sin(d.wob*0.9)*0.5 + Math.sin(d.wob*2.3)*0.25;
+  return clamp(d.cruise + wob + C.corr, 0, 170);
+}
+
+let lastT = performance.now(), logAcc = 0, lastRun = null;
+
+function tick(now){
+  let dtr = (now - lastT)/1000; lastT = now;
+  dtr = Math.min(dtr, 0.12);
+  const dt = dtr * C.tf;
+
+  W.t += dt;
+  S.clock += dt;
+
+  /* --- vitesse cible --- */
+  let tgt = 0;
+  if(C.run){
+    tgt = driverTarget(dt);
+    if(C.prof.stopAt != null){
+      const rem = C.prof.stopAt*1000 - C.realDist;
+      tgt = Math.min(tgt, Math.sqrt(Math.max(0, 2*1.6*rem))*3.6);
+      if(rem <= 0.2) tgt = 0;
+    }
+  } else { C.drv.state = 'stop'; }
+
+  /* --- moteur et freins : reponse d'une vraie voiture ---
+     traction limitee a ~4 m/s2, puis limitee par la puissance ; freinage 5,5 m/s2 */
+  const tms = tgt/3.6, err = tms - C.v;
+  const aMax = Math.min(4.0, 118000 / (1050 * Math.max(2.5, C.v)));
+  const a = err > 0 ? Math.min(aMax, err*2.6) : Math.max(-5.5, err*3.4);
+  C.v = Math.max(0, C.v + a*dt);
+  if(!C.run && C.v < 0.05) C.v = 0;
+  C.a = a;
+  let dRe = C.v * dt;
+  /* zone d'etalonnage : on s'arrete pile sur le repere de fin */
+  if(C.prof.stopAt != null){
+    const lim = C.prof.stopAt*1000;
+    if(C.realDist + dRe >= lim){ dRe = Math.max(0, lim - C.realDist); C.v = 0; }
+  }
+  C.realDist += dRe;
+
+  /* --- distance mesurée par le Blunik (dépend de l'étalonnage) --- */
+  if(S.on){
+    const dm = dRe * measureK();
+    if(S.count === 'NORMAL'){ S.total += dm; S.partial += dm; S.longTotal = (S.longTotal||0) + dm; }
+    else if(S.count === 'REVERSE'){
+      S.total = Math.max(0,S.total-dm); S.partial = Math.max(0,S.partial-dm);
+      S.longTotal = Math.max(0,(S.longTotal||0)-dm);
+    }
+  }
+
+  /* --- journal de régularité --- */
+  if(S.on && S.inStage){
+    logAcc += dt;
+    if(logAcc > 0.5){
+      logAcc = 0;
+      S.log.push({ d:(S.total-curStage().off)/1000, s:regSeconds(), m:regMeters(), t:elapsed() });
+      if(S.log.length > 4000) S.log.shift();
+    }
+  }
+
+  countdownBeep();
+  if(S.flash && Date.now() > S.flash.until) S.flash = null;
+
+  renderLCD(); renderLeds();
+  ex.check();
+  panelAcc += dtr;
+  if(panelAcc > 0.12){ panelAcc = 0; renderPanels(); }
+  requestAnimationFrame(tick);
+}
+let panelAcc = 0;
+
+/* --------------------------------- SON ---------------------------------- */
+let AC = null, soundOn = true;
+function beep(f, dur){
+  if(!soundOn) return;
+  try{
+    AC = AC || new (window.AudioContext||window.webkitAudioContext)();
+    const o = AC.createOscillator(), g = AC.createGain();
+    o.type='square'; o.frequency.value = f||660;
+    g.gain.value = 0.035;
+    o.connect(g); g.connect(AC.destination);
+    o.start(); o.stop(AC.currentTime + (dur||0.035));
+  }catch(e){}
+}
+let lastBeepSec = -1;
+function countdownBeep(){
+  if(!S.on || S.inStage) return;
+  const d = curStage().start - S.clock;
+  const s = Math.ceil(d);
+  if(d > 0 && d <= 5 && s !== lastBeepSec){ lastBeepSec = s; beep(1200, .06); }
+  if(d <= 0 && d > -0.4 && lastBeepSec !== 0){ lastBeepSec = 0; beep(1800, .25); }
+}
+</script>
+<script>
+/* ==========================================================================
+   INTERFACE — affichage, leçons, entraînement, référence
+   ========================================================================== */
+
+S.p.wdMems = [1885,1885,1885,1885];
+S.longTotal = 0;
+
+/* étalonnage : mêmes gestes, constantes propres à chaque appareil */
+function calDerange(amp){
+  const e = (Math.random()<.5?-1:1)*amp;
+  if(MODEL==='ii'){ C.calReal = Math.round(5820*(1+e)); S.ii.cal={A:5820,B:5820,C:5820,D:5820}; S.ii.calOld=null; }
+  else { C.wdReal = Math.round(1885*(1+e)); S.p.wd=1885; S.p.wdMems=[1885,1885,1885,1885]; S.p.wdOld=null; }
+}
+const calDone = () => MODEL==='ii' ? S.ii.calOld!=null : S.p.wdOld!=null;
+const calErr  = () => Math.abs(measureK()-1)*100;
+const calTrue = () => MODEL==='ii' ? C.calReal : C.wdReal;
+
+/* -------------------------------- ÉCRAN LCD ----------------------------- */
+let cells = [], lastSig = '';
+function buildLCD(){
+  const lcd = $('#lcd'), {cols,rows} = MC();
+  lcd.querySelectorAll('.row').forEach(r=>r.remove());
+  cells = [];
+  for(let r=0;r<rows;r++){
+    const row = document.createElement('div');
+    row.className='row'; row.style.gridTemplateColumns='repeat('+cols+',1fr)';
+    const line=[];
+    for(let i=0;i<cols;i++){
+      const s = document.createElement('span');
+      s.className='ch'; s.textContent=' ';
+      row.appendChild(s); line.push(s);
+    }
+    lcd.appendChild(row); cells.push(line);
+  }
+  lastSig='';
+}
+function renderLCD(){
+  const lcd = $('#lcd');
+  lcd.classList.toggle('off', !S.on);
+  if(!S.on){
+    if(lastSig!=='OFF'){ lastSig='OFF'; cells.forEach(r=>r.forEach(c=>{c.textContent=' ';c.className='ch';})); }
+    return;
+  }
+  const s = screen();
+  let curs = [];
+  if(S.menu && s.fields.length){
+    const f = s.fields[clamp(S.menu.cur||0,0,s.fields.length-1)];
+    if(f) curs = [[f.l,f.c]];
+  } else if(!S.inStage && !S.flash && s.fields.length){
+    curs = s.fields.map(f=>[f.l,f.c]);
+  }
+  const sig = s.lines.map(x=>x.join('')).join('|')+'#'+curs.join(';');
+  if(sig === lastSig) return;
+  lastSig = sig;
+  for(let r=0;r<cells.length;r++){
+    const line = s.lines[r] || [];
+    for(let i=0;i<cells[r].length;i++){
+      const c = cells[r][i], ch = line[i]===undefined ? ' ' : line[i];
+      if(c.textContent !== ch) c.textContent = ch;
+      const cls = 'ch' + (curs.some(p=>p[0]===r && p[1]===i) ? ' cur' : '');
+      if(c.className !== cls) c.className = cls;
+    }
+  }
+}
+
+/* ---------------------------------- LED --------------------------------- */
+function ledState(){
+  if(!S.on) return {r:0,g:0,b:0,blink:0};
+  if(S.inStage){
+    if(MODEL==='ii'){
+      const s = regSeconds();
+      if(Math.abs(s) <= S.ii.ledSec) return {r:0,g:0,b:1,blink:0};
+      return s>0 ? {r:0,g:1,b:0,blink:0} : {r:1,g:0,b:0,blink:0};
+    }
+    const e = regMeters();
+    if(Math.abs(e) <= S.p.blue) return {r:0,g:0,b:1,blink:0};
+    return e>0 ? {r:0,g:1,b:0,blink:0} : {r:1,g:0,b:0,blink:0};
+  }
+  const d = curStage().start - S.clock;
+  if(d > 10)  return {r:1,g:0,b:0,blink:0};
+  if(d > 1)   return {r:1,g:0,b:0,blink:1};
+  if(d > -1)  return {r:0,g:1,b:0,blink:0};
+  return {r:1,g:1,b:0,blink:0};
+}
+function renderLeds(){
+  const L = ledState();
+  const set=(el,on,bl)=>{ el.classList.toggle('on',!!on); el.classList.toggle('blink',!!(on&&bl)); };
+  set($('#ledRed'),L.r,L.blink); set($('#ledGreen'),L.g,0); set($('#ledBlue'),L.b,0);
+}
+
+/* ------------------------------ BARRE DE CONTEXTE ----------------------- */
+const CTX = {
+  OFF:['Éteint','Appuyez sur <b>START / ON</b> pour allumer l\'appareil.'],
+  FLASH:['Message','Message temporaire de l\'appareil.'],
+  CLOCK:['Horloge','Heure interne et heure de départ du secteur sélectionné. <b>+ / −</b> changent de secteur, <b>STAGE</b> le programme, <b>VIEW</b> passe aux sondes.'],
+  SENSORS:['Sondes','Sondes, vitesse instantanée et distance partielle. Écran de l\'étalonnage automatique.'],
+  PARTIAL:['En secteur · Partiel','Distance totale et vitesse en haut, distance partielle et moyenne imposée en bas. <b>FINISH</b> deux fois clôture le secteur.'],
+  CHRONO:['En secteur · Chrono','Temps écoulé depuis le départ et moyenne réalisée. <b>FINISH</b> deux fois clôture le secteur.'],
+  LIAISON:['En secteur · Liaison','Heure, distance restante, temps restant et moyenne imposée. <b>FINISH</b> deux fois clôture le secteur.'],
+  REG:['En secteur · Régularité','Avance <b>+</b> ou retard <b>−</b> sur la moyenne imposée. <b>FINISH</b> deux fois clôture le secteur.'],
+  MENU_STAGE_HEAD:['Programmation · Secteur','Heure de départ, offset et temps imparti. <b>VIEW</b> passe au tronçon A.'],
+  MENU_STAGE_SEC:['Programmation · Tronçon','Moyenne imposée puis distance de fin. <b>VIEW</b> ajoute le tronçon suivant.'],
+  MENU_STAGE_END:['Programmation · Fin','Moyenne calculée pour la liaison. <b>SELECT</b> valide et quitte.'],
+  MENU_PARAM_CLOCK:['Paramètre · Synchronisation','Réglez l\'heure au dixième, puis <b>SELECT</b> au top.'],
+  MENU_PARAM_WD:['Paramètre · Diamètre de roue','Constante d\'étalonnage, quatre mémoires.'],
+  MENU_PARAM_ADAPT:['Paramètre · Adaptateur de sonde','Nombre d\'impulsions par tour de roue.'],
+  MENU_PARAM_LED:['Paramètre · LED et unités','Tolérance de la LED bleue, écart en mètres ou secondes, dernier chiffre.'],
+  MENU_PARAM_SENSOR:['Paramètre · Sondes','Sonde gauche, droite, ou moyenne des deux.'],
+  MENU_UPDATE:['Correction du total','Ajoute ou retranche des mètres sans modifier l\'étalonnage.'],
+  MENU_MODE:['Mode de comptage','Normal, à rebours ou neutralisé. <b>SELECT</b> active.'],
+  MENU_CALIB:['Étalonnage','Alignez la ligne Road Book sur la distance officielle, puis <b>SELECT</b>.'],
+  MENU_FINISH:['Fin de secteur','<b>FINISH</b> confirme, <b>SELECT</b> annule.'],
+  II_CLOCK:['Horloge','Heure interne et heure de départ. <b>+ / −</b> changent de secteur, <b>◄ / ►</b> corrigent la distance.'],
+  II_START:['Procédure de départ','<b>Reste!</b> : temps avant le départ. <b>Retard</b> : heure dépassée.'],
+  II_SENSORS:['Sondes','SG sonde gauche, SD sonde droite. Écran de l\'étalonnage.'],
+  II_REG:['En secteur · Régularité','Écart en secondes ou en mètres, et moyenne imposée du tronçon. <b>FINISH</b> clôture le secteur.'],
+  II_PARTIAL:['En secteur · Partiels','Distance totale, distance partielle et moyenne imposée. <b>FINISH</b> clôture le secteur.'],
+  II_CHRONO:['En secteur · Chrono','Chronomètre du secteur au dixième de seconde. <b>FINISH</b> clôture le secteur.'],
+  II_LIAISON:['En secteur · Liaison','Heure, distance restante et temps théorique restant. <b>FINISH</b> clôture le secteur.'],
+  II_STAGE_HEAD:['Programmation · Secteur','Mode MI, heure de départ, offset et temps imparti.'],
+  II_STAGE_SEC:['Programmation · Partiel','Moyenne au centième et distance de fin. <b>ZERO</b> calcule la moyenne manquante.'],
+  II_STAGE_END:['Programmation · Fin','Moyenne calculée du dernier partiel. <b>ENTER</b> valide.'],
+  II_CALIB:['Étalonnage','Saisissez la distance officielle, puis <b>ENTER</b>.'],
+  II_COUNT:['Mode de comptage','<b>MODE</b> fait défiler, <b>ENTER</b> active.'],
+  II_FINISH:['Fin de secteur','<b>FINISH</b> termine le secteur, <b>VIEW</b> le poursuit.'],
+  II_P_CLOCK:['Paramètre · Horloge','Heure de synchronisation, <b>ENTER</b> au top. <b>MODE</b> ajuste au dixième.'],
+  II_P_TYRE:['Paramètre · Pneus','Quatre jeux de roues, chacun avec son étalonnage.'],
+  II_P_CAL:['Paramètre · Étalonnage','Constante du pneu en cours et diviseur d\'impulsions.'],
+  II_P_SENSOR:['Paramètre · Sondes','Gauche, droite, moyenne, roue la plus rapide ou la plus lente.'],
+  II_P_LED:['Paramètre · LED bleue','Tolérance de 0,1 à 9,9 secondes.'],
+  II_P_LASTDIGIT:['Paramètre · Dernier chiffre','Affichage au mètre ou au décamètre.'],
+  II_P_ECART:['Paramètre · Écart','Écart affiché en temps ou en distance.'],
+  II_P_UNITS:['Paramètre · Unités','Kilomètres ou miles.'],
+  II_P_CORR:['Paramètre · Corrections','Pas des touches ◄ et ►.'],
+  II_P_STARTKEY:['Paramètre · Touche START','Synchro, entraînement, et option offset.'],
+  II_P_SIS:['Paramètre · START en secteur','Action de START pendant une spéciale.'],
+  II_P_TOTAL:['Paramètre · Distance totale','Distance cumulée. <b>ZERO</b> la remet à zéro.'],
+  II_P_LIGHT:['Paramètre · Intensité','Luminosité de l\'écran et des LED, de 1 à 5.'],
+};
+let ctxSig='';
+function renderCtx(name){
+  const c = CTX[name] || CTX.CLOCK;
+  if(ctxSig===name) return; ctxSig=name;
+  $('#ctxName').textContent = c[0];
+  $('#ctxText').innerHTML = c[1];
+}
+
+/* ------------------------------ TOUCHE À PRESSER ------------------------ */
+let hintKey = null;
+function setHintKey(k){
+  if(hintKey===k) return; hintKey=k;
+  $$('.k').forEach(b=>b.classList.toggle('next', b.dataset.k===k));
+}
+
+/* ================================ LEÇONS ================================ */
+const MODULES = [
+  {t:'Prise en main', ls:[0,1]},
+  {t:'Avant le départ', ls:[2,3,4]},
+  {t:'En course', ls:[5,6,7,8]},
+];
+
+function setProfile(id){ const p = PROFILES.find(x=>x.id===id) || PROFILES[0]; C.prof = p; $('#selProfile').value = p.id; }
+function resetRun(){ C.realDist=0; C.v=0; C.run=false; C.corr=0; }
+const K = k => '<kbd>'+k+'</kbd>';
+
+const LESSONS = [
+{ t:'Allumer et lire l\'écran', d:'2 min',
+  brief:'L\'écran de repos affiche l\'heure interne et l\'heure de départ du secteur sélectionné. La touche '+K('VIEW')+' fait défiler les écrans disponibles.',
+  setup(){ powerOff(); resetRun(); setProfile('plaine'); },
+  steps:[
+    ['Allumez l\'appareil avec START / ON','START',()=>S.on],
+    ['Affichez l\'écran des sondes avec VIEW','VIEW',()=>!S.inStage && (S.view==='SENSORS')],
+    ['Revenez à l\'écran horloge avec VIEW','VIEW',()=>!S.inStage && S.view==='CLOCK' && ex.st.seenSensors],
+  ]},
+
+{ t:'Synchroniser l\'horloge', d:'3 min',
+  brief:'L\'horloge de l\'appareil doit être calée sur l\'heure officielle du rallye. Réglez une heure légèrement en avance, puis validez au top.',
+  live:()=>'<div class="brief"><b>Heure officielle</b><div class="rb"><dt>Montre du commissaire</dt><dd class="mono">'+hmsT(W.t)+'</dd></div></div>',
+  setup(){ if(!S.on) powerOn(); S.menu=null; S.inStage=false;
+           S.clock = W.t + (Math.random()<.5?-1:1)*(25+Math.random()*70); S.syncErr=null;
+           resetRun(); setProfile('plaine'); },
+  steps:[
+    ['Ouvrez les paramètres avec PARAM','PARAM',()=>S.menu && S.menu.type==='param'],
+    ['Affichez l\'écran de réglage de l\'horloge','VIEW',()=>S.menu && S.menu.type==='param' && S.menu.page===0],
+    ['Réglez l\'heure avec ◄ ► et + −','PLUS',()=>ex.st.edited],
+    ['Validez au top avec SELECT','SELECT',()=>S.syncErr!=null],
+  ],
+  score(){ const e=Math.abs(S.syncErr==null?99:S.syncErr);
+           return {v:e.toFixed(2)+' s', l:'Écart d\'horloge', ok:e<1, good:e<0.3}; } },
+
+{ t:'Étalonner l\'appareil', d:'5 min',
+  brief:'La zone d\'étalonnage mesure <b>12,340 km</b> au road-book. L\'appareil compare sa propre mesure à cette distance et recalcule sa constante.',
+  setup(){ if(!S.on) powerOn(); S.view='SENSORS'; S.inStage=false; S.menu=null;
+           calDerange(0.02+Math.random()*0.035);
+           S.total=0; S.partial=0; S.calMeasured=null; S.calArmed=false;
+           resetRun(); setProfile('etalonnage'); },
+  steps:[
+    ['Affichez l\'écran des sondes','VIEW',()=>!S.inStage && S.view==='SENSORS'],
+    ['À l\'arrêt au début de la zone, appuyez sur ZERO','ZERO',()=>S.calArmed],
+    ['Roulez jusqu\'au bout de la zone et arrêtez-vous',null,()=>C.realDist>12250 && C.v<0.4],
+    ['À l\'arrêt, appuyez de nouveau sur ZERO','ZERO',()=>S.calMeasured!=null],
+    ['Ouvrez le calcul avec MODE','MODE',()=>S.menu && S.menu.type==='calib'],
+    ['Saisissez 12,340 km puis validez','SELECT',()=>calDone()],
+  ],
+  score(){ const e=calErr(); return {v:e.toFixed(2)+' %', l:'Erreur de mesure restante', ok:e<0.3, good:e<0.1}; } },
+
+{ t:'Programmer une moyenne unique', d:'4 min',
+  brief:'Consigne du commissaire : secteur <b>ST01</b>, départ à <b>10:15:00</b>, moyenne imposée <b>60,6 km/h</b> jusqu\'au km <b>20,100</b>.',
+  setup(){ if(!S.on) powerOn(); S.inStage=false; S.menu=null; S.view='CLOCK'; S.sel=1;
+           S.stages[1]={start:0, off:0, dur:0, sec:[{as:0,end:0}]}; },
+  steps:[
+    ['Sélectionnez le secteur ST01 avec + / −','PLUS',()=>S.sel===1],
+    ['Entrez dans la programmation avec STAGE','STAGE',()=>S.menu && S.menu.type==='stage'],
+    ['Réglez l\'heure de départ sur 10:15:00','PLUS',()=>stage(1).start===10*3600+15*60 || (S.menu&&S.menu.type==='stage'&&S.menu.buf.start==='101500')],
+    ['Passez au tronçon A avec VIEW','VIEW',()=>S.menu && S.menu.type==='stage' && S.menu.page===0],
+    ['Saisissez la moyenne et la distance de fin','PLUS',()=>{const s=stage(1).sec[0]; return s && Math.abs(s.as-60.6)<0.06 && s.end===20100;}],
+    ['Validez avec SELECT','SELECT',()=>S.menu===null && stage(1).sec[0].end===20100],
+  ],
+  score(){ const st=stage(1), s=st.sec[0];
+           const ok = st.start===10*3600+15*60 && Math.abs(s.as-60.6)<0.06 && s.end===20100;
+           return {v: ok?'Conforme':'À revoir', l:'Programmation', ok, good:ok}; } },
+
+{ t:'Programmer plusieurs moyennes', d:'6 min',
+  brief:'Secteur <b>ST02</b>, départ à <b>11:00:00</b>. Trois tronçons se succèdent : la moyenne change à chaque distance indiquée.',
+  rb:[['Tronçon A','48,2 km/h jusqu\'au 4,510'],['Tronçon B','47,0 km/h jusqu\'au 9,520'],['Tronçon C','49,5 km/h jusqu\'au 14,000']],
+  setup(){ if(!S.on) powerOn(); S.inStage=false; S.menu=null; S.view='CLOCK'; S.sel=2;
+           S.stages[2]={start:0, off:0, dur:0, sec:[{as:0,end:0}]}; },
+  steps:[
+    ['Sélectionnez le secteur ST02','PLUS',()=>S.sel===2],
+    ['Ouvrez la programmation et réglez le départ','STAGE',()=>stage(2).start===11*3600 || (S.menu&&S.menu.type==='stage'&&S.menu.buf.start==='110000')],
+    ['Saisissez le tronçon A','VIEW',()=>{const s=stage(2).sec[0]; return s && Math.abs(s.as-48.2)<0.06 && s.end===4510;}],
+    ['Ajoutez le tronçon B avec VIEW','VIEW',()=>{const s=stage(2).sec[1]; return s && Math.abs(s.as-47)<0.06 && s.end===9520;}],
+    ['Ajoutez le tronçon C avec VIEW','VIEW',()=>{const s=stage(2).sec[2]; return s && Math.abs(s.as-49.5)<0.06 && s.end===14000;}],
+    ['Validez avec SELECT','SELECT',()=>S.menu===null && stage(2).sec.length>=3],
+  ],
+  score(){ const st=stage(2), ok = st.sec.length>=3 && st.sec[2] && Math.abs(st.sec[2].as-49.5)<0.06 && st.sec[2].end===14000;
+           return {v: ok?'Conforme':'À revoir', l:'Programmation', ok, good:ok}; } },
+
+{ t:'Prendre le départ à l\'heure', d:'3 min',
+  brief:'Le secteur <b>ST03</b> est déjà programmé. Surveillez les feux : rouge fixe, puis clignotant dans les dix dernières secondes, vert à l\'heure exacte.',
+  setup(){ if(!S.on) powerOn(); S.inStage=false; S.menu=null; S.view='CLOCK'; S.sel=3;
+           S.clock=W.t; S.stages[3]={start:Math.round(W.t+75), off:0, dur:0, sec:[{as:50,end:20000}]};
+           S.startErr=null; resetRun(); setProfile('sinueux'); },
+  steps:[
+    ['Sélectionnez le secteur ST03','PLUS',()=>S.sel===3],
+    ['Restez sur l\'écran horloge','VIEW',()=>!S.inStage && (S.view==='CLOCK')],
+    ['Appuyez sur START à l\'heure exacte','START',()=>S.inStage && S.startErr!=null],
+  ],
+  score(){ const e=S.startErr==null?99:S.startErr;
+           return {v:(e>0?'+':'−')+Math.abs(e).toFixed(1)+' s', l:'Écart au départ', ok:Math.abs(e)<1.5, good:Math.abs(e)<0.5}; } },
+
+{ t:'Tenir la moyenne sur une ZR', d:'10 min',
+  brief:'Zone de régularité de <b>20,100 km</b> sur le secteur <b>ST04</b>, départ dans deux minutes. Le pilote conduit et corrige son allure sur son afficheur. Votre travail : programmer, partir à l\'heure, surveiller l\'écart et clôturer.',
+  rb:[['Tronçon A','48,2 km/h jusqu\'au 4,510'],['Tronçon B','47,0 km/h jusqu\'au 9,520'],['Tronçon C','49,5 km/h jusqu\'au 20,100']],
+  setup(){ if(!S.on) powerOn(); S.inStage=false; S.menu=null; S.view='CLOCK'; S.sel=4;
+           S.clock=W.t; S.stages[4]={start:Math.round(W.t+120), off:0, dur:0, sec:[{as:0,end:0}]};
+           S.total=0; S.partial=0; S.log=[]; resetRun(); setProfile('zr20'); },
+  steps:[
+    ['Programmez les trois tronçons de ST04','STAGE',()=>{const s=stage(4).sec; return s.length>=3 && s[2].end===20100;}],
+    ['Prenez le départ à l\'heure','START',()=>S.inStage || (S.startErr!=null && S.log.length>0)],
+    ['Roulez la ZR jusqu\'au km 20,100',null,()=>S.total-stage(4).off >= 20050 || (lastRun && lastRun.stage===4)],
+    ['Clôturez le secteur avec FINISH','FINISH',()=>lastRun && lastRun.stage===4],
+  ],
+  score(){ const r = lastRun && lastRun.stage===4 ? lastRun : null;
+           if(!r) return {v:'—', l:'Écart moyen', ok:false, good:false};
+           const m = r.log.reduce((a,x)=>a+Math.abs(x.s),0)/r.log.length;
+           return {v:m.toFixed(1)+' s', l:'Écart moyen', ok:m<8, good:m<3}; } },
+
+{ t:'Recaler la distance sur un repère', d:'5 min',
+  brief:'L\'étalonnage est légèrement faux. Au passage du pont, le road-book annonce <b>4,510 km</b> : comparez avec la distance affichée et corrigez-la. La distance réelle figure dans la console.',
+  setup(){ if(!S.on) powerOn(); S.inStage=false; S.menu=null; S.view='CLOCK'; S.sel=5;
+           calDerange(0.012); S.clock=W.t;
+           S.stages[5]={start:Math.round(W.t+20), off:0, dur:0, sec:[{as:50,end:20100}]};
+           S.total=0; S.partial=0; resetRun(); setProfile('zr20'); },
+  steps:[
+    ['Prenez le départ du secteur ST05','START',()=>S.inStage && S.sel===5],
+    ['Roulez jusqu\'au pont, au km 4,510 réel',null,()=>C.realDist-(S.stageRealD0||0) >= 4510],
+    ['Corrigez la distance affichée',()=>MODEL==='ii'?'RIGHT':'PLUS',()=>ex.st.corrected===true],
+    ['Ramenez l\'écart sous 25 m',null,()=>ex.st.corrErr!=null && Math.abs(ex.st.corrErr)<25],
+  ],
+  score(){ const e=ex.st.corrErr;
+           return {v: e==null?'—':Math.abs(e).toFixed(0)+' m', l:'Erreur après recalage', ok:e!=null&&Math.abs(e)<25, good:e!=null&&Math.abs(e)<10}; } },
+
+{ t:'Neutraliser un détour', d:'4 min',
+  brief:'Un détour hors parcours ne doit pas être compté. Le mode de comptage permet de suspendre la mesure, puis de la reprendre.',
+  setup(){ if(!S.on) powerOn(); S.menu=null; S.sel=6; S.clock=W.t;
+           S.stages[6]={start:Math.round(W.t+10), off:0, dur:0, sec:[{as:50,end:20100}]};
+           S.total=0; S.partial=0; resetRun(); setProfile('sinueux'); },
+  steps:[
+    ['Prenez le départ du secteur ST06','START',()=>S.inStage && S.sel===6],
+    ['Passez en comptage neutralisé avec MODE','MODE',()=>ex.st.ncSeen===true],
+    ['Roulez 300 m sans que la distance bouge',null,()=>ex.st.ncDist>=300],
+    ['Revenez en comptage normal','MODE',()=>ex.st.ncSeen===true && ex.st.ncDist>=300 && S.count==='NORMAL'],
+  ],
+  score(){ const d=ex.st.ncLeak||0; return {v:d.toFixed(0)+' m', l:'Distance comptée à tort', ok:d<5, good:d<1}; } },
+];
+
+const ex = {
+  cur:null, doneSteps:[], done:{}, st:{}, sig:'',
+  start(i){
+    this.cur=i; this.doneSteps=LESSONS[i].steps.map(()=>false); this.st={};
+    lastRun=null; LESSONS[i].setup(); this.sig='';
+    showView('lessons'); renderAll();
+  },
+  stop(){ this.cur=null; this.sig=''; setHintKey(null); renderAll(); },
+  check(){
+    if(this.cur!=null){
+      const id = this.cur;
+      if(id===0 && S.view==='SENSORS') this.st.seenSensors = true;
+      if(id===1 && S.menu && S.menu.type==='param' && S.menu.page===0){
+        const b = S.menu.buf.ck || '';
+        if(this.st.ck0===undefined) this.st.ck0 = b;
+        else if(b !== this.st.ck0) this.st.edited = true;
+      }
+      if(id===7 && S.inStage){
+        const trueD = C.realDist - (S.stageRealD0||0) + curStage().off;
+        if(S.lastUpdate && S.lastUpdate.at !== this.st.seenUpd){
+          this.st.seenUpd = S.lastUpdate.at; this.st.corrected = true; this.st.corrErr = S.total - trueD;
+        }
+      }
+      if(id===8 && S.inStage && S.count==='NOTCOUNT'){
+        this.st.ncSeen = true;
+        if(this.st.ncD0==null){ this.st.ncD0=C.realDist; this.st.ncT0=S.total; }
+        this.st.ncDist = C.realDist - this.st.ncD0;
+        this.st.ncLeak = Math.abs(S.total - this.st.ncT0);
+      }
+    }
+    if(this.cur==null) return;
+    const L = LESSONS[this.cur];
+    L.steps.forEach((s,i)=>{ if(!this.doneSteps[i]){ try{ if(s[2]()) this.doneSteps[i]=true; }catch(e){} } });
+    if(this.doneSteps.every(Boolean) && !this.done[this.cur]){
+      const sc = L.score ? L.score() : {ok:true};
+      if(sc.ok) this.done[this.cur] = true;
+    }
+  },
+  onFinish(rec){ if(rec.log.length>8) showDebrief(rec); },
+  nextStep(){ if(this.cur==null) return -1; return this.doneSteps.findIndex(x=>!x); },
+  render(){
+    const list = $('#lessonList');
+    if(list.dataset.built!=='1'){
+      list.innerHTML = '<div class="hd"><h2>Parcours d\'apprentissage</h2><span class="k-l" id="progTxt"></span></div>' +
+        MODULES.map(m=>'<div class="module"><h3>'+m.t+'</h3><div class="lessons">'+
+          m.ls.map(i=>'<button class="lesson" data-i="'+i+'"><span class="num">'+(i+1)+'</span>'+
+            '<span><span class="t">'+LESSONS[i].t+'</span><br><span class="d">'+LESSONS[i].d+'</span></span></button>').join('')+
+          '</div></div>').join('') +
+        '<div class="prog"><span id="progN">0 / '+LESSONS.length+'</span><span class="track"><i id="progBar"></i></span></div>';
+      list.dataset.built='1';
+      list.querySelectorAll('.lesson').forEach(el=>el.addEventListener('click',()=>ex.start(+el.dataset.i)));
+    }
+    const n = Object.keys(this.done).length;
+    list.querySelectorAll('.lesson').forEach(el=>{
+      const i = +el.dataset.i;
+      el.classList.toggle('done', !!this.done[i]);
+      el.setAttribute('aria-current', this.cur===i ? 'true' : 'false');
+    });
+    $('#progN').textContent = n+' / '+LESSONS.length+' terminées';
+    $('#progBar').style.width = (n/LESSONS.length*100)+'%';
+
+    const p = $('#lessonPanel');
+    const nx = this.nextStep();
+    const sc = (this.cur!=null && LESSONS[this.cur].score) ? LESSONS[this.cur].score() : null;
+    const sig = this.cur+'|'+this.doneSteps.join('')+'|'+n+'|'+(sc?sc.v:'')+'|'+
+                (this.cur!=null && LESSONS[this.cur].live ? hms(W.t) : '');
+    if(sig===this.sig) return; this.sig=sig;
+
+    if(this.cur==null){
+      p.innerHTML =
+        '<div class="hd"><h2>Bienvenue</h2></div><div class="body" style="display:flex;flex-direction:column;gap:12px">'+
+        '<p class="sub">Ce simulateur reproduit le fonctionnement des ordinateurs de régularité <b>Blunik Classic</b> et <b>Blunik II</b> : mêmes écrans, mêmes touches, mêmes calculs.</p>'+
+        '<div class="brief"><b>Comment procéder</b><div class="rb">'+
+        '<dt>1</dt><dd>Choisissez votre appareil en haut de la page.</dd>'+
+        '<dt>2</dt><dd>Suivez les leçons dans l\'ordre : la touche à presser clignote sur le boîtier.</dd>'+
+        '<dt>3</dt><dd>La voiture roule dans la console, sous l\'appareil.</dd>'+
+        '</div></div>'+
+        '<div><button class="btn primary" id="startFirst">Commencer la leçon 1</button></div></div>';
+      const b=$('#startFirst'); if(b) b.onclick=()=>ex.start(0);
+      setHintKey(null);
+      return;
+    }
+    const L = LESSONS[this.cur];
+    const mod = MODULES.find(m=>m.ls.includes(this.cur));
+    let h = '<div class="hd"><h2>'+L.t+'</h2><span class="k-l">'+mod.t+' · leçon '+(this.cur+1)+'</span></div>';
+    h += '<div class="body" style="display:flex;flex-direction:column;gap:12px">';
+    h += '<div class="brief">'+L.brief;
+    if(L.rb) h += '<div class="rb">'+L.rb.map(r=>'<dt>'+r[0]+'</dt><dd>'+r[1]+'</dd>').join('')+'</div>';
+    h += '</div>';
+    if(L.live) h += L.live();
+    h += '<ol class="steps">'+ L.steps.map((s,i)=>
+      '<li class="'+(this.doneSteps[i]?'done':(i===nx?'now':''))+'"><span class="n">'+(i+1)+'</span>'+
+      '<span class="tx">'+s[0]+'</span></li>').join('') +'</ol>';
+    h += '</div>';
+    const shown = sc && this.doneSteps.every(Boolean);
+    if(shown) h += '<div class="result"><div><div class="l">'+sc.l+'</div>'+
+      '<div class="v '+(sc.good?'ok':(sc.ok?'warn':'bad'))+'">'+sc.v+'</div></div>'+
+      '<div class="sp"><button class="btn sm" id="lsRestart">Recommencer</button>'+
+      (this.cur<LESSONS.length-1?'<button class="btn sm primary" id="lsNext">Leçon suivante</button>':'')+
+      '<button class="btn sm" id="lsQuit">Fermer</button></div></div>';
+    else h += '<div class="result"><div class="sp" style="margin-left:0">'+
+      '<button class="btn sm" id="lsRestart">Recommencer</button>'+
+      (this.cur<LESSONS.length-1?'<button class="btn sm primary" id="lsNext">Leçon suivante</button>':'')+
+      '<button class="btn sm" id="lsQuit">Fermer</button></div></div>';
+    p.innerHTML = h;
+    const r=$('#lsRestart'), q=$('#lsQuit'), nb=$('#lsNext');
+    if(r) r.onclick=()=>ex.start(ex.cur);
+    if(q) q.onclick=()=>ex.stop();
+    if(nb) nb.onclick=()=>ex.start(ex.cur+1);
+    const hk = nx>=0 ? L.steps[nx][1] : null;
+    setHintKey(typeof hk==='function' ? hk() : hk);
+  }
+};
+
+/* ============================== ENTRAÎNEMENT ============================ */
+let practiceSig='';
+function renderPractice(){
+  const st = curStage();
+  const sig = MODEL+'|'+S.sel+'|'+st.start+'|'+JSON.stringify(st.sec)+'|'+C.prof.id+'|'+
+              Math.floor(C.realDist/100)+'|'+Math.round(calErr()*10);
+  if(sig===practiceSig) return; practiceSig=sig;
+
+  let h = '<div class="card"><div class="hd"><h2>Séance libre</h2></div><div class="body">'+
+    '<p class="sub">Programmez un secteur de votre choix, prenez le départ et roulez. Le débriefing chiffré s\'affiche à la clôture du secteur.</p>'+
+    '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">'+
+    '<button class="btn primary" id="pvPreset">Charger une ZR type</button>'+
+    '<button class="btn" id="pvDecal">Dérégler l\'étalonnage</button>'+
+    '<button class="btn" id="pvReset">Vider le secteur</button></div></div></div>';
+
+  h += '<div class="card"><div class="hd"><h2>Secteur ST'+pad(S.sel,2)+'</h2>'+
+       '<span class="k-l">départ '+hms(st.start)+'</span></div><div class="scroll">'+
+       '<table class="ref"><thead><tr><th>Tronçon</th><th>Moyenne</th><th>Jusqu\'au km</th></tr></thead><tbody>';
+  st.sec.forEach((s,i)=>{
+    const d = S.total - st.off;
+    const cur = S.inStage && d < s.end && (i===0 || d >= st.sec[i-1].end);
+    h += '<tr'+(cur?' style="background:var(--accent-soft)"':'')+'><td class="c1">'+IDX[i]+'</td>'+
+         '<td class="c1">'+s.as.toFixed(2)+' km/h</td><td class="c1">'+(s.end/1000).toFixed(3)+'</td></tr>';
+  });
+  h += '</tbody></table></div></div>';
+
+  if(C.prof.markers && C.prof.markers.length){
+    h += '<div class="card"><div class="hd"><h2>Repères du parcours</h2><span class="k-l">'+C.prof.name+'</span></div>'+
+         '<div class="scroll"><table class="ref"><thead><tr><th>km</th><th>Repère</th><th></th></tr></thead><tbody>';
+    C.prof.markers.forEach(mk=>{
+      const passed = C.realDist/1000 >= mk.km;
+      h += '<tr><td class="c1">'+mk.km.toFixed(3)+'</td><td class="c2">'+mk.label+'</td>'+
+           '<td class="c2">'+(passed?'<span class="pill ok">passé</span>':'')+'</td></tr>';
+    });
+    h += '</tbody></table></div></div>';
+  }
+
+  const err = calErr();
+  h += '<div class="card"><div class="hd"><h2>Étalonnage</h2>'+
+       '<span class="k-l">'+(err<0.2?'<span class="pill ok">conforme</span>':(err<1?'<span class="pill warn">à vérifier</span>':'<span class="pill bad">à refaire</span>'))+'</span></div>'+
+       '<div class="body"><p class="sub">Le simulateur applique une constante de roue que l\'appareil ignore. Tant qu\'elle ne correspond pas, la distance mesurée dérive.</p>'+
+       '<div class="rb mono" style="margin-top:10px;display:grid;grid-template-columns:auto 1fr;gap:2px 16px;font-size:13px">'+
+       '<span style="color:var(--ink-3)">Constante réelle</span><span>'+Math.round(calTrue())+'</span>'+
+       '<span style="color:var(--ink-3)">Écart de mesure</span><span>'+(measureK()>=1?'+':'−')+err.toFixed(2)+' %</span>'+
+       '</div></div></div>';
+
+  $('#practicePanel').innerHTML = h;
+  $('#pvPreset').onclick = ()=>{
+    S.stages[S.sel] = {start:Math.round(W.t+180), off:0, dur:1800,
+      sec:[{as:48.2,end:4510},{as:47,end:9520},{as:49.5,end:20100}]};
+    setProfile('zr20'); resetRun(); S.total=0; S.partial=0; practiceSig=''; renderAll();
+  };
+  $('#pvDecal').onclick = ()=>{ calDerange(0.015+Math.random()*0.04); practiceSig=''; renderAll(); };
+  $('#pvReset').onclick = ()=>{ S.stages[S.sel]={start:0,off:0,dur:0,sec:[{as:0,end:0}]}; practiceSig=''; renderAll(); };
+}
+
+/* =============================== RÉFÉRENCE ============================== */
+const REF_KEYS = {
+  classic:[
+    ['START / ON','Allume l\'appareil. Hors secteur, lance le secteur sélectionné.'],
+    ['FINISH / OFF','En secteur : deux appuis clôturent le secteur. Appui long : extinction.'],
+    ['VIEW','Fait défiler les écrans disponibles.'],
+    ['MODE','Hors secteur : écran d\'étalonnage. En secteur : mode de comptage.'],
+    ['ZERO','Remet la distance partielle à zéro. Sert de repère pour l\'étalonnage.'],
+    ['STAGE','Ouvre la programmation du secteur sélectionné.'],
+    ['PARAM','Ouvre les paramètres.'],
+    ['SELECT','Valide et quitte l\'écran en cours.'],
+    ['+ / −','Hors secteur : change de secteur. En secteur : ouvre la correction du total. En menu : modifie la valeur.'],
+    ['◄ / ►','Déplace le curseur dans les menus.'],
+  ],
+  ii:[
+    ['START / ON','Allume l\'appareil. Hors secteur, lance le secteur et remet le trip total à zéro.'],
+    ['FINISH / OFF','En secteur : fin du secteur. Appui long : extinction.'],
+    ['VIEW ►','Écran suivant.'],
+    ['PARAM ◄VIEW','Écran précédent. Hors menu : ouvre les paramètres.'],
+    ['MODE / CALIBRATION','Hors secteur : étalonnage. En secteur : mode de comptage. En programmation : mode du secteur.'],
+    ['ZERO / CALCULATE','Remet la distance partielle à zéro. En programmation : calcule la moyenne manquante.'],
+    ['STAGE','Ouvre la programmation du secteur.'],
+    ['ENTER / SELECT','Valide et ferme l\'éditeur.'],
+    ['+ / −','Hors secteur : change de secteur. En secteur : correction variable de la distance. En menu : modifie la valeur.'],
+    ['◄ -10 / ► +10','Correction de la distance par pas de 10 unités. En menu : déplace le curseur.'],
+  ]
+};
+const REF_SCREENS = {
+  classic:[
+    ['Time   T22:10:03\nST01   S22:15:00','Horloge','Heure interne, secteur sélectionné et son heure de départ.'],
+    ['LS_ RS_   S 40.4\nST01    P020K200','Sondes','État des sondes, vitesse instantanée et distance partielle.'],
+    ['T01K833 = S 40.3\nP00K940   A=45.0','Partiel','Distance totale, mode de comptage, vitesse ; distance partielle et moyenne imposée.'],
+    ['T023K100 = S 52.3\nC00:15:02 A 50.6','Chrono','Temps écoulé depuis le départ et moyenne réalisée.'],
+    ['T22:10:00 04K210\nR00:20:05 A=45.0','Liaison','Heure, distance restante, temps restant, moyenne imposée.'],
+    ['T12K300 = S 47.0\n+00k240   A=49.8','Régularité','Avance ou retard sur la moyenne imposée.'],
+  ],
+  ii:[
+    ['Heure  H12:00:25\nST01   S12:00:10','Horloge','Heure interne et heure d\'entrée dans la spéciale.'],
+    ['H12:00:28 Reste!\nD12:01:30 1:01:4','Départ','Temps restant avant l\'heure de départ.'],
+    ['SG_  SD_  V 99.7\nST01    P000k293','Sondes','Sonde gauche et droite, vitesse et distance partielle.'],
+    ['T00k076 = V 99.7\n-00k146  m=98.36','Régularité','Écart et moyenne imposée du tronçon en cours.'],
+    ['T00k299 = V 99.7\nP00k299  m=98.36','Partiels','Distance totale et distance partielle.'],
+    ['T00k357 = V 99.7\nC:00:18.3 =98.36','Chrono','Chronomètre du secteur au dixième.'],
+    ['H12:05:20 01k480\nR09:39.2 m=98.36','Liaison','Distance et temps restants.'],
+    ['ST10 MI 12:00:10\nº00k000 T0h30m00','Programmation','Mode, heure de départ, offset et temps imparti.'],
+    ['ST10 (A)\nm050.00 006k200','Partiel','Moyenne imposée et distance de fin du tronçon.'],
+  ]
+};
+const GLOSS = [
+  ['ZR','Zone de régularité : section où une moyenne est imposée.'],
+  ['Moyenne imposée','Vitesse moyenne à tenir sur un tronçon, en km/h.'],
+  ['Tronçon (ou partiel)','Portion de ZR sur laquelle la moyenne ne change pas.'],
+  ['Secteur (stage)','Ensemble allant du départ d\'une ZR au départ de la suivante.'],
+  ['Offset','Distance de départ du secteur lorsque le trip n\'est pas remis à zéro.'],
+  ['Étalonnage','Réglage de la mesure de distance sur la distance officielle du road-book.'],
+  ['Écart de régularité','Avance ou retard par rapport à la distance théorique, en mètres ou en secondes.'],
+];
+let refSig='';
+function renderRef(){
+  if(refSig===MODEL) return; refSig=MODEL;
+  const m = MODEL;
+  let h = '<div class="card"><div class="hd"><h2>Les touches</h2><span class="k-l">'+MC().name+'</span></div>'+
+    '<div class="scroll"><table class="ref"><tbody>'+
+    REF_KEYS[m].map(r=>'<tr><td class="c1">'+r[0]+'</td><td class="c2">'+r[1]+'</td></tr>').join('')+
+    '</tbody></table></div></div>';
+
+  h += '<div class="card"><div class="hd"><h2>Les écrans</h2><span class="k-l">'+MC().name+'</span></div>'+
+    '<div class="scroll"><table class="ref"><tbody>'+
+    REF_SCREENS[m].map(r=>'<tr><td><span class="screenshot">'+r[0]+'</span></td>'+
+      '<td class="c2"><b style="color:var(--ink)">'+r[1]+'</b><br>'+r[2]+'</td></tr>').join('')+
+    '</tbody></table></div></div>';
+
+  h += '<div class="card"><div class="hd"><h2>Vocabulaire</h2></div>'+
+    '<div class="scroll"><table class="ref"><tbody>'+
+    GLOSS.map(r=>'<tr><td class="c1">'+r[0]+'</td><td class="c2">'+r[1]+'</td></tr>').join('')+
+    '</tbody></table></div></div>';
+  $('#refPanel').innerHTML = h;
+}
+
+/* ============================== CONSOLE ================================= */
+function renderPanels(){
+  const name = screen().name;
+  renderCtx(name);
+
+  $('#gSpeed').innerHTML = (C.v*3.6).toFixed(1)+'<small>km/h</small>';
+  $('#gReal').innerHTML  = (C.realDist/1000).toFixed(3)+'<small>km</small>';
+  $('#gBlu').innerHTML   = (S.total/1000).toFixed(3)+'<small>km</small>';
+  if(S.on && S.inStage){
+    const s = regSeconds(), mm = regMeters();
+    $('#gReg').innerHTML = (s>=0?'+':'−')+Math.abs(s).toFixed(1)+'<small>s</small> '+
+                           (mm>=0?'+':'−')+Math.abs(mm).toFixed(0)+'<small>m</small>';
+    const tol = MODEL==='ii' ? Math.abs(s)<=S.ii.ledSec : Math.abs(mm)<=S.p.blue;
+    $('#gReg').className = 'g-v '+(tol?'ok':(Math.abs(mm)<80?'warn':'bad'));
+  } else { $('#gReg').textContent='—'; $('#gReg').className='g-v'; }
+
+  renderDriver();
+  $('#btnRun').classList.toggle('on', C.run);
+
+  ex.render();
+  if($('#v-practice').classList.contains('act')) renderPractice();
+  if($('#v-ref').classList.contains('act')) renderRef();
+  if($('#v-rally').classList.contains('act')) tickRally();
+  tickGuide();
+}
+
+/* afficheur deporte du pilote : retard / dans les temps / avance */
+const DRVNOTE = {
+  stop : 'Voiture à l\'arrêt. Appuyez sur Rouler quand le pilote peut repartir.',
+  libre: 'Le pilote roule à son allure. Aucun secteur en cours.',
+  ok   : 'Le pilote est dans les temps ; il tient l\'allure.',
+  late : 'Le pilote est en retard ; il accélère dans les portions rapides.',
+  early: 'Le pilote est en avance ; il lève le pied.'
+};
+function renderDriver(){
+  const st = C.run ? (C.drv.state||'libre') : 'stop';
+  ['late','ok','early'].forEach(k=>
+    $('#r'+k[0].toUpperCase()+k.slice(1)).classList.toggle('on', k===st));
+  const num = $('#rNum');
+  if(S.on && S.inStage){
+    const sec = regSeconds();
+    num.textContent = (sec>=0?'+':'−')+Math.abs(sec).toFixed(1)+' s';
+  } else {
+    num.textContent = (C.v*3.6).toFixed(0)+' km/h';
+  }
+  const note = $('#drvNote'), tx = DRVNOTE[st] || DRVNOTE.libre;
+  if(note.textContent !== tx) note.textContent = tx;
+}
+
+/* =============================== DEBRIEF ================================ */
+function showDebrief(rec){
+  const log = rec.log;
+  const mean = log.reduce((a,x)=>a+Math.abs(x.s),0)/log.length;
+  const max  = log.reduce((a,x)=>Math.max(a,Math.abs(x.s)),0);
+  const inTol = log.filter(x=>Math.abs(x.s)<=1).length/log.length*100;
+  const cl = v=>v<3?'ok':(v<8?'warn':'bad');
+  $('#modalTitle').textContent = 'Débriefing — secteur ST'+pad(rec.stage,2);
+  $('#modalBody').innerHTML =
+    '<div class="body"><p class="sub">Écart de régularité relevé tout au long du secteur. Positif : en avance. Négatif : en retard.</p></div>'+
+    '<div class="gauges" style="border-top:1px solid var(--rule-2)">'+
+      '<div class="gauge"><div class="g-l">Écart moyen</div><div class="g-v '+cl(mean)+'">'+mean.toFixed(1)+'<small>s</small></div></div>'+
+      '<div class="gauge"><div class="g-l">Écart maxi</div><div class="g-v '+cl(max/2)+'">'+max.toFixed(1)+'<small>s</small></div></div>'+
+      '<div class="gauge"><div class="g-l">Temps dans ±1 s</div><div class="g-v '+(inTol>60?'ok':(inTol>30?'warn':'bad'))+'">'+inTol.toFixed(0)+'<small>%</small></div></div>'+
+      '<div class="gauge"><div class="g-l">Départ</div><div class="g-v '+(Math.abs(rec.startErr||0)<1?'ok':'warn')+'">'+((rec.startErr||0)>=0?'+':'−')+Math.abs(rec.startErr||0).toFixed(1)+'<small>s</small></div></div>'+
+    '</div>'+
+    '<div id="chartWrap" style="padding-top:14px"><canvas id="chart" height="230"></canvas><div id="chartTip"></div></div>'+
+    '<div class="scroll" style="border-top:1px solid var(--rule-2)"><table class="ref"><thead><tr><th>km</th><th>Écart (s)</th><th>Écart (m)</th></tr></thead><tbody id="tbl"></tbody></table></div>';
+  $('#modal').classList.remove('hidden');
+  drawChart(log);
+  let t='';
+  for(let k=2;k<=Math.floor(log[log.length-1].d);k+=2){
+    const p = log.reduce((a,x)=>Math.abs(x.d-k)<Math.abs(a.d-k)?x:a, log[0]);
+    t += '<tr><td class="c1">'+k+'</td><td class="c1">'+(p.s>=0?'+':'−')+Math.abs(p.s).toFixed(1)+'</td>'+
+         '<td class="c1">'+(p.m>=0?'+':'−')+Math.abs(p.m).toFixed(0)+'</td></tr>';
+  }
+  $('#tbl').innerHTML = t;
+}
+
+function cssVar(n){ return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
+function drawChart(log){
+  const cv = $('#chart'), tip = $('#chartTip');
+  const dpr = window.devicePixelRatio||1;
+  const W0 = Math.max(260, cv.parentNode.clientWidth - 32), H0 = 230;
+  cv.width = W0*dpr; cv.height = H0*dpr; cv.style.width=W0+'px'; cv.style.height=H0+'px';
+  const g = cv.getContext('2d'); g.scale(dpr,dpr);
+  const M = {l:44,r:10,t:12,b:26};
+  const xmax = Math.max(1, log[log.length-1].d);
+  const ymax = Math.max(2, ...log.map(p=>Math.abs(p.s)))*1.15;
+  const X = d => M.l + (d/xmax)*(W0-M.l-M.r);
+  const Y = s => M.t + (1-(s+ymax)/(2*ymax))*(H0-M.t-M.b);
+  const ink3 = cssVar('--ink-3'), rule = cssVar('--rule-2'), acc = cssVar('--accent'), surf = cssVar('--surface');
+
+  g.clearRect(0,0,W0,H0);
+  g.fillStyle = acc+'1f'; g.fillRect(M.l, Y(1), W0-M.l-M.r, Y(-1)-Y(1));
+  g.font='11px '+(cssVar('--f-mono')||'monospace'); g.lineWidth=1;
+  const stepY = ymax>20?10:(ymax>8?5:(ymax>3?2:1));
+  for(let v=-Math.floor(ymax/stepY)*stepY; v<=ymax; v+=stepY){
+    const y=Y(v); g.strokeStyle=rule; g.beginPath(); g.moveTo(M.l,y); g.lineTo(W0-M.r,y); g.stroke();
+    g.fillStyle=ink3; g.textAlign='right'; g.fillText((v>0?'+':'')+v, M.l-8, y+4);
+  }
+  const stepX = xmax>40?10:(xmax>16?5:(xmax>7?2:(xmax>2?1:0.5)));
+  for(let k=0;k<=xmax+1e-9;k+=stepX){
+    const x=X(k); g.fillStyle=ink3; g.textAlign='center'; g.fillText((stepX<1?k.toFixed(1):k)+' km', x, H0-M.b+16);
+  }
+  g.strokeStyle=ink3; g.lineWidth=1.5; g.beginPath(); g.moveTo(M.l,Y(0)); g.lineTo(W0-M.r,Y(0)); g.stroke();
+  g.strokeStyle=acc; g.lineWidth=2; g.lineJoin='round'; g.beginPath();
+  log.forEach((p,i)=>{ const x=X(p.d), y=Y(clamp(p.s,-ymax,ymax)); i?g.lineTo(x,y):g.moveTo(x,y); });
+  g.stroke();
+  g.fillStyle=ink3; g.textAlign='left';
+  g.fillText('avance', M.l+4, M.t+11); g.fillText('retard', M.l+4, H0-M.b-5);
+
+  const base = g.getImageData(0,0,cv.width,cv.height);
+  cv.onmousemove = e=>{
+    const r = cv.getBoundingClientRect(), mx = e.clientX-r.left;
+    const d = clamp((mx-M.l)/(W0-M.l-M.r)*xmax, 0, xmax);
+    const p = log.reduce((a,x)=>Math.abs(x.d-d)<Math.abs(a.d-d)?x:a, log[0]);
+    g.save(); g.setTransform(1,0,0,1,0,0); g.putImageData(base,0,0); g.restore();
+    g.strokeStyle=ink3; g.lineWidth=1; g.beginPath(); g.moveTo(X(p.d),M.t); g.lineTo(X(p.d),H0-M.b); g.stroke();
+    g.fillStyle=acc; g.beginPath(); g.arc(X(p.d),Y(clamp(p.s,-ymax,ymax)),4,0,7); g.fill();
+    g.strokeStyle=surf; g.lineWidth=2; g.stroke();
+    tip.style.opacity=1; tip.style.left=(X(p.d)+16)+'px'; tip.style.top=Y(p.s)+'px';
+    tip.textContent = p.d.toFixed(2)+' km · '+(p.s>=0?'+':'−')+Math.abs(p.s).toFixed(1)+' s';
+  };
+  cv.onmouseleave = ()=>{ tip.style.opacity=0;
+    g.save(); g.setTransform(1,0,0,1,0,0); g.putImageData(base,0,0); g.restore(); };
+}
+
+/* ============================ CHANGEMENT D'APPAREIL ===================== */
+const KEYLABELS = {
+  classic:{
+    SELECT:'<span class="kb">↵</span>SELECT', PARAM:'<span class="kb">P</span>PARAM',
+    PLUS:'<span class="kb">+</span><span class="gl">✚</span>', STAGE:'<span class="kb">T</span>STAGE',
+    FINISH:'<span class="kb">F</span><b>FINISH</b><i>OFF</i>',
+    LEFT:'<span class="kb">←</span><span class="gl">⬅</span>',
+    MINUS:'<span class="kb">-</span><span class="gl">━</span>',
+    RIGHT:'<span class="kb">→</span><span class="gl">➡</span>',
+    START:'<span class="kb">S</span><b>START</b><i>ON</i>',
+    MODE:'<span class="kb">M</span>MODE', VIEW:'<span class="kb">V</span>VIEW', ZERO:'<span class="kb">Z</span>ZERO'
+  },
+  ii:{
+    SELECT:'<span class="kb">↵</span><b>ENTER</b><u>SELECT</u>',
+    PARAM:'<span class="kb">P</span><b>PARAM</b><u>◄VIEW</u>',
+    PLUS:'<span class="kb">+</span><span class="gl">✚</span><u>STAGE</u>',
+    STAGE:'<span class="kb">T</span>STAGE',
+    FINISH:'<span class="kb">F</span><b>FINISH</b><i>OFF</i>',
+    LEFT:'<span class="kb">←</span><span class="gl">◄</span><u>-10</u>',
+    MINUS:'<span class="kb">-</span><span class="gl">━</span><u>STAGE</u>',
+    RIGHT:'<span class="kb">→</span><span class="gl">►</span><u>+10</u>',
+    START:'<span class="kb">S</span><b>START</b><i>ON</i>',
+    MODE:'<span class="kb">M</span><b>MODE</b><u>CALIBRAT.</u>',
+    VIEW:'<span class="kb">V</span>VIEW ►',
+    ZERO:'<span class="kb">Z</span><b>ZERO</b><u>CALCULATE</u>'
+  }
+};
+function setModel(id){
+  if(!MODELS[id]) return;
+  MODEL = id;
+  $$('#modelSeg button').forEach(b=>b.setAttribute('aria-pressed', b.dataset.model===id ? 'true':'false'));
+  document.querySelector('.face').classList.toggle('m2', id==='ii');
+  document.querySelector('.logobar .lg').innerHTML = id==='ii' ? '<i>B</i>LUNIK <em>II</em>' : '<i>B</i>LUNIK';
+  $$('.k').forEach(b=>{ b.innerHTML = KEYLABELS[id][b.dataset.k] || b.dataset.k; });
+  S.menu = null; buildLCD();
+  ctxSig=''; refSig=''; practiceSig=''; ex.sig=''; hintKey='__';
+  renderAll();
+}
+</script>
+<script>
+/* ==========================================================================
+   CARNET DE RALLYE — saisie des données du road-book et assistance guidée
+   ========================================================================== */
+
+const RKEY = 'blunik.carnet.v1';
+let RALLY = { name:'', date:'', calib:'', off:0, zrs:[], prog:{} };
+try{ const raw = localStorage.getItem(RKEY); if(raw) RALLY = Object.assign(RALLY, JSON.parse(raw)); }catch(e){}
+function saveRally(){ try{ localStorage.setItem(RKEY, JSON.stringify(RALLY)); }catch(e){} }
+
+/* heure de référence : horloge de la machine, corrigée si besoin */
+function refNow(){ return Date.now()/1000 + (+RALLY.off||0); }
+function refClock(){ const d = new Date(refNow()*1000);
+  return pad(d.getHours(),2)+':'+pad(d.getMinutes(),2)+':'+pad(d.getSeconds(),2); }
+function refTenths(){ const t = refNow(); return Math.floor((t%1)*10); }
+
+/* ------------------------------- données ZR ----------------------------- */
+function newZR(){
+  const n = RALLY.zrs.length ? Math.max(...RALLY.zrs.map(z=>z.st))+1 : 1;
+  return { st:n, name:'', start:'', mode:'single', as:'', end:'', off:'', dur:'',
+           sections:[{as:'',end:''},{as:'',end:''}] };
+}
+const num = v => { const x = parseFloat(String(v).replace(',','.')); return isFinite(x) ? x : 0; };
+const hhmmss = v => {
+  const m = String(v||'').match(/^(\d{1,2})[:h ]?(\d{2})?[:m ]?(\d{2})?$/);
+  if(!m) return null;
+  return (+m[1])*3600 + (+(m[2]||0))*60 + (+(m[3]||0));
+};
+/* tronçons effectifs d'une ZR, quel que soit le mode de saisie */
+function zrSections(z){
+  if(z.mode==='single') return [{as:num(z.as), end:num(z.end)*1000}];
+  return z.sections.filter(s=>num(s.as)>0 && num(s.end)>0)
+                   .map(s=>({as:num(s.as), end:num(s.end)*1000}))
+                   .sort((a,b)=>a.end-b.end);
+}
+const zrTotal = z => { const s = zrSections(z); return s.length ? s[s.length-1].end/1000 : 0; };
+function zrValid(z){
+  const s = zrSections(z);
+  return hhmmss(z.start)!=null && s.length>0 && s.every(x=>x.as>0 && x.end>0);
+}
+/* durée théorique de la ZR */
+function zrTime(z){
+  let t=0, prev=0;
+  for(const s of zrSections(z)){ if(s.as>0) t += (s.end-prev)/(s.as/3.6); prev=s.end; }
+  return t;
+}
+
+/* ---------------------- valeurs telles qu'affichées ---------------------- */
+const fmtAs  = v => MODEL==='ii' ? num(v).toFixed(2).padStart(6,'0') : num(v).toFixed(1).padStart(5,'0');
+const fmtKm  = v => { const m = Math.round(num(v)*1000);
+  return pad(Math.floor(m/1000),3)+'k'+pad(m%1000,3); };
+
+/* ============================ SÉQUENCES GUIDÉES ========================== */
+const KB = k => '<span class="kk">'+k+'</span>';
+
+function stepsPower(){
+  return [
+    {t:'Vérifiez que la batterie du véhicule est branchée et que les sondes sont connectées.'},
+    {t:'Appuyez sur '+KB('START / ON')+'. L\'appareil affiche son écran d\'accueil.', k:'START'},
+    {t:'L\'écran horloge apparaît. L\'appareil est en route.'},
+  ];
+}
+function stepsSync(){
+  const ii = MODEL==='ii';
+  return [
+    {t:'Comparez l\'heure ci-dessus avec l\'horloge officielle du rallye. Corrigez l\'écart si nécessaire.'},
+    {t:'Sur l\'appareil, appuyez sur '+KB('PARAM')+(ii?'.':' puis sur '+KB('VIEW')+' jusqu\'à l\'écran de synchronisation.'), k:'PARAM'},
+    {t:'Saisissez une heure <b>en avance de 20 à 30 secondes</b> sur l\'heure de référence. Déplacez le curseur avec '+KB('◄')+' '+KB('►')+' et changez les chiffres avec '+KB('+')+' '+KB('−')+'.'},
+    {t:'Au moment exact où l\'horloge de référence atteint cette heure, appuyez sur '+KB(ii?'ENTER':'SELECT')+'.', k:'SELECT'},
+    ii ? {t:'En cas d\'écart de quelques dixièmes, revenez sur l\'écran et appuyez sur '+KB('MODE')+' pour passer en réglage au dixième, puis ajustez avec '+KB('+')+' '+KB('−')+'.'}
+       : {t:'Vérifiez l\'heure affichée sur l\'écran horloge.'},
+  ];
+}
+function stepsCalib(){
+  const ii = MODEL==='ii';
+  const d = num(RALLY.calib);
+  return [
+    {t:'Placez-vous à l\'arrêt, exactement au début de la zone d\'étalonnage.'},
+    {t:'Affichez l\'écran des sondes avec '+KB('VIEW')+'.', k:'VIEW'},
+    {t:'Appuyez sur '+KB('ZERO')+' à l\'arrêt : les compteurs repartent de zéro.', k:'ZERO'},
+    {t:'Parcourez la zone d\'étalonnage jusqu\'à son repère de fin.'},
+    {t:'À l\'arrêt exact sur ce repère, appuyez de nouveau sur '+KB('ZERO')+'.', k:'ZERO'},
+    {t:'Appuyez sur '+KB('MODE')+' pour afficher la comparaison avec le road-book.', k:'MODE'},
+    {t:'Saisissez la distance officielle'+(d>0?' : <b>'+d.toFixed(3)+' km</b>':'')+
+        ' sur la ligne <i>Road Book</i>, puis validez avec '+KB(ii?'ENTER':'SELECT')+'.',
+     val: d>0 ? (ii ? pad(Math.round(d*1000),5) : fmtKm(d).replace('k','K').slice(1)) : null,
+     k:'SELECT'},
+    {t:'Notez la nouvelle valeur d\'étalonnage affichée. L\'appareil est prêt.'},
+  ];
+}
+function stepsProgram(z){
+  const ii = MODEL==='ii';
+  const secs = zrSections(z);
+  const out = [
+    {t:'Depuis l\'écran horloge, appuyez sur '+KB('+')+' ou '+KB('−')+' jusqu\'à afficher <b>ST'+pad(z.st,2)+'</b>.'},
+    {t:'Appuyez sur '+KB('STAGE')+' pour entrer dans la programmation.', k:'STAGE'},
+    {t:'Réglez l\'heure de départ de la ZR.', val: z.start},
+  ];
+  if(ii && num(z.dur)>0){
+    const t = Math.round(num(z.dur)*60);
+    out.push({t:'Réglez le temps imparti au secteur.', val:Math.floor(t/3600)+'h'+pad(Math.floor(t%3600/60),2)+'m'+pad(t%60,2)});
+  }
+  if(num(z.off)>0) out.push({t:'Réglez l\'offset (distance de départ).', val: fmtKm(z.off)});
+  secs.forEach((s,i)=>{
+    out.push({t:'Appuyez sur '+KB('VIEW')+' pour passer au tronçon <b>('+IDX[i]+')</b>.', k:'VIEW'});
+    out.push({t:'Saisissez la moyenne imposée puis la distance de fin du tronçon.',
+              val: fmtAs(s.as)+'   '+fmtKm(s.end/1000)});
+  });
+  if(!ii) out.push({t:'Appuyez sur '+KB('FINISH')+' : l\'appareil affiche l\'écran de fin et calcule la moyenne de liaison.', k:'FINISH'});
+  out.push({t:'Validez et quittez avec '+KB(ii?'ENTER':'SELECT')+'.', k:'SELECT'});
+  out.push({t:'Vérifiez sur l\'écran horloge que <b>ST'+pad(z.st,2)+'</b> affiche bien l\'heure de départ <b>'+(z.start||'—')+'</b>.'});
+  return out;
+}
+function stepsStart(z){
+  const ii = MODEL==='ii';
+  return [
+    {t:'Sélectionnez <b>ST'+pad(z.st,2)+'</b> avec '+KB('+')+' '+KB('−')+' et restez sur l\'écran horloge.'},
+    {t:'Avancez sur la ligne de départ. Le feu rouge est fixe, puis clignote dans les dix dernières secondes.'},
+    {t:'Appuyez sur '+KB('START')+' à l\'heure exacte donnée par le commissaire : <b>'+(z.start||'—')+'</b>.', k:'START'},
+    {t:'L\'écran de régularité apparaît. Suivez la LED : bleue vous êtes dans les temps, verte en avance, rouge en retard.'},
+    {t:'À l\'arrivée de la ZR, clôturez avec '+KB('FINISH')+(ii?'.':' deux fois.'), k:'FINISH'},
+  ];
+}
+
+/* =============================== RENDU ================================== */
+function rallyTasks(){
+  const T = [
+    {id:'power', t:'Mise en route', d:'Allumer l\'appareil', run:()=>guide('Mise en route', stepsPower())},
+    {id:'sync',  t:'Synchronisation de l\'horloge', d:'Caler l\'appareil sur l\'heure officielle', run:()=>guide('Synchronisation de l\'horloge', stepsSync(), true)},
+    {id:'calib', t:'Étalonnage', d: num(RALLY.calib)>0 ? 'Zone de '+num(RALLY.calib).toFixed(3)+' km' : 'Distance de la zone à renseigner', run:()=>guide('Étalonnage', stepsCalib())},
+  ];
+  RALLY.zrs.forEach((z,i)=>{
+    T.push({id:'prog'+i, t:'Programmer ST'+pad(z.st,2)+(z.name?' — '+z.name:''),
+            d: zrValid(z) ? zrSections(z).length+' tronçon'+(zrSections(z).length>1?'s':'')+' · '+zrTotal(z).toFixed(3)+' km' : 'Données incomplètes',
+            dis:!zrValid(z), run:()=>guide('Programmer ST'+pad(z.st,2), stepsProgram(z))});
+  });
+  RALLY.zrs.forEach((z,i)=>{
+    T.push({id:'start'+i, t:'Départ ST'+pad(z.st,2)+(z.start?' à '+z.start:''),
+            d:'Procédure de départ et de course', dis:!zrValid(z),
+            run:()=>guide('Départ ST'+pad(z.st,2), stepsStart(z), true, hhmmss(z.start))});
+  });
+  return T;
+}
+
+function renderRally(){
+  const z = RALLY.zrs;
+  let h = '';
+
+  /* --- en-tête du carnet --- */
+  h += '<div class="card"><div class="hd"><h2>Carnet de rallye</h2>'+
+       '<span class="k-l" id="rSaved">enregistré sur cet appareil</span></div><div class="body">'+
+       '<div class="grid2">'+
+       fld('Nom du rallye','r-name','text',RALLY.name,'Rallye des Vins')+
+       fld('Date','r-date','date',RALLY.date,'')+
+       fld('Zone d\'étalonnage (km)','r-calib','text',RALLY.calib,'12.340')+
+       fld('Correction d\'horloge (s)','r-off','number',RALLY.off,'0')+
+       '</div>'+
+       '<div class="row-btns"><button class="btn sm" id="rExport">Exporter</button>'+
+       '<button class="btn sm" id="rImport">Importer</button>'+
+       '<button class="btn sm" id="rClear">Vider le carnet</button></div>'+
+       '<input type="file" id="rFile" accept="application/json" class="hidden">'+
+       '</div></div>';
+
+  /* --- horloge de référence --- */
+  h += '<div class="card"><div class="hd"><h2>Heure de référence</h2>'+
+       '<span class="k-l">horloge de cet appareil</span></div>'+
+       '<div class="clockbox"><div class="bigclock" id="rClock">--:--:--<small id="rTenth">.0</small></div>'+
+       '<div class="clockside"><div class="g-l">Prochaine minute</div><div class="mono" id="rNext">—</div>'+
+       '<div class="g-l" style="margin-top:8px">Heure à saisir (+30 s)</div><div class="mono" id="rTarget">—</div></div></div>'+
+       '<div class="body" style="border-top:1px solid var(--rule-2)"><p class="sub">Réglez l\'appareil sur l\'heure à saisir, puis validez à l\'instant où l\'horloge ci-dessus l\'atteint. Si votre horloge diffère de l\'officielle, corrigez-la dans le carnet.</p></div></div>';
+
+  /* --- zones de régularité --- */
+  h += '<div class="card"><div class="hd"><h2>Zones de régularité</h2>'+
+       '<span class="k-l">'+z.length+' ZR</span></div>';
+  if(!z.length){
+    h += '<div class="body"><p class="sub">Aucune ZR enregistrée. Ajoutez-en une, puis saisissez les moyennes et les distances du road-book.</p></div>';
+  }
+  z.forEach((x,i)=>{
+    const ok = zrValid(x);
+    h += '<div class="zr" data-i="'+i+'">'+
+      '<div class="zr-hd"><span class="zr-n">ST'+pad(x.st,2)+'</span>'+
+      '<input class="zr-name" data-f="name" data-i="'+i+'" value="'+esc(x.name)+'" placeholder="Nom de la ZR">'+
+      '<span class="pill '+(ok?'ok':'warn')+'">'+(ok? zrTotal(x).toFixed(3)+' km · '+fmtDur(zrTime(x)) :'à compléter')+'</span>'+
+      '<button class="btn sm" data-del="'+i+'" title="Supprimer">Supprimer</button></div>'+
+      '<div class="zr-body"><div class="grid3">'+
+        fld('Secteur','','number',x.st,'1',i,'st')+
+        fld('Heure de départ','','text',x.start,'10:15:00',i,'start')+
+        fld('Offset (km)','','text',x.off,'0',i,'off')+
+      '</div>'+
+      '<div class="modesw"><span class="lbl">Type de ZR</span>'+
+        '<div class="seg"><button data-mode="single" data-i="'+i+'" aria-pressed="'+(x.mode==='single')+'">Moyenne unique</button>'+
+        '<button data-mode="sections" data-i="'+i+'" aria-pressed="'+(x.mode==='sections')+'">Moyennes par tronçons</button></div></div>';
+    if(x.mode==='single'){
+      h += '<div class="grid2">'+
+           fld('Moyenne imposée (km/h)','','text',x.as,'48.20',i,'as')+
+           fld('Distance de la ZR (km)','','text',x.end,'20.100',i,'end')+
+           '</div>';
+    } else {
+      h += '<div class="scroll"><table class="ref sect"><thead><tr><th>Tronçon</th><th>Moyenne (km/h)</th><th>Jusqu\'au km</th><th></th></tr></thead><tbody>';
+      x.sections.forEach((s,j)=>{
+        h += '<tr><td class="c1">'+IDX[j]+'</td>'+
+             '<td><input data-i="'+i+'" data-s="'+j+'" data-f="as" value="'+esc(s.as)+'" placeholder="48.20"></td>'+
+             '<td><input data-i="'+i+'" data-s="'+j+'" data-f="end" value="'+esc(s.end)+'" placeholder="4.510"></td>'+
+             '<td><button class="btn sm" data-delsec="'+i+'.'+j+'">×</button></td></tr>';
+      });
+      h += '</tbody></table></div><div class="row-btns"><button class="btn sm" data-addsec="'+i+'">Ajouter un tronçon</button></div>';
+    }
+    h += '<div class="row-btns"><button class="btn sm" data-guide="'+i+'">Voir la procédure</button>'+
+         '<button class="btn sm" data-pace="'+i+'">Tableau de marche</button>'+
+         '<button class="btn sm" data-load="'+i+'">Charger dans le simulateur</button></div>';
+    h += '</div></div>';
+  });
+  h += '<div class="body" style="border-top:1px solid var(--rule-2)"><div class="row-btns" style="margin:0">'+
+       '<button class="btn primary" id="rAdd">Ajouter une ZR</button>'+
+       '<button class="btn" id="rPace"'+(z.filter(zrValid).length?'':' disabled')+'>Tableau de marche complet</button>'+
+       '</div></div></div>';
+
+  /* --- déroulé du jour --- */
+  const T = rallyTasks();
+  const done = T.filter(t=>RALLY.prog[t.id]).length;
+  h += '<div class="card"><div class="hd"><h2>Déroulé du jour</h2><span class="k-l">'+done+' / '+T.length+'</span></div>'+
+       '<div class="tasks">';
+  T.forEach((t,i)=>{
+    h += '<div class="task'+(RALLY.prog[t.id]?' done':'')+(t.dis?' dis':'')+'">'+
+      '<button class="tick" data-tick="'+t.id+'" aria-label="Marquer comme fait"></button>'+
+      '<span class="tinfo"><span class="tt">'+t.t+'</span><span class="td">'+t.d+'</span></span>'+
+      '<button class="btn sm" data-task="'+i+'"'+(t.dis?' disabled':'')+'>Ouvrir</button></div>';
+  });
+  h += '</div></div>';
+
+  /* --- assistant « que faire si » --- */
+  const WI = whatIf();
+  h += '<div class="card"><div class="hd"><h2>Que faire si…</h2>'+
+       '<span class="k-l">dépannage en course</span></div>'+
+       '<div class="body"><p class="sub">Les situations qui arrivent vraiment, et la marche à suivre touche par touche. Ouvrez-en une : le guidage s\'affiche sous l\'appareil.</p></div>'+
+       '<div class="tasks">';
+  WI.forEach((w,i)=>{
+    h += '<div class="task">'+
+      '<span class="wico">?</span>'+
+      '<span class="tinfo"><span class="tt">'+w.t+'</span><span class="td">'+w.d+'</span></span>'+
+      '<button class="btn sm" data-wi="'+i+'">Ouvrir</button></div>';
+  });
+  h += '</div></div>';
+
+  $('#rallyPanel').innerHTML = h;
+  wireRally(T);
+  tickRally();
+}
+function esc(v){ return String(v==null?'':v).replace(/"/g,'&quot;'); }
+function fmtDur(s){ s=Math.round(s); return Math.floor(s/60)+' min '+pad(s%60,2); }
+function fld(label,id,type,val,ph,i,f){
+  return '<label class="f"><span>'+label+'</span><input '+(id?'id="'+id+'" ':'')+
+    (i!=null?'data-i="'+i+'" data-f="'+f+'" ':'')+'type="'+type+'" value="'+esc(val)+'" placeholder="'+ph+'"></label>';
+}
+
+function wireRally(T){
+  const on=(sel,ev,fn)=>$$(sel).forEach(e=>e.addEventListener(ev,fn));
+  const set=(k,v)=>{ RALLY[k]=v; saveRally(); };
+  const b=(id,k)=>{ const e=$(id); if(e) e.addEventListener('input',()=>{ set(k, e.value); if(k==='calib'||k==='off') tickRally(); }); };
+  b('#r-name','name'); b('#r-date','date'); b('#r-calib','calib'); b('#r-off','off');
+
+  on('.zr input[data-i]','input', e=>{
+    const i=+e.target.dataset.i, f=e.target.dataset.f, s=e.target.dataset.s;
+    if(s!=null) RALLY.zrs[i].sections[+s][f]=e.target.value;
+    else RALLY.zrs[i][f]= f==='st' ? (parseInt(e.target.value,10)||1) : e.target.value;
+    saveRally(); refreshZRBadges();
+    const p=$('#rPace'); if(p) p.disabled = !RALLY.zrs.some(zrValid);
+  });
+  on('.modesw button','click', e=>{
+    RALLY.zrs[+e.target.dataset.i].mode = e.target.dataset.mode; saveRally(); renderRally();
+  });
+  on('[data-addsec]','click', e=>{ RALLY.zrs[+e.target.dataset.addsec].sections.push({as:'',end:''}); saveRally(); renderRally(); });
+  on('[data-delsec]','click', e=>{ const [i,j]=e.target.dataset.delsec.split('.').map(Number);
+    RALLY.zrs[i].sections.splice(j,1); saveRally(); renderRally(); });
+  on('[data-del]','click', e=>{ if(confirm('Supprimer cette ZR ?')){ RALLY.zrs.splice(+e.target.dataset.del,1); saveRally(); renderRally(); } });
+  on('[data-guide]','click', e=>{ const z=RALLY.zrs[+e.target.dataset.guide];
+    guide('Programmer ST'+pad(z.st,2), stepsProgram(z)); });
+  on('[data-load]','click', e=>loadZRIntoSim(RALLY.zrs[+e.target.dataset.load]));
+  on('[data-pace]','click', e=>showPace(+e.target.dataset.pace));
+  on('[data-wi]','click', e=>{ const w = whatIf()[+e.target.dataset.wi];
+    guide('Que faire si : '+w.t, w.s.filter(Boolean)); });
+  on('[data-tick]','click', e=>{ const id=e.target.dataset.tick;
+    RALLY.prog[id]=!RALLY.prog[id]; saveRally(); renderRally(); });
+  on('[data-task]','click', e=>T[+e.target.dataset.task].run());
+  const add=$('#rAdd'); if(add) add.addEventListener('click',()=>{ RALLY.zrs.push(newZR()); saveRally(); renderRally(); });
+
+  const pc=$('#rPace'); if(pc) pc.addEventListener('click', ()=>showPace(null));
+  const ex=$('#rExport'); if(ex) ex.addEventListener('click', exportRally);
+  const im=$('#rImport'); if(im) im.addEventListener('click', importRally);
+  const f=$('#rFile'); if(f) f.addEventListener('change', e=>{
+    const file=e.target.files[0]; if(!file) return;
+    const r=new FileReader();
+    r.onload=()=>applyImport(r.result);
+    r.readAsText(file); e.target.value='';
+  });
+  const cl=$('#rClear'); if(cl) cl.addEventListener('click',()=>{
+    if(confirm('Effacer toutes les données du carnet ?')){
+      RALLY={name:'',date:'',calib:'',off:0,zrs:[],prog:{}}; saveRally(); renderRally(); }
+  });
+}
+function refreshZRBadges(){
+  $$('.zr').forEach(el=>{
+    const z = RALLY.zrs[+el.dataset.i]; if(!z) return;
+    const p = el.querySelector('.pill'), ok = zrValid(z);
+    p.className = 'pill '+(ok?'ok':'warn');
+    p.textContent = ok ? zrTotal(z).toFixed(3)+' km · '+fmtDur(zrTime(z)) : 'à compléter';
+    el.querySelector('.zr-n').textContent = 'ST'+pad(z.st,2);
+  });
+}
+
+/* horloge en direct */
+function tickRally(){
+  const c = $('#rClock'); if(!c) return;
+  const t = refNow(), d = new Date(t*1000);
+  c.firstChild ? c.firstChild.nodeValue = refClock() : c.textContent = refClock();
+  const th = $('#rTenth'); if(th) th.textContent = '.'+refTenths();
+  const rem = 60 - (Math.floor(t)%60);
+  const n = $('#rNext'); if(n) n.textContent = rem+' s';
+  const tg = $('#rTarget');
+  if(tg){ const target = (Math.floor(t/30)+1)*30 + 30;
+          tg.textContent = refClockAt(target); }
+}
+function refClockAt(ts){ const d=new Date(ts*1000);
+  return pad(d.getHours(),2)+':'+pad(d.getMinutes(),2)+':'+pad(d.getSeconds(),2); }
+
+/* charge une ZR du carnet dans le simulateur */
+function loadZRIntoSim(z){
+  if(!zrValid(z)){ alert('Complétez d\'abord les moyennes et les distances de cette ZR.'); return; }
+  const st = clamp(z.st, 0, MC().maxStage);
+  S.stages[st] = { start: hhmmss(z.start)||0, off: Math.round(num(z.off)*1000),
+                   dur: Math.round(num(z.dur)*60), sec: zrSections(z) };
+  S.sel = st; S.menu=null; S.inStage=false; S.view = MODEL==='ii' ? 'CLOCK' : 'CLOCK';
+  S.clock = hhmmss(z.start) - 120;
+  S.total=0; S.partial=0; C.realDist=0; C.v=0; C.run=false;
+  W.t = S.clock;
+  setProfile('zr20');
+  showView('practice'); practiceSig=''; renderAll();
+}
+
+/* --------------------------- sauvegarde du carnet ----------------------- */
+function rallyFileName(){
+  return 'carnet-'+((RALLY.name||'rallye').replace(/[^\w-]+/g,'-').toLowerCase().replace(/^-+|-+$/g,'')||'rallye')+'.json';
+}
+async function exportRally(){
+  const json = JSON.stringify(RALLY, null, 2), name = rallyFileName();
+  try{
+    const dl = (window.claude && typeof claude.use === 'function') ? await claude.use('downloads') : null;
+    if(dl){ await dl.save({filename:name, data:json}); return; }
+  }catch(err){ if(err && err.code === 'declined') return; }
+  try{
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([json],{type:'application/json'}));
+    a.download = name; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(a.href), 4000);
+    return;
+  }catch(err){}
+  showJSON(json);
+}
+function showJSON(json){
+  openModal('Sauvegarde du carnet',
+    '<div class="body"><p class="sub">Copiez ce texte et conservez-le. Vous pourrez le recharger depuis « Importer ».</p>'+
+    '<textarea id="jsOut" class="jsbox" readonly>'+json.replace(/</g,'&lt;')+'</textarea>'+
+    '<div class="row-btns"><button class="btn primary" id="jsCopy">Copier</button></div></div>');
+  const t=$('#jsOut'), c=$('#jsCopy');
+  c.onclick = async ()=>{
+    t.select();
+    try{ await navigator.clipboard.writeText(json); }catch(e){ try{ document.execCommand('copy'); }catch(e2){} }
+    c.textContent='Copié';
+    setTimeout(()=>{ c.textContent='Copier'; }, 1600);
+  };
+}
+function importRally(){
+  openModal('Importer un carnet',
+    '<div class="body"><p class="sub">Choisissez un fichier enregistré, ou collez ci-dessous le texte d\'une sauvegarde.</p>'+
+    '<div class="row-btns" style="margin:0 0 12px"><button class="btn" id="jsFile">Choisir un fichier</button></div>'+
+    '<textarea id="jsIn" class="jsbox" placeholder=\'{ "name": "...", "zrs": [ ... ] }\'></textarea>'+
+    '<div class="row-btns"><button class="btn primary" id="jsLoad">Charger</button></div></div>');
+  $('#jsFile').onclick = ()=>$('#rFile').click();
+  $('#jsLoad').onclick = ()=>applyImport($('#jsIn').value);
+}
+function applyImport(txt){
+  let d = null;
+  try{ d = JSON.parse(txt); }catch(e){}
+  if(!d || !Array.isArray(d.zrs)){ alert('Sauvegarde non reconnue. Vérifiez le fichier ou le texte collé.'); return; }
+  RALLY = Object.assign({name:'',date:'',calib:'',off:0,zrs:[],prog:{}}, d);
+  RALLY.zrs = RALLY.zrs.map(z=>Object.assign({st:1,name:'',start:'',mode:'single',as:'',end:'',off:'',dur:'',sections:[]}, z));
+  saveRally(); $('#modal').classList.add('hidden');
+  showView('rally');
+}
+
+/* ========================= TABLEAU DE MARCHE ============================ */
+/* Heure théorique de passage, kilomètre par kilomètre, pour une ZR.        */
+function paceTime(z, d){            /* d en mètres depuis le début de la ZR */
+  const secs = zrSections(z);
+  let t = 0, prev = 0;
+  for(const s of secs){
+    const end = Math.min(d, s.end);
+    if(end > prev && s.as > 0) t += (end - prev) / (s.as/3.6);
+    if(d <= s.end) return t;
+    prev = s.end;
+  }
+  return t;
+}
+function paceAvgAt(z, d){
+  const secs = zrSections(z);
+  for(const s of secs) if(d <= s.end) return s.as;
+  return secs.length ? secs[secs.length-1].as : 0;
+}
+function clockPlus(t0, s){
+  let x = Math.round((t0 + s) % 86400); if(x < 0) x += 86400;
+  return pad(Math.floor(x/3600),2)+':'+pad(Math.floor(x%3600/60),2)+':'+pad(x%60,2);
+}
+function paceRows(z, stepKm){
+  const secs = zrSections(z);
+  if(!secs.length) return [];
+  const total = secs[secs.length-1].end;
+  const t0 = hhmmss(z.start);
+  const set = new Set([0, Math.round(total)]);
+  for(let d = 0; d <= total; d += stepKm*1000) set.add(Math.round(d));
+  secs.forEach(s => set.add(Math.round(s.end)));
+  return [...set].sort((a,b)=>a-b).filter(d=>d<=total).map(d=>{
+    const t = paceTime(z, d);
+    return {
+      km  : (d/1000).toFixed(3),
+      t   : t0 != null ? clockPlus(t0, t) : '—',
+      el  : fmtDur(t),
+      as  : paceAvgAt(z, d).toFixed(MODEL==='ii'?2:1),
+      mark: secs.some(s=>Math.round(s.end)===d) || d===0
+    };
+  });
+}
+function paceTableHTML(z, stepKm, cls){
+  const rows = paceRows(z, stepKm);
+  if(!rows.length) return '<p class="sub" style="padding:0 16px">Données de ZR incomplètes.</p>';
+  return '<table class="'+(cls||'pace')+'"><thead><tr><th>km</th><th>Heure de passage</th>'+
+    '<th>Temps écoulé</th><th>Moyenne</th></tr></thead><tbody>'+
+    rows.map(r=>'<tr'+(r.mark?' class="mark"':'')+'><td class="n">'+r.km+'</td><td class="n">'+r.t+
+      '</td><td class="n">'+r.el+'</td><td class="n">'+r.as+'</td></tr>').join('')+
+    '</tbody></table>';
+}
+function zrLabel(z){ return 'ST'+pad(z.st,2)+(z.name ? ' — '+z.name : ''); }
+function zrMeta(z){
+  const secs = zrSections(z);
+  return (z.start ? 'Départ '+z.start+' · ' : '') + zrTotal(z).toFixed(3)+' km · '+
+    fmtDur(zrTime(z)) + ' · ' +
+    (secs.length>1 ? secs.length+' tronçons' : 'moyenne '+(secs[0]?secs[0].as.toFixed(2):'—')+' km/h') +
+    (num(z.off)>0 ? ' · offset '+num(z.off).toFixed(3)+' km' : '');
+}
+/* pas du tableau, réglable */
+let paceStep = 1;
+function showPace(idx){
+  const all = idx == null;
+  const list = all ? RALLY.zrs.filter(zrValid) : [RALLY.zrs[idx]];
+  if(!list.length || !list.every(zrValid)){
+    alert('Complétez d\'abord l\'heure de départ, les moyennes et les distances.'); return;
+  }
+  const seg = [0.5,1,2,5].map(v=>'<button data-ps="'+v+'" aria-pressed="'+(v===paceStep)+'">'+
+    (v<1 ? '500 m' : v+' km')+'</button>').join('');
+  openModal(all ? 'Tableau de marche — toutes les ZR' : 'Tableau de marche — '+zrLabel(list[0]),
+    '<div class="body"><p class="sub">Heure théorique de passage à chaque repère, calculée depuis l\'heure de départ et les moyennes imposées. Les lignes surlignées sont les changements de moyenne.</p>'+
+    '<div class="modesw"><span class="lbl">Pas</span><div class="seg" id="psSeg">'+seg+'</div>'+
+    '<button class="btn sm primary" id="psPrint" style="margin-left:auto">Imprimer</button></div></div>'+
+    '<div id="psBody"></div>');
+  const draw = ()=>{
+    $('#psBody').innerHTML = list.map(z=>
+      '<div class="psheet"><h3>'+zrLabel(z)+'</h3><div class="meta">'+zrMeta(z)+'</div>'+
+      '<div class="scroll">'+paceTableHTML(z, paceStep)+'</div></div>').join('');
+  };
+  draw();
+  $$('#psSeg button').forEach(b=>b.addEventListener('click', ()=>{
+    paceStep = +b.dataset.ps;
+    $$('#psSeg button').forEach(x=>x.setAttribute('aria-pressed', x===b ? 'true':'false'));
+    draw();
+  }));
+  $('#psPrint').addEventListener('click', ()=>printPace(list));
+}
+function printPace(list){
+  const head = '<h1>Tableau de marche'+(RALLY.name ? ' — '+esc(RALLY.name) : '')+'</h1>'+
+    '<p class="sub">'+(RALLY.date ? RALLY.date+' · ' : '')+
+    'Pas '+(paceStep<1 ? '500 m' : paceStep+' km')+
+    (num(RALLY.calib)>0 ? ' · étalonnage '+num(RALLY.calib).toFixed(3)+' km' : '')+
+    ' · appareil '+(MODEL==='ii'?'Blunik II':'Blunik Classic')+'</p>';
+  $('#printArea').innerHTML = head + list.map(z=>
+    '<div class="zrblock"><h3>'+zrLabel(z)+'</h3><div class="meta">'+zrMeta(z)+'</div>'+
+    paceTableHTML(z, paceStep, 'ptab')+'</div>').join('');
+  try{ window.print(); }
+  catch(e){
+    alert('L\'impression n\'est pas disponible ici. Utilisez Ctrl+P (Cmd+P sur Mac) pour imprimer la feuille.');
+  }
+}
+
+/* ===================== ASSISTANT « QUE FAIRE SI » ======================= */
+/* Cartes de dépannage : ce que le copilote fait, touche par touche.        */
+function whatIf(){
+  const ii = MODEL==='ii';
+  return [
+  { t:'Je suis parti en retard sur l\'heure de départ',
+    d:'Le commissaire a donné le départ après l\'heure prévue',
+    s:[
+      {t:'Ne touchez pas à la programmation du secteur : l\'heure théorique reste celle du carnet.'},
+      {t:'Appuyez sur '+KB('START')+' à l\'instant du départ réel.', k:'START'},
+      {t:'L\'appareil compte le retard dès la première seconde. Le pilote le rattrape progressivement, sans à-coups.'},
+      {t:'Si le retard dépasse une minute, prévenez le pilote : il vaut mieux le rattraper sur toute la ZR que d\'un coup.'}
+    ]},
+  { t:'Je me suis trompé de route',
+    d:'Demi-tour, la distance mesurée est fausse',
+    s:[
+      {t:'Faites demi-tour immédiatement et revenez au dernier point sûr du road-book.'},
+      {t:'Au retour, appuyez sur '+KB('MODE')+' pour passer le compteur en marche arrière pendant le retour, puis remettez-le en marche avant.', k:'MODE'},
+      ii ? {t:'Plus simple : au prochain repère kilométrique du road-book, corrigez la distance avec '+KB('◄ −10')+' et '+KB('► +10')+' par pas de 10 mètres.'}
+         : {t:'Plus simple : au prochain repère du road-book, ouvrez '+KB('UPDATE TOTAL')+' et saisissez la distance exacte du road-book.'},
+      {t:'Vérifiez ensuite l\'écart affiché : il doit redevenir cohérent.'}
+    ]},
+  { t:'Ma distance ne colle pas au road-book',
+    d:'Écart constaté à un repère kilométrique',
+    s:[
+      {t:'Attendez un repère franc et sûr du road-book (pont, panneau, croisement).'},
+      ii ? {t:'Corrigez au passage exact avec '+KB('◄ −10')+' ou '+KB('► +10')+', par pas de 10 mètres.'}
+         : {t:'Appuyez sur '+KB('MODE')+' pour ouvrir '+KB('UPDATE TOTAL')+'.', k:'MODE'},
+      ii ? {t:'Si l\'écart est important, c\'est l\'étalonnage qui dérive : notez-le et refaites une zone d\'étalonnage entre deux ZR.'}
+         : {t:'Saisissez la distance du road-book, validez avec '+KB('SELECT')+'.', k:'SELECT'},
+      {t:'Un écart qui grandit régulièrement vient de l\'étalonnage, pas d\'une erreur ponctuelle. Un changement de pneus ou de pression suffit.'}
+    ]},
+  { t:'La moyenne change à un panneau',
+    d:'Nouvelle moyenne imposée en cours de ZR',
+    s:[
+      {t:'Cette moyenne devait être programmée avant le départ, comme un tronçon supplémentaire.'},
+      {t:'Si elle ne l\'est pas, arrêtez le secteur en cours avec '+KB('FINISH')+' seulement à l\'arrivée : ne le coupez pas en route.', k:'FINISH'},
+      {t:'En course, le pilote suit la nouvelle moyenne à la montre : l\'appareil restera décalé jusqu\'à la fin.'},
+      {t:'Notez-le pour la ZR suivante : ajoutez un tronçon dans le carnet, puis reprogrammez.'}
+    ]},
+  { t:'Nous sommes arrêtés en pleine ZR',
+    d:'Neutralisation, incident, contrôle',
+    s:[
+      {t:'Ne coupez rien : l\'appareil continue de compter le temps, c\'est ce que fait le chronomètre officiel.'},
+      {t:'Notez l\'heure et la durée de l\'arrêt.'},
+      {t:'Au redémarrage, le retard est affiché. Le pilote le rattrape dans les portions rapides, jamais en épingle.'},
+      {t:'Si l\'organisation neutralise la ZR, la réclamation se fait au contrôle, pas sur l\'appareil.'}
+    ]},
+  { t:'J\'ai oublié d\'appuyer sur START au départ',
+    d:'Le secteur n\'a pas démarré',
+    s:[
+      {t:'Appuyez sur '+KB('START')+' dès que vous vous en apercevez.', k:'START'},
+      ii ? {t:'Le secteur démarre à l\'heure programmée, pas à l\'appui : l\'écart affiché tient déjà compte du temps perdu.'}
+         : {t:'Le secteur démarre à l\'heure programmée : l\'écart affiché tient déjà compte du temps perdu.'},
+      {t:'Vérifiez sur l\'écran de régularité que la distance parcourue depuis le départ correspond au road-book ; corrigez-la si besoin.'},
+      {t:'Prévenez le pilote de l\'ampleur du retard avant qu\'il n\'accélère.'}
+    ]},
+  { t:'L\'appareil s\'est éteint',
+    d:'Coupure d\'alimentation en course',
+    s:[
+      {t:'Rallumez avec '+KB('START / ON')+'.', k:'START'},
+      {t:'L\'heure et l\'étalonnage sont conservés. Vérifiez-les sur l\'écran horloge.'},
+      {t:'Le secteur en cours est perdu : reprenez la distance à la montre jusqu\'au prochain repère sûr.'},
+      {t:'Au repère, remettez la distance à la valeur du road-book, puis relancez le secteur suivant normalement.'},
+      {t:'Vérifiez la fixation du câble d\'alimentation avant la ZR suivante.'}
+    ]},
+  { t:'Je ne sais plus où j\'en suis',
+    d:'Reprendre la main calmement',
+    s:[
+      {t:'Appuyez sur '+KB('VIEW')+' pour retrouver l\'écran de régularité.', k:'VIEW'},
+      {t:'Lisez dans l\'ordre : distance parcourue, écart, moyenne en cours.'},
+      {t:'Comparez la distance à votre tableau de marche : vous savez alors où vous êtes dans la ZR.'},
+      {t:'Annoncez au pilote l\'écart en secondes et la distance restante. Rien d\'autre.'}
+    ]}
+  ];
+}
+
+/* ------------------- guidage en direct, sur l'appareil ------------------ */
+/* Chaque étape peut porter :
+     t    texte,  val  valeur à saisir,  k  touche à presser (surlignée),
+     live horloge de référence,  auto  test de progression automatique.      */
+let guideState = null;
+
+function guide(title, steps, live, target){
+  guideState = { title, steps, live:!!live, target:(target==null?null:target), i:0 };
+  document.body.classList.add('guiding');
+  $('#gdock').classList.remove('hidden');
+  renderGuide();
+  /* sur téléphone le dock est fixé en bas : on remonte plutôt sur l'appareil,
+     en tenant compte de l'en-tête collante */
+  const narrow = window.matchMedia('(max-width:1040px)').matches;
+  if(narrow){
+    const st = document.querySelector('.stage'), hd = document.querySelector('.top');
+    if(st){
+      const y = st.getBoundingClientRect().top + window.scrollY - ((hd ? hd.offsetHeight : 0) + 10);
+      window.scrollTo({top: Math.max(0, y), behavior:'smooth'});
+    }
+  } else {
+    const d = $('#gdock');
+    if(d && d.scrollIntoView) d.scrollIntoView({block:'nearest', behavior:'smooth'});
+  }
+}
+function closeGuide(){
+  guideState = null;
+  document.body.classList.remove('guiding');
+  document.body.classList.remove('gkey');
+  $('#gdock').classList.add('hidden');
+  clearGuideKey();
+  renderRally();
+}
+function clearGuideKey(){ $$('.k.guide').forEach(b=>b.classList.remove('guide')); }
+
+function renderGuide(){
+  const g = guideState; if(!g) return;
+  const st = g.steps[g.i] || {t:''};
+  $('#gdTitle').textContent = g.title;
+  $('#gdCount').textContent = 'Étape ' + (g.i+1) + ' / ' + g.steps.length;
+  $('#gdNum').textContent   = g.i + 1;
+  $('#gdStep').innerHTML    = st.t || '';
+
+  const v = $('#gdVal');
+  if(st.val){ v.textContent = st.val; v.classList.remove('hidden'); }
+  else v.classList.add('hidden');
+
+  const kEl = $('#gdKey');
+  clearGuideKey();
+  document.body.classList.toggle('gkey', !!st.k);
+  if(st.k){
+    const b = document.querySelector('.k[data-k="'+st.k+'"]');
+    if(b) b.classList.add('guide');
+    kEl.innerHTML = 'Touche encadrée sur l\'appareil : <span class="kk">'+(KEYLABELS[st.k]||st.k)+'</span>';
+    kEl.classList.remove('hidden');
+  } else kEl.classList.add('hidden');
+
+  $('#gdLive').classList.toggle('hidden', !g.live);
+  if(g.live) $('#gdSideL').textContent = g.target!=null ? 'Départ dans' : 'Heure à saisir (+30 s)';
+
+  $('#gdPrev').disabled = g.i === 0;
+  $('#gdNext').textContent = g.i < g.steps.length-1 ? 'Étape suivante' : 'Terminer';
+  tickGuide();
+}
+function guideStep(d){
+  const g = guideState; if(!g) return;
+  const n = g.i + d;
+  if(n < 0) return;
+  if(n >= g.steps.length){ closeGuide(); return; }
+  g.i = n; renderGuide();
+}
+/* appelée après chaque appui sur une touche du boîtier */
+function guideKey(k){
+  const g = guideState; if(!g) return;
+  const st = g.steps[g.i];
+  if(st && st.k === k) setTimeout(()=>{ if(guideState===g) guideStep(1); }, 220);
+}
+function tickGuide(){
+  const g = guideState;
+  if(!g || !g.live) return;
+  const c = $('#gdClock'); if(!c) return;
+  c.childNodes[0].nodeValue = refClock();
+  const th = $('#gdTenth'); if(th) th.textContent = '.' + refTenths();
+  const tg = $('#gdTarget'); if(!tg) return;
+  const t = refNow();
+  if(g.target != null){
+    const d = new Date(t*1000);
+    let rem = g.target - (d.getHours()*3600 + d.getMinutes()*60 + d.getSeconds() + d.getMilliseconds()/1000);
+    if(rem < -43200) rem += 86400; if(rem > 43200) rem -= 86400;
+    const a = Math.abs(rem);
+    tg.textContent = (rem<0 ? '+ ' : '') + Math.floor(a/60) + ' min ' + pad(Math.floor(a%60),2);
+    tg.style.color = rem<0 ? '#ff8a80' : (rem<10 ? '#ffd579' : '');
+  } else tg.textContent = refClockAt((Math.floor(t/30)+1)*30 + 30);
+}
+function wireGuide(){
+  $('#gdPrev').addEventListener('click', ()=>guideStep(-1));
+  $('#gdNext').addEventListener('click', ()=>guideStep(1));
+  $('#gdClose').addEventListener('click', closeGuide);
+}
+</script>
+<script>
+/* ==========================================================================
+   INITIALISATION
+   ========================================================================== */
+function renderAll(){ renderLCD(); renderLeds(); renderPanels(); }
+
+const KEYMAP = {
+  's':'START','f':'FINISH','v':'VIEW','m':'MODE','z':'ZERO','t':'STAGE','p':'PARAM',
+  'enter':'SELECT','+':'PLUS','=':'PLUS','-':'MINUS','_':'MINUS',
+  'arrowleft':'LEFT','arrowright':'RIGHT','arrowup':'PLUS','arrowdown':'MINUS'
+};
+let finishT0 = null, finishHeld = false;
+const keyEl = k => document.querySelector('.k[data-k="'+k+'"]');
+
+function keyDown(k){
+  const el = keyEl(k); if(el) el.classList.add('down');
+  if(k==='FINISH'){
+    if(finishT0!==null) return;
+    finishHeld=false; finishT0=Date.now();
+    setTimeout(()=>{
+      if(finishT0!==null && Date.now()-finishT0>=1150){
+        finishHeld=true;
+        if(S.on){ powerOff(); beep(200,.2); renderAll(); }
+      }
+    }, 1200);
+    return;
+  }
+  press(k);
+}
+function keyUp(k){
+  const el = keyEl(k); if(el) el.classList.remove('down');
+  if(k==='FINISH'){
+    const held = finishT0!==null && Date.now()-finishT0>=1150;
+    finishT0=null;
+    if(!held && !finishHeld) press('FINISH');
+    finishHeld=false;
+  }
+}
+
+function showView(name){
+  $$('.mainnav button').forEach(b=>b.setAttribute('aria-selected', b.dataset.view===name ? 'true':'false'));
+  $$('.view').forEach(v=>v.classList.toggle('act', v.id==='v-'+name));
+  practiceSig=''; refSig='';
+  document.body.classList.toggle('rallyview', name==='rally');
+  if(name==='rally') renderRally();
+  renderPanels();
+}
+function openModal(title, html){
+  $('#modalTitle').textContent = title;
+  $('#modalBody').innerHTML = html;
+  $('#modal').classList.remove('hidden');
+}
+
+const HELP_HTML =
+  '<div class="body"><p class="sub">Le boîtier se pilote à la souris ou au clavier. La voiture roule seule : le pilote simulé choisit son allure selon la route et se corrige sur son afficheur déporté, exactement comme en rallye. Vous gardez la commande Rouler / Arrêt.</p></div>'+
+  '<div class="scroll"><table class="ref"><thead><tr><th>Touche</th><th>Action</th></tr></thead><tbody>'+
+  [['S','START / ON'],['F','FINISH / OFF — maintenir une seconde pour éteindre'],['V','VIEW'],['M','MODE'],
+   ['Z','ZERO'],['T','STAGE'],['P','PARAM'],['Entrée','SELECT / ENTER'],
+   ['+ − ou ↑ ↓','touches + et −'],['← →','touches ◄ et ►'],['Espace','faire rouler ou arrêter la voiture']]
+  .map(r=>'<tr><td class="c1">'+r[0]+'</td><td class="c2">'+r[1]+'</td></tr>').join('')+
+  '</tbody></table></div>'+
+  '<div class="body" style="border-top:1px solid var(--rule-2)">'+
+  '<h3 style="font-size:14px;margin-bottom:6px">Le pilote</h3>'+
+  '<p class="sub">La voiture roule seule. Le pilote simulé tient la moyenne quand la route le permet, ralentit là où elle ne le permet pas et rattrape ensuite, en se corrigeant sur son afficheur déporté. Vous n\'avez que la commande <b>Rouler / Arrêt</b>, comme en course.</p>'+
+  '<h3 style="font-size:14px;margin:14px 0 6px">Le jour du rallye</h3>'+
+  '<p class="sub">L\'onglet <b>Rallye</b> reçoit les données du road-book, calcule le tableau de marche imprimable et vous guide étape par étape : la touche à presser est encadrée sur l\'appareil et la procédure avance dès que vous l\'appuyez. La rubrique <b>Que faire si…</b> couvre les incidents de course.</p></div>';
+
+const SOURCES_HTML =
+  '<div class="body"><p class="sub">Le comportement de l\'appareil est reconstitué à partir des notices constructeur. Les écrans, les libellés et les procédures en sont issus ; les calculs de régularité sont recalculés tronçon par tronçon.</p></div>'+
+  '<div class="scroll"><table class="ref"><thead><tr><th>Document</th><th>Utilisé pour</th></tr></thead><tbody>'+
+  [['Guide pratique Blunik II, 12/2016','paramètres, procédures, modes de secteur'],
+   ['Fiche « I Blunik II »','fonctions clavier, écrans, départ et arrivée'],
+   ['Fiche « Blunik Basic »','enchaînement complet d\'une spéciale'],
+   ['Fiche « Programmer un secteur »','édition d\'un secteur, calcul de la liaison'],
+   ['Notice « Débuter avec le Blunik » v4.01','Blunik Classic']]
+  .map(r=>'<tr><td class="c2">'+r[0]+'</td><td class="c2">'+r[1]+'</td></tr>').join('')+
+  '</tbody></table></div>'+
+  '<div class="body" style="border-top:1px solid var(--rule-2)">'+
+  '<h3 style="font-size:14px;margin-bottom:6px">Limites connues</h3>'+
+  '<p class="sub">Les modes de secteur autres que la moyenne imposée (tables, enregistrement, copie de temps, test de régularité, vitesse fixe), les paramètres Intervalle/mesure et Niveau Sonde, ainsi que les accessoires Sport Drive, Sport Calculator et Screen II ne sont pas simulés.</p>'+
+  '<p class="sub" style="margin-top:8px">Le comportement de la voiture — accélération, freinage, allure du pilote — est un modèle de simulation destiné à l\'entraînement. Il ne provient pas des notices et ne prétend pas reproduire un véhicule particulier.</p>'+
+  '<h3 style="font-size:14px;margin:14px 0 6px">Marque</h3>'+
+  '<p class="sub">Blunik est une marque de Blunik Technology. Ce simulateur est un outil d\'entraînement indépendant, sans lien avec le constructeur, et ne remplace pas la notice de l\'appareil.</p></div>';
+
+/* ==========================================================================
+   APPLICATION MOBILE : écran allumé, installation, mode hors ligne
+   ========================================================================== */
+const standalone = () =>
+  window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+
+/* garder l'écran allumé pendant une ZR : indispensable le jour du rallye */
+let wakeLock = null, wakeWanted = false;
+async function setWake(on){
+  wakeWanted = on;
+  const b = $('#btnWake');
+  if(on){
+    try{
+      wakeLock = await navigator.wakeLock.request('screen');
+      wakeLock.addEventListener('release', ()=>{ wakeLock = null; });
+    }catch(e){ wakeWanted = false; }
+  } else if(wakeLock){ try{ await wakeLock.release(); }catch(e){} wakeLock = null; }
+  if(b) b.textContent = 'Écran allumé : ' + (wakeWanted ? 'oui' : 'non');
+}
+function initWake(){
+  const b = $('#btnWake'); if(!b) return;
+  if(!('wakeLock' in navigator)) return;                 /* non pris en charge */
+  b.classList.remove('hidden');
+  b.addEventListener('click', ()=>setWake(!wakeWanted));
+  document.addEventListener('visibilitychange', ()=>{
+    if(wakeWanted && !wakeLock && document.visibilityState === 'visible') setWake(true);
+  });
+}
+
+/* invite « Sur l'écran d'accueil », uniquement sur iPhone dans Safari */
+const A2HS = 'blunik.a2hs.v1';
+function initA2HS(){
+  const el = $('#a2hs'); if(!el) return;
+  const ios = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+              (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  let hid = false; try{ hid = localStorage.getItem(A2HS) === '1'; }catch(e){}
+  if(!ios || standalone() || hid) return;
+  el.classList.remove('hidden');
+  $('#a2hsX').addEventListener('click', ()=>{
+    el.classList.add('hidden'); try{ localStorage.setItem(A2HS,'1'); }catch(e){}
+  });
+}
+
+/* mode hors ligne : le service worker n'existe que dans la version installée */
+function initSW(){
+  if(!('serviceWorker' in navigator)) return;
+  if(location.protocol !== 'http:' && location.protocol !== 'https:') return;
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('sw.js').catch(()=>{});
+  });
+}
+
+function init(){
+  /* touches du boîtier */
+  $$('.k').forEach(b=>{
+    const k = b.dataset.k;
+    b.addEventListener('pointerdown', e=>{ e.preventDefault(); keyDown(k); });
+    b.addEventListener('pointerup',   e=>{ e.preventDefault(); keyUp(k); });
+    b.addEventListener('pointerleave',()=>{ if(k==='FINISH' && finishT0!==null) keyUp(k); b.classList.remove('down'); });
+  });
+  const pressed = {};
+  const modalOpen = ()=>!$('#modal').classList.contains('hidden');
+  window.addEventListener('keydown', e=>{
+    if(/^(INPUT|SELECT|TEXTAREA)$/.test(e.target.tagName)) return;
+    if(modalOpen()) return;
+    if(e.key===' '){ e.preventDefault(); C.run=!C.run; renderAll(); return; }
+    const k = KEYMAP[e.key.toLowerCase()];
+    if(!k) return;
+    e.preventDefault();
+    if(pressed[k]) return;
+    pressed[k]=true; keyDown(k);
+  });
+  window.addEventListener('keyup', e=>{
+    const k = KEYMAP[e.key.toLowerCase()];
+    if(!k) return; pressed[k]=false; keyUp(k);
+  });
+
+  /* navigation */
+  $$('.mainnav button').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.view)));
+  $$('#modelSeg button').forEach(b=>b.addEventListener('click',()=>setModel(b.dataset.model)));
+
+  /* console */
+  $('#selProfile').innerHTML = PROFILES.map(p=>'<option value="'+p.id+'">'+p.name+'</option>').join('');
+  $('#selProfile').addEventListener('change', e=>{
+    setProfile(e.target.value);
+    if(C.prof.stopAt!=null) C.realDist = 0;
+    practiceSig=''; renderAll();
+  });
+  $('#btnRun').addEventListener('click', ()=>{ C.run=true; renderAll(); });
+  $('#btnStop').addEventListener('click', ()=>{ C.run=false; renderAll(); });
+  $$('#tfSeg button').forEach(b=>b.addEventListener('click',()=>{
+    C.tf = +b.dataset.tf;
+    $$('#tfSeg button').forEach(x=>x.setAttribute('aria-pressed', x===b ? 'true':'false'));
+  }));
+
+  /* pied de page et fenêtres */
+  $('#btnHelp').addEventListener('click', ()=>openModal('Prise en main', HELP_HTML));
+  $('#btnSources').addEventListener('click', ()=>openModal('Sources et conformité', SOURCES_HTML));
+  $('#btnSound').addEventListener('click', e=>{
+    soundOn = !soundOn; S.p.snd = soundOn?'Y':'N';
+    e.target.textContent = 'Son : '+(soundOn?'activé':'coupé');
+  });
+  $('#btnReset').addEventListener('click', ()=>{ if(confirm('Réinitialiser le simulateur ?')) location.reload(); });
+  $('#modalClose').addEventListener('click', ()=>$('#modal').classList.add('hidden'));
+  $('#modal').addEventListener('click', e=>{ if(e.target.id==='modal') $('#modal').classList.add('hidden'); });
+  window.addEventListener('keydown', e=>{ if(e.key==='Escape') $('#modal').classList.add('hidden'); });
+
+  /* état initial */
+  S.stages[1] = { start: Math.round(W.t+180), off:0, dur:0, sec:[{as:50, end:20000}] };
+  S.sel = 1;
+  setProfile('sinueux');
+  setModel('classic');
+  wireGuide();
+  initWake(); initA2HS(); initSW();
+  showView('lessons');
+  requestAnimationFrame(t=>{ lastT=t; requestAnimationFrame(tick); });
+}
+init();
+</script>
+</body>
+</html>

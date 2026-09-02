@@ -1,0 +1,22 @@
+{
+  "name": "Blunik — Simulateur de régularité",
+  "short_name": "Blunik",
+  "description": "Entraînement et assistance de course pour les ordinateurs de régularité Blunik Classic et Blunik II.",
+  "lang": "fr",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "id": "/blunik/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "any",
+  "background_color": "#f2f3f1",
+  "theme_color": "#f2f3f1",
+  "categories": ["sports", "utilities", "education"],
+  "icons": [
+    { "src": "icons/icon-192.png",          "sizes": "192x192",   "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png",          "sizes": "512x512",   "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512-maskable.png", "sizes": "512x512",   "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/icon-1024.png",         "sizes": "1024x1024", "type": "image/png", "purpose": "any" }
+  ]
+}
