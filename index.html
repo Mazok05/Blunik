@@ -558,6 +558,37 @@ input[type=text]:focus,input[type=number]:focus{border-color:var(--accent);outli
 .task.done .tt{color:var(--ink-3);text-decoration:line-through;text-decoration-color:var(--rule)}
 .td{font-size:12.5px;color:var(--ink-3)}
 
+/* ------------------------------------------------ contrôles horaires */
+.chnext{background:var(--bench);color:#eef1f2;padding:14px 16px 16px}
+.chnext .cl{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:#8fa3ae;font-weight:700}
+.chnext .who{display:flex;align-items:baseline;gap:9px;margin:2px 0 8px}
+.chnext .who b{font-family:var(--f-display);font-size:20px;font-weight:700;letter-spacing:.02em}
+.chnext .who span{font-family:var(--f-mono);font-size:16px;color:#a8bcc7}
+.chnext .cd{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-weight:600;
+  font-size:clamp(38px,13vw,58px);line-height:1;letter-spacing:-.01em}
+.chnext.ok .cd{color:#57d98a} .chnext.warn .cd{color:#ffc65c} .chnext.bad .cd{color:#ff7a70}
+.chnext .cs{font-family:var(--f-mono);font-size:12.5px;color:#8fa3ae;margin-top:5px}
+.chnext.none .cd{color:#5b6a72;font-size:26px}
+
+.chbase{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid var(--rule-2);
+  background:var(--surface-2)}
+.chbase .bl{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:700;flex:none}
+.chbase input{max-width:120px;text-align:center;font-family:var(--f-mono);font-size:15px}
+.chrow{display:flex;align-items:center;gap:9px;padding:9px 14px;border-top:1px solid var(--rule-2)}
+.chrow:first-child{border-top:none}
+.chrow.next{background:var(--accent-soft)}
+.chrow .cn{font-family:var(--f-mono);font-weight:700;font-size:12.5px;background:var(--ink);color:var(--surface);
+  border-radius:6px;padding:4px 7px;flex:none;min-width:44px;text-align:center}
+.chrow.done .cn{background:var(--ok)}
+.chrow input{width:74px;flex:none;text-align:center;font-family:var(--f-mono);font-size:14.5px;padding:6px 4px}
+.chrow .arw{color:var(--ink-3);flex:none}
+.chrow .at{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:16px;font-weight:600;
+  flex:1;min-width:0;text-align:right;color:var(--ink)}
+.chrow.done .at{color:var(--ok)}
+.chrow .st{border:1px solid var(--rule);background:var(--surface);border-radius:8px;padding:6px;
+  color:var(--ink-3);flex:none}
+.chrow.done .st{color:var(--ok);border-color:var(--ok)}
+
 /* ------------------------------------------- carnet, version graphique */
 .minbar{height:4px;background:var(--rule-2)}
 .minbar i{display:block;height:100%;background:var(--accent);width:0;transition:width .25s linear}
@@ -693,15 +724,18 @@ textarea.jsbox{width:100%;min-height:180px;background:var(--surface-2);border:1p
    déroulé, dépannage. Les leçons et l'entraînement restent sur grand écran.
    ===================================================================== */
 .tabbar{display:none;position:fixed;left:0;right:0;bottom:0;z-index:45;
-  grid-template-columns:repeat(4,1fr);gap:0;
+  grid-template-columns:repeat(5,1fr);gap:0;
   background:var(--surface);border-top:1px solid var(--rule);
   padding-bottom:env(safe-area-inset-bottom,0px);
   box-shadow:0 -6px 18px -14px #0007}
 .tabbar button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
-  border:none;background:none;padding:8px 2px 7px;color:var(--ink-3);min-height:54px}
+  border:none;background:none;padding:8px 1px 7px;color:var(--ink-3);min-height:54px;min-width:0}
 .tabbar svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.9;
   stroke-linecap:round;stroke-linejoin:round}
-.tabbar span{font-size:10.5px;font-weight:600;letter-spacing:.02em}
+.tabbar span{font-size:10px;font-weight:600;letter-spacing:0;max-width:100%;overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap}
+.tabbar svg{width:22px;height:22px}
+@media (max-width:360px){ .tabbar span{font-size:9px} }
 .tabbar button[aria-selected="true"]{color:var(--accent)}
 .tabbar button[aria-selected="true"] svg{stroke-width:2.15}
 
@@ -997,6 +1031,7 @@ footer button:hover{color:var(--ink)}
 
 <nav class="tabbar" id="tabbar" role="tablist" aria-label="Sections">
   <button data-mt="device" role="tab" aria-selected="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.2" y="5" width="19.6" height="14" rx="2.4"/><rect x="4.6" y="7.4" width="10.4" height="5.2" rx="1"/><circle cx="18.2" cy="9.4" r="1.5"/><circle cx="18.2" cy="14.4" r="1.5"/><path d="M5 15.6h8"/></svg><span>Appareil</span></button>
+  <button data-mt="ch" role="tab" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12.8" r="8"/><path d="M12 8.4v4.4l3 1.8M9.4 2.6h5.2M12 2.6v2.2"/></svg><span>Horaire</span></button>
   <button data-mt="zr" role="tab" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5h16M4 12h16M4 18.5h10"/></svg><span>ZR</span></button>
   <button data-mt="day" role="tab" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6"/><path d="m8.2 12.2 2.7 2.7 5-5.4"/></svg><span>Déroulé</span></button>
   <button data-mt="fix" role="tab" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.6 21.4 20H2.6z"/><path d="M12 9.6v4.2"/><circle cx="12" cy="17" r="1.15" fill="currentColor" stroke="none"/></svg><span>Dépannage</span></button>
@@ -1005,7 +1040,7 @@ footer button:hover{color:var(--ink)}
 <div id="printArea"></div>
 
 <footer>
-  <span>Simulateur Blunik — v1.4</span>
+  <span>Simulateur Blunik — v1.5</span>
   <span class="sep"></span>
   <button id="btnSources">Sources et conformité</button>
   <button id="btnWake" class="hidden">Écran allumé : non</button>
@@ -3123,9 +3158,56 @@ function setModel(id){
    ========================================================================== */
 
 const RKEY = 'blunik.carnet.v1';
-let RALLY = { name:'', date:'', calib:'', off:0, zrs:[], prog:{} };
+let RALLY = { name:'', date:'', calib:'', off:0, zrs:[], prog:{}, chStart:'', chs:[] };
 try{ const raw = localStorage.getItem(RKEY); if(raw) RALLY = Object.assign(RALLY, JSON.parse(raw)); }catch(e){}
 function saveRally(){ try{ localStorage.setItem(RKEY, JSON.stringify(RALLY)); }catch(e){} }
+function blankRally(){ return {name:'',date:'',calib:'',off:0,zrs:[],prog:{},chStart:'',chs:[]}; }
+if(!Array.isArray(RALLY.chs)) RALLY.chs = [];
+
+/* ====================== CONTRÔLES HORAIRES (CH) =========================
+   Le copilote note l'heure de pointage et le temps imparti ; l'application
+   enchaîne les heures d'arrivée et décompte le temps restant au prochain CH.
+   ===================================================================== */
+/* « 47 » = 47 min · « 1:12 » ou « 1h12 » = 1 h 12 · « 0:47:30 » accepté */
+function durSec(v){
+  const t = String(v||'').trim().replace(',','.');
+  if(!t) return 0;
+  const m = t.match(/^(\d{1,2})\s*[:hH]\s*(\d{1,2})(?:\s*[:mM]?\s*(\d{1,2}))?$/);
+  if(m) return (+m[1])*3600 + (+m[2])*60 + (+(m[3]||0));
+  const n = parseFloat(t);
+  return isFinite(n) ? Math.round(n*60) : 0;
+}
+function fmtDurHM(s){
+  s = Math.max(0, Math.round(s));
+  const h = Math.floor(s/3600), m = Math.floor(s%3600/60);
+  return h ? h+' h '+pad(m,2) : m+' min';
+}
+/* heure du jour, en secondes, sur l'horloge de référence */
+function nowSec(){
+  const d = new Date(refNow()*1000);
+  return d.getHours()*3600 + d.getMinutes()*60 + d.getSeconds() + d.getMilliseconds()/1000;
+}
+const hhmm = t => { let x = Math.round(t)%86400; if(x<0) x+=86400;
+  return pad(Math.floor(x/3600),2)+':'+pad(Math.floor(x%3600/60),2)+':'+pad(x%60,2); };
+
+/* enchaînement : chaque CH part de l'heure réellement pointée au précédent,
+   ou de l'heure théorique si le pointage n'est pas encore fait */
+function chRows(){
+  let base = hhmmss(RALLY.chStart);
+  return (RALLY.chs||[]).map((c,i)=>{
+    const imp = durSec(c.imp);
+    const arr = (base!=null && imp>0) ? base + imp : null;
+    const real = hhmmss(c.real);
+    const row = { i, n: c.n || ('CH'+(i+1)), imp, arr, real };
+    base = real!=null ? real : arr;
+    return row;
+  });
+}
+function chNext(){
+  const rows = chRows();
+  return rows.find(r => r.real == null && r.arr != null) || null;
+}
+
 
 /* heure de référence : horloge de la machine, corrigée si besoin */
 function refNow(){ return Date.now()/1000 + (+RALLY.off||0); }
@@ -3270,7 +3352,9 @@ function rallyTasks(){
 /* -------------------------- sections de l'écran ------------------------- */
 /* Sur téléphone chaque onglet n'affiche que ce qui le concerne.           */
 const mobOn  = () => document.body.classList.contains('mob');
-const rSect  = () => mobOn() ? (MTAB==='zr' ? 'zr' : MTAB==='day' ? 'day' : MTAB==='fix' ? 'fix' : 'none') : 'all';
+const rSect  = () => mobOn()
+  ? (['zr','day','fix','ch'].includes(MTAB) ? MTAB : 'none')
+  : 'all';
 const openZR = new Set();
 
 function clockCard(){
@@ -3280,6 +3364,40 @@ function clockCard(){
       '<div class="g-l">Minute suivante</div><div class="mono" id="rNext">—</div>'+
       '<div class="g-l" style="margin-top:8px">À saisir</div><div class="mono" id="rTarget">—</div>'+
     '</div></div><div class="minbar"><i id="rBar"></i></div></div>';
+}
+
+/* ------------------------- bloc contrôles horaires ---------------------- */
+function chCard(){
+  const rows = chRows(), nx = chNext();
+  let h = '<div class="card">';
+
+  /* prochain CH : compte à rebours */
+  h += '<div class="chnext" id="chNext"><span class="cl">Prochain CH</span>'+
+       '<div class="who"><b id="chWho">—</b><span id="chArr"></span></div>'+
+       '<div class="cd" id="chCd">--:--</div>'+
+       '<div class="cs" id="chCs">Renseignez l\'heure de pointage et le temps imparti</div></div>';
+
+  /* base : heure de pointage de départ */
+  h += '<div class="chbase"><span class="bl">Pointage départ</span>'+
+       '<input id="chStart" type="text" inputmode="numeric" value="'+esc(RALLY.chStart)+'" placeholder="08:31:00">'+
+       '<button class="ib" data-chnow="-1" aria-label="Pointer maintenant">'+icon('clock','sm')+'</button></div>';
+
+  /* liste des CH */
+  rows.forEach(r=>{
+    const c = RALLY.chs[r.i];
+    h += '<div class="chrow'+(r.real!=null?' done':(nx && nx.i===r.i?' next':''))+'" data-i="'+r.i+'">'+
+      '<span class="cn">'+r.n+'</span>'+
+      '<input data-ch="'+r.i+'" data-f="imp" value="'+esc(c.imp)+'" placeholder="0:47" inputmode="numeric" aria-label="Temps imparti">'+
+      '<span class="arw">'+icon('right','sm')+'</span>'+
+      '<span class="at">'+(r.real!=null ? hhmm(r.real) : (r.arr!=null ? hhmm(r.arr) : '—'))+'</span>'+
+      '<button class="st" data-chnow="'+r.i+'" aria-label="Pointer maintenant">'+icon('clock','sm')+'</button>'+
+      '<button class="ib" data-chdel="'+r.i+'" aria-label="Supprimer">'+icon('trash','sm')+'</button>'+
+      '</div>';
+  });
+  if(!rows.length) h += '<div class="body"><p class="sub">Aucun CH. Ajoutez le premier et son temps imparti.</p></div>';
+  h += '<div class="body" style="border-top:1px solid var(--rule-2)">'+
+       '<button class="btn primary wide" id="chAdd">'+icon('plus','sm')+'Ajouter un CH</button></div>';
+  return h + '</div>';
 }
 
 function zrCard(x,i){
@@ -3359,7 +3477,10 @@ function renderRally(){
   }
 
   /* ---- horloge de référence ---- */
-  if(all || sect==='zr' || sect==='day') h += clockCard();
+  if(all || sect==='ch' || sect==='day') h += clockCard();
+
+  /* ---- contrôles horaires ---- */
+  if(all || sect==='ch') h += chCard();
 
   /* ---- zones de régularité ---- */
   if(all || sect==='zr'){
@@ -3464,8 +3585,24 @@ function wireRally(T){
     else if(a==='export') exportRally();
     else if(a==='import') importRally();
     else if(a==='clear' && confirm('Effacer toutes les données du carnet ?')){
-      RALLY={name:'',date:'',calib:'',off:0,zrs:[],prog:{}}; openZR.clear(); saveRally(); renderRally(); }
+      RALLY=blankRally(); openZR.clear(); saveRally(); renderRally(); }
   });
+  /* contrôles horaires */
+  const cst=$('#chStart');
+  if(cst) cst.addEventListener('input', ()=>{ RALLY.chStart=cst.value; saveRally(); refreshCH(); });
+  on('input[data-ch]','input', e=>{
+    RALLY.chs[+e.target.dataset.ch][e.target.dataset.f] = e.target.value;
+    saveRally(); refreshCH();
+  });
+  on('[data-chnow]','click', e=>{
+    const i = +e.currentTarget.dataset.chnow, t = hhmm(nowSec());
+    if(i < 0) RALLY.chStart = t; else RALLY.chs[i].real = (RALLY.chs[i].real ? '' : t);
+    saveRally(); renderRally();
+  });
+  on('[data-chdel]','click', e=>{ RALLY.chs.splice(+e.currentTarget.dataset.chdel,1); saveRally(); renderRally(); });
+  const ca=$('#chAdd'); if(ca) ca.addEventListener('click', ()=>{
+    RALLY.chs.push({n:'CH'+(RALLY.chs.length+1), imp:'', real:''}); saveRally(); renderRally(); });
+
   const f=$('#rFile'); if(f) f.addEventListener('change', e=>{
     const file=e.target.files[0]; if(!file) return;
     const r=new FileReader();
@@ -3491,8 +3628,46 @@ function refreshZRBadges(){
   });
 }
 
+/* compte à rebours du prochain CH, rafraîchi avec l'horloge */
+const fmtCd = s => { s=Math.max(0,Math.round(s));
+  const h=Math.floor(s/3600), m=Math.floor(s%3600/60), q=s%60;
+  return (h ? h+':'+pad(m,2) : pad(m,2))+':'+pad(q,2); };
+
+function tickCH(){
+  const box = $('#chNext'); if(!box) return;
+  const nx = chNext();
+  const who=$('#chWho'), ar=$('#chArr'), cd=$('#chCd'), cs=$('#chCs');
+  if(!nx){
+    box.className = 'chnext none';
+    who.textContent = '—'; ar.textContent = ''; cd.textContent = '--:--';
+    cs.textContent = 'Renseignez l\'heure de pointage et le temps imparti';
+    return;
+  }
+  let rem = nx.arr - nowSec();
+  if(rem < -43200) rem += 86400; if(rem > 43200) rem -= 86400;
+  box.className = 'chnext ' + (rem <= 0 ? 'bad' : (rem <= 300 ? 'warn' : 'ok'));
+  if(who.textContent !== nx.n) who.textContent = nx.n;
+  const a = hhmm(nx.arr); if(ar.textContent !== a) ar.textContent = a;
+  cd.textContent = (rem < 0 ? '+' : '') + fmtCd(Math.abs(rem));
+  const sub = (rem < 0 ? 'Heure dépassée · ' : 'Arrivée ') + a + ' · imparti ' + fmtDurHM(nx.imp);
+  if(cs.textContent !== sub) cs.textContent = sub;
+}
+/* met à jour les heures d'arrivée sans reconstruire la liste (saisie en cours) */
+function refreshCH(){
+  const rows = chRows(), nx = chNext();
+  $$('.chrow').forEach(el=>{
+    const r = rows[+el.dataset.i]; if(!r) return;
+    el.querySelector('.at').textContent =
+      r.real != null ? hhmm(r.real) : (r.arr != null ? hhmm(r.arr) : '—');
+    el.classList.toggle('done', r.real != null);
+    el.classList.toggle('next', !!(nx && nx.i === r.i));
+  });
+  tickCH();
+}
+
 /* horloge en direct */
 function tickRally(){
+  tickCH();
   const c = $('#rClock'); if(!c) return;
   const t = refNow(), d = new Date(t*1000);
   c.firstChild ? c.firstChild.nodeValue = refClock() : c.textContent = refClock();
@@ -3570,7 +3745,8 @@ function applyImport(txt){
   let d = null;
   try{ d = JSON.parse(txt); }catch(e){}
   if(!d || !Array.isArray(d.zrs)){ alert('Sauvegarde non reconnue. Vérifiez le fichier ou le texte collé.'); return; }
-  RALLY = Object.assign({name:'',date:'',calib:'',off:0,zrs:[],prog:{}}, d);
+  RALLY = Object.assign(blankRally(), d);
+  RALLY.chs = Array.isArray(RALLY.chs) ? RALLY.chs : [];
   RALLY.zrs = RALLY.zrs.map(z=>Object.assign({st:1,name:'',start:'',mode:'single',as:'',end:'',off:'',dur:'',sections:[]}, z));
   saveRally(); $('#modal').classList.add('hidden');
   showView('rally');
@@ -3927,7 +4103,9 @@ const HELP_HTML =
   '<h3 style="font-size:14px;margin-bottom:6px">Le pilote</h3>'+
   '<p class="sub">La voiture roule seule. Le pilote simulé tient la moyenne quand la route le permet, ralentit là où elle ne le permet pas et rattrape ensuite, en lisant son <b>Screen II</b> : voyant rouge en retard, vert en avance, bleu dans la tolérance. Vous n\'avez que la commande <b>Rouler / Arrêt</b>, comme en course.</p>'+
   '<h3 style="font-size:14px;margin:14px 0 6px">Sur téléphone</h3>'+
-  '<p class="sub">L\'application se limite au jour de rallye : <b>Appareil</b>, <b>ZR</b>, <b>Déroulé</b>, <b>Dépannage</b>. Les leçons, l\'entraînement et la référence restent disponibles sur ordinateur et tablette.</p>'+
+  '<p class="sub">L\'application se limite au jour de rallye : <b>Appareil</b>, <b>Horaire</b>, <b>ZR</b>, <b>Déroulé</b>, <b>Dépannage</b>. Les leçons, l\'entraînement et la référence restent disponibles sur ordinateur et tablette.</p>'+
+  '<h3 style="font-size:14px;margin:14px 0 6px">Contrôles horaires</h3>'+
+  '<p class="sub">Onglet <b>Horaire</b> : saisissez l\'heure de pointage du départ et le temps imparti de chaque liaison ; les heures d\'arrivée aux CH s\'enchaînent toutes seules et le temps restant au prochain se décompte en direct. À chaque CH, le bouton horloge inscrit l\'heure réellement pointée : les CH suivants se recalent dessus.</p>'+
   '<h3 style="font-size:14px;margin:14px 0 6px">Vue course</h3>'+
   '<p class="sub">Tournez le téléphone : l\'appareil passe en grand, avec l\'écart, les distances, la moyenne et l\'heure à côté. Revenez au portrait pour le carnet et les leçons.</p>'+
   '<h3 style="font-size:14px;margin:14px 0 6px">Le jour du rallye</h3>'+
@@ -3957,7 +4135,7 @@ const SOURCES_HTML =
    ========================================================================== */
 let MTAB = 'device';
 const MOBQ = matchMedia('(max-width:1040px)');
-const MTABS = ['device','zr','day','fix'];
+const MTABS = ['device','ch','zr','day','fix'];
 
 function mobActive(){
   return MOBQ.matches && (matchMedia('(hover: none)').matches || 'ontouchstart' in window);

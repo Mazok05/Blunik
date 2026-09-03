@@ -1,6 +1,6 @@
 /* Service worker — l'application fonctionne entièrement hors ligne.
    Changez CACHE à chaque nouvelle version pour forcer la mise à jour.      */
-const CACHE = 'blunik-v1.4';
+const CACHE = 'blunik-v1.5';
 const ASSETS = [
   './',
   './index.html',
