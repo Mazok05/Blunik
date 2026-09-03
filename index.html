@@ -107,7 +107,7 @@ html{-webkit-text-size-adjust:100%}
 body{overscroll-behavior-y:none;-webkit-tap-highlight-color:transparent}
 button,select,input{-webkit-tap-highlight-color:transparent}
 .k,.btn,.seg button,.mainnav button,.tick,.gd-x,.close{touch-action:manipulation}
-.blunik,.ctx,.gauges,.remote{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.blunik,.ctx,.gauges,.screen2{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 /* encoches et barre d'accueil de l'iPhone */
 .top{padding-top:calc(10px + env(safe-area-inset-top,0px))}
 main{padding-left:calc(clamp(16px,2.4vw,28px) + env(safe-area-inset-left,0px));
@@ -352,23 +352,40 @@ body.guiding .blunik{box-shadow:0 24px 48px -20px #000c, 0 0 0 2px #ffb02066, 0 
   border-top:1px solid var(--rule-2);background:var(--surface-2)}
 .driver .dl{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
 .driver .dnote{font-size:12.5px;color:var(--ink-3);flex:1;min-width:160px}
-.remote{display:flex;align-items:center;gap:3px;background:var(--bench);border-radius:9px;padding:4px;
-  box-shadow:inset 0 1px 4px #0007;flex-wrap:wrap;max-width:100%}
-.remote .s3{font-family:var(--f-display);font-weight:700;font-size:11.5px;letter-spacing:.07em;
-  text-transform:uppercase;color:#ffffff24;padding:6px 11px;border-radius:6px;white-space:nowrap;
-  transition:background .12s,color .12s,box-shadow .12s}
-.remote .s3.on.late{background:#e4453c;color:#fff;box-shadow:0 0 16px #e4453c70}
-.remote .s3.on.ok{background:#2bb75d;color:#04220f;box-shadow:0 0 16px #2bb75d70}
-.remote .s3.on.early{background:#3f8dff;color:#fff;box-shadow:0 0 16px #3f8dff70}
-.remote .num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:15px;font-weight:600;
-  color:#eef1f2;padding:6px 10px;min-width:78px;text-align:right}
-@media (max-width:560px){ .remote .s3{font-size:10px;padding:5px 7px} .remote .num{min-width:62px;font-size:13px} }
+/* ------------------------------- Blunik Screen II ---------------------
+   L'afficheur déporté du pilote : trois voyants et un écran, sans un mot. */
+.screen2{flex:1;min-width:190px;max-width:520px;display:flex;align-items:stretch;gap:9px;
+  background:linear-gradient(180deg,#343a3d,#191c1e);border:1px solid #07090a;border-radius:8px;
+  padding:7px 9px;box-shadow:0 3px 8px -2px #0008, 0 1px 0 #ffffff17 inset}
+.s2-leds{display:flex;flex-direction:column;justify-content:center;gap:6px;flex:none}
+.s2l{width:11px;height:11px;border-radius:50%;background:#22272a;border:2px solid #0c0e10;
+  transition:background .1s,box-shadow .1s}
+.s2l.on.r{background:#ff3b32;box-shadow:0 0 9px 2px #ff3b3299,0 0 3px #fff6 inset}
+.s2l.on.g{background:#28e35e;box-shadow:0 0 9px 2px #28e35e99,0 0 3px #fff6 inset}
+.s2l.on.b{background:#3f8dff;box-shadow:0 0 9px 2px #3f8dff99,0 0 3px #fff6 inset}
+.s2-lcd{flex:1;min-width:0;background:linear-gradient(180deg,#a6dbf5,#82c5e8);
+  border:1px solid #05080b;border-radius:3px;padding:4px 9px;position:relative;overflow:hidden;
+  box-shadow:0 0 12px #7cc2e555, 0 1px 3px #0007 inset;
+  display:flex;flex-direction:column;justify-content:center}
+.s2-lcd::after{content:"";position:absolute;inset:0;pointer-events:none;mix-blend-mode:multiply;
+  background:repeating-linear-gradient(0deg,#0000 0 2px,#0001 2px 3px),
+             repeating-linear-gradient(90deg,#0000 0 2px,#0001 2px 3px)}
+.s2-a{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-weight:600;
+  font-size:24px;line-height:1.04;color:#242a63;letter-spacing:.02em;white-space:nowrap}
+.s2-a em{font-style:normal;font-size:.5em;margin-left:2px;opacity:.75}
+.s2-b{display:flex;justify-content:space-between;gap:10px;
+  font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:11.5px;
+  color:#2b3170;letter-spacing:.04em;line-height:1.35;white-space:nowrap}
+.s2-tag{font-family:var(--f-display);font-size:8px;line-height:1.15;letter-spacing:.1em;
+  color:#79848b;font-weight:700;align-self:center;text-align:center;flex:none}
+@media (max-width:560px){
+  .screen2{min-width:0;padding:6px 8px;gap:7px}
+  .s2-a{font-size:21px} .s2-b{font-size:10.5px} .s2-tag{display:none}
+}
 @media (max-width:440px){
   .driver{padding:9px 11px;gap:8px}
   .driver .dl{width:100%}
-  .remote{width:100%;justify-content:space-between;gap:2px}
-  .remote .s3{font-size:9.5px;padding:5px 6px;letter-spacing:.03em}
-  .remote .num{min-width:0;padding:5px 6px;font-size:12.5px}
+  .screen2{width:100%}
 }
 select{
   background:var(--surface);border:1px solid var(--rule);color:var(--ink);
@@ -707,8 +724,7 @@ textarea.jsbox{width:100%;min-height:180px;background:var(--surface-2);border:1p
   #tfSeg{margin-left:auto !important}
   .driver .dl,.driver .dnote,.gd-key{display:none}
   .driver{padding:9px 11px}
-  .remote{width:100%}
-  .remote .s3{flex:1;text-align:center}
+  .screen2{width:100%}
 }
 
 /* ================================ VUE COURSE ==========================
@@ -725,12 +741,12 @@ textarea.jsbox{width:100%;min-height:180px;background:var(--surface-2);border:1p
 .ck-top{display:flex;align-items:baseline;gap:8px}
 .ck-st{margin-left:auto;font-family:var(--f-mono);font-size:11px;font-weight:600;color:#8fa3ae;
   border:1px solid #ffffff26;border-radius:4px;padding:1px 5px}
-.ck-drv{display:flex;align-items:center;gap:7px;margin-top:auto;padding-top:10px;
-  font-size:11.5px;color:#8fa3ae;font-weight:500}
-.ck-drv i{width:9px;height:9px;border-radius:50%;background:#ffffff1f;flex:0 0 9px}
-.ck-drv.late i{background:#ff7a70;box-shadow:0 0 9px #ff7a7099}
-.ck-drv.ok   i{background:#57d98a;box-shadow:0 0 9px #57d98a99}
-.ck-drv.early i{background:#6fb0ff;box-shadow:0 0 9px #6fb0ff99}
+.ck-drv{display:flex;align-items:center;gap:10px;margin-top:auto;padding-top:12px}
+.ck-drv i{width:13px;height:13px;border-radius:50%;background:#ffffff14;
+  border:2px solid #0006;flex:none;transition:background .1s,box-shadow .1s}
+.ck-drv i.r.on{background:#ff3b32;box-shadow:0 0 11px 2px #ff3b3299}
+.ck-drv i.g.on{background:#28e35e;box-shadow:0 0 11px 2px #28e35e99}
+.ck-drv i.b.on{background:#3f8dff;box-shadow:0 0 11px 2px #3f8dff99}
 .ck-main.ok  .ck-v{color:#57d98a} .ck-main.ok  .ck-s{color:#57d98a}
 .ck-main.warn .ck-v{color:#ffc65c} .ck-main.warn .ck-s{color:#ffc65c}
 .ck-main.bad .ck-v{color:#ff7a70} .ck-main.bad .ck-s{color:#ff7a70}
@@ -873,7 +889,7 @@ footer button:hover{color:var(--ink)}
         <div class="ck-top"><span class="ck-l" id="ckMainL">Vitesse</span><span class="ck-st" id="ckSt">ST01</span></div>
         <b class="ck-v" id="ckMainV">0</b>
         <span class="ck-s" id="ckMainS">km/h</span>
-        <div class="ck-drv" id="ckDrv"><i></i><span id="ckDrvT">Voiture à l'arrêt</span></div>
+        <div class="ck-drv" id="ckDrv"><i class="r"></i><i class="g"></i><i class="b"></i></div>
       </div>
       <div class="ck-grid">
         <div><span class="ck-l">Total</span><b id="ckTot">0.000</b></div>
@@ -938,13 +954,16 @@ footer button:hover{color:var(--ink)}
       </div>
       <div class="driver">
         <span class="dl">Afficheur du pilote</span>
-        <div class="remote" id="remote" aria-live="polite">
-          <span class="s3 late"  id="rLate">Retard</span>
-          <span class="s3 ok"    id="rOk">Dans les temps</span>
-          <span class="s3 early" id="rEarly">Avance</span>
-          <span class="num" id="rNum">—</span>
+        <div class="screen2" aria-live="polite">
+          <div class="s2-leds">
+            <i class="s2l r" id="s2Red"></i><i class="s2l g" id="s2Grn"></i><i class="s2l b" id="s2Blu"></i>
+          </div>
+          <div class="s2-lcd">
+            <div class="s2-a" id="s2L1">--.-<em>s</em></div>
+            <div class="s2-b"><span id="s2V">V --</span><span id="s2M">m --.--</span></div>
+          </div>
+          <span class="s2-tag">SCREEN<br>II</span>
         </div>
-        <span class="dnote" id="drvNote">Voiture à l'arrêt</span>
       </div>
       <div class="gauges">
         <div class="gauge"><div class="g-l">Vitesse</div><div class="g-v" id="gSpeed">0.0<small>km/h</small></div></div>
@@ -986,7 +1005,7 @@ footer button:hover{color:var(--ink)}
 <div id="printArea"></div>
 
 <footer>
-  <span>Simulateur Blunik — v1.3</span>
+  <span>Simulateur Blunik — v1.4</span>
   <span class="sep"></span>
   <button id="btnSources">Sources et conformité</button>
   <button id="btnWake" class="hidden">Écran allumé : non</button>
@@ -2870,27 +2889,36 @@ function renderPanels(){
   tickGuide();
 }
 
-/* afficheur deporte du pilote : retard / dans les temps / avance */
-const DRVNOTE = {
-  stop : 'Voiture à l\'arrêt',
-  libre: 'Allure libre, hors secteur',
-  ok   : 'Le pilote tient l\'allure',
-  late : 'Le pilote accélère pour rattraper',
-  early: 'Le pilote lève le pied'
-};
+/* ---------------------- Blunik Screen II (afficheur pilote) -------------
+   Trois voyants, comme sur le boîtier : rouge en retard, vert en avance,
+   bleu dans la tolérance. Et l'écart chiffré. Aucun libellé.             */
+function drvLeds(){
+  if(!(S.on && S.inStage)) return {r:0,g:0,b:0};
+  const sec = regSeconds(), m = regMeters();
+  const tol = MODEL==='ii' ? Math.abs(sec) <= S.ii.ledSec : Math.abs(m) <= S.p.blue;
+  if(tol) return {r:0,g:0,b:1};
+  return sec > 0 ? {r:0,g:1,b:0} : {r:1,g:0,b:0};
+}
 function renderDriver(){
-  const st = C.run ? (C.drv.state||'libre') : 'stop';
-  ['late','ok','early'].forEach(k=>
-    $('#r'+k[0].toUpperCase()+k.slice(1)).classList.toggle('on', k===st));
-  const num = $('#rNum');
+  const L = drvLeds();
+  $('#s2Red').classList.toggle('on', !!L.r);
+  $('#s2Grn').classList.toggle('on', !!L.g);
+  $('#s2Blu').classList.toggle('on', !!L.b);
+
+  const l1 = $('#s2L1'), lv = $('#s2V'), lm = $('#s2M');
+  const v = 'V ' + (S.on ? pad(Math.round(bluSpeed()),2) : '--');
+  let a, m;
   if(S.on && S.inStage){
     const sec = regSeconds();
-    num.textContent = (sec>=0?'+':'−')+Math.abs(sec).toFixed(1)+' s';
+    a = (sec>=0?'+':'−') + Math.abs(sec).toFixed(1) + '<em>s</em>';
+    m = 'm ' + consigne().toFixed(2).padStart(5,'0');
   } else {
-    num.textContent = (C.v*3.6).toFixed(0)+' km/h';
+    a = (S.on ? pad(Math.round(bluSpeed()),2) : '--') + '<em>km/h</em>';
+    m = 'm --.--';
   }
-  const note = $('#drvNote'), tx = DRVNOTE[st] || DRVNOTE.libre;
-  if(note.textContent !== tx) note.textContent = tx;
+  if(l1.innerHTML !== a) l1.innerHTML = a;
+  if(lv.textContent !== v) lv.textContent = v;
+  if(lm.textContent !== m) lm.textContent = m;
 }
 
 /* ================================ VUE COURSE ============================
@@ -2936,11 +2964,10 @@ function renderCockpit(){
   if(Sb.textContent !== sub) Sb.textContent = sub;
   main.className = 'ck-main ' + cls;
 
-  const dst = C.run ? (C.drv.state||'libre') : 'stop';
-  const drv = $('#ckDrv'), drvT = $('#ckDrvT');
-  drv.className = 'ck-drv ' + (['late','ok','early'].includes(dst) ? dst : '');
-  const dtx = DRVNOTE[dst] || DRVNOTE.libre;
-  if(drvT.textContent !== dtx) drvT.textContent = dtx;
+  const L = drvLeds(), dv = $('#ckDrv').children;
+  dv[0].classList.toggle('on', !!L.r);
+  dv[1].classList.toggle('on', !!L.g);
+  dv[2].classList.toggle('on', !!L.b);
   $('#ckSt').textContent = 'ST'+pad(S.sel,2);
 
   const st = curStage(), cs = ckStage();
@@ -3898,7 +3925,7 @@ const HELP_HTML =
   '</tbody></table></div>'+
   '<div class="body" style="border-top:1px solid var(--rule-2)">'+
   '<h3 style="font-size:14px;margin-bottom:6px">Le pilote</h3>'+
-  '<p class="sub">La voiture roule seule. Le pilote simulé tient la moyenne quand la route le permet, ralentit là où elle ne le permet pas et rattrape ensuite, en se corrigeant sur son afficheur déporté. Vous n\'avez que la commande <b>Rouler / Arrêt</b>, comme en course.</p>'+
+  '<p class="sub">La voiture roule seule. Le pilote simulé tient la moyenne quand la route le permet, ralentit là où elle ne le permet pas et rattrape ensuite, en lisant son <b>Screen II</b> : voyant rouge en retard, vert en avance, bleu dans la tolérance. Vous n\'avez que la commande <b>Rouler / Arrêt</b>, comme en course.</p>'+
   '<h3 style="font-size:14px;margin:14px 0 6px">Sur téléphone</h3>'+
   '<p class="sub">L\'application se limite au jour de rallye : <b>Appareil</b>, <b>ZR</b>, <b>Déroulé</b>, <b>Dépannage</b>. Les leçons, l\'entraînement et la référence restent disponibles sur ordinateur et tablette.</p>'+
   '<h3 style="font-size:14px;margin:14px 0 6px">Vue course</h3>'+
