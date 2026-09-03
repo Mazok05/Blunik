@@ -161,8 +161,8 @@ main{
 .bench{position:sticky;top:66px;display:flex;flex-direction:column;gap:12px}
 @media (max-width:1040px){
   .bench{position:static}
-  body.rallyview .bench{display:none}          /* le jour du rallye, l'assistant d'abord */
-  body.rallyview.guiding .bench{display:flex;order:-1}   /* sauf pendant un guidage */
+  body.rallyview:not(.mob) .bench{display:none}
+  body.rallyview:not(.mob).guiding .bench{display:flex;order:-1}
 }
 
 /* ------------------------------------------------------------- l'appareil */
@@ -396,14 +396,17 @@ select{
 @media (max-width:1040px){
   .mainnav{position:sticky;top:calc(52px + env(safe-area-inset-top,0px));z-index:30}
 }
-@media (max-width:620px){
-  .top{gap:8px 12px;padding-bottom:8px}
-  .brand b{font-size:18px}
+@media (max-width:700px){
+  .top{gap:8px;padding:8px clamp(12px,3vw,20px)}
+  .brand b{font-size:17px}
   .brand span{display:none}
-  .top .right{gap:7px;margin-left:0;width:100%}
-  .top .right .lbl{display:none}
-  .top .right .seg{flex:1}
-  .top .right .seg button{flex:1;padding:6px 4px;font-size:12.5px}
+  .top .right{gap:6px}
+  .top .right .lbl,.top .full{display:none}
+  .top .right .seg button{padding:6px 10px;font-size:13px}
+  #btnHelp{padding:6px 11px;font-size:13px}
+  footer{padding:14px clamp(12px,3vw,20px) calc(16px + env(safe-area-inset-bottom,0px));
+    gap:10px;font-size:12px}
+  footer button{font-size:12px}
   /* barre de contexte empilée : le texte prend toute la largeur */
   .ctx{flex-direction:column;align-items:flex-start;gap:3px;padding:10px 12px}
   .ctx .txt{font-size:13.5px}
@@ -475,6 +478,11 @@ kbd{font-family:var(--f-mono);font-size:12px;font-weight:600;background:var(--su
 .result .v.ok{color:var(--ok)} .result .v.warn{color:var(--warn)} .result .v.bad{color:var(--bad)}
 .result .sp{margin-left:auto;display:flex;gap:8px}
 
+svg.ic{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.85;
+  stroke-linecap:round;stroke-linejoin:round;flex:none;display:block}
+svg.ic.lg{width:22px;height:22px}
+svg.ic.sm{width:15px;height:15px}
+
 .pill{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:2px 9px;
   font-size:11.5px;font-weight:600;letter-spacing:.03em}
 .pill.ok{background:var(--ok-soft);color:var(--ok)}
@@ -510,18 +518,6 @@ input[type=text],input[type=number],input[type=date]{
 input[type=text]:focus,input[type=number]:focus{border-color:var(--accent);outline:none}
 .row-btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
 
-.zr{border-top:1px solid var(--rule-2)}
-.zr-hd{display:flex;align-items:center;gap:10px;padding:10px 16px;background:var(--surface-2);flex-wrap:wrap}
-.zr-n{font-family:var(--f-mono);font-weight:600;font-size:14px}
-.zr-name{flex:1;min-width:120px;border:1px solid transparent;background:none;font:inherit;
-  font-weight:500;padding:4px 6px;border-radius:6px;color:var(--ink)}
-.zr-name:hover{border-color:var(--rule)}
-.zr-name:focus{border-color:var(--accent);background:var(--surface);outline:none}
-.zr-body{padding:14px 16px;display:flex;flex-direction:column;gap:14px}
-table.sect input{padding:6px 8px;font-size:14px}
-table.sect td{padding:6px 8px}
-table.sect th{padding:6px 8px}
-.modesw{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 
 .clockbox{display:flex;align-items:center;gap:18px;padding:16px;background:var(--bench);color:#eef1f2;flex-wrap:wrap}
 .clockbox.live{border-radius:0}
@@ -533,7 +529,7 @@ table.sect th{padding:6px 8px}
   color:#8fa3ad;font-weight:600}
 
 .tasks{display:flex;flex-direction:column}
-.task{display:flex;align-items:center;gap:12px;padding:11px 16px;border-top:1px solid var(--rule-2)}
+.task{display:flex;align-items:center;gap:11px;padding:10px 14px;border-top:1px solid var(--rule-2)}
 .task:first-child{border-top:none}
 .task.dis{opacity:.5}
 .tick{width:24px;height:24px;border-radius:7px;border:1.5px solid var(--rule);background:var(--surface);
@@ -544,6 +540,70 @@ table.sect th{padding:6px 8px}
 .tt{font-weight:500;font-size:14.5px}
 .task.done .tt{color:var(--ink-3);text-decoration:line-through;text-decoration-color:var(--rule)}
 .td{font-size:12.5px;color:var(--ink-3)}
+
+/* ------------------------------------------- carnet, version graphique */
+.minbar{height:4px;background:var(--rule-2)}
+.minbar i{display:block;height:100%;background:var(--accent);width:0;transition:width .25s linear}
+.iconrow{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:14px}
+.iconrow button,.zr-acts button{display:flex;flex-direction:column;align-items:center;gap:5px;
+  border:1px solid var(--rule);background:var(--surface);border-radius:10px;padding:10px 4px;
+  color:var(--ink-2);font-size:11px;font-weight:600;min-height:60px;justify-content:center}
+.iconrow button:disabled{opacity:.4}
+.iconrow button.dang,.zr-acts button.dang{color:var(--bad)}
+.iconrow svg.ic,.zr-acts svg.ic{stroke-width:1.7}
+.btn.wide{width:100%;justify-content:center;display:flex;align-items:center;gap:7px}
+.btn.ghost{border-style:dashed;display:inline-flex;align-items:center;gap:6px}
+.ib{border:none;background:none;color:var(--ink-3);padding:6px;border-radius:8px;flex:none}
+.ib:hover{color:var(--bad);background:var(--bad-soft)}
+
+.zr{border-top:1px solid var(--rule-2)}
+.zr-hd{display:flex;align-items:center;gap:9px;padding:11px 14px;background:var(--surface-2)}
+.zr-n{font-family:var(--f-mono);font-weight:700;font-size:13px;background:var(--ink);color:var(--surface);
+  border-radius:7px;padding:5px 8px;letter-spacing:.02em;flex:none}
+.zr-name{flex:1;min-width:0;border:1px solid transparent;background:none;font:inherit;
+  font-weight:600;padding:5px 6px;border-radius:6px;color:var(--ink)}
+.zr-name:focus{border-color:var(--accent);background:var(--surface);outline:none}
+.zr-go{font-family:var(--f-mono);font-size:12.5px;font-weight:600;color:var(--ink-2);
+  background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:3px 7px;flex:none}
+.zr .fold{color:var(--ink-3);transition:transform .18s;flex:none;
+  padding:8px 4px;margin:-8px -2px;display:flex}
+.zr.open .fold{transform:rotate(90deg)}
+.zr-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule-2)}
+.zr-stats > div{background:var(--surface);padding:7px 10px;min-width:0}
+.zr-stats b{display:block;font-family:var(--f-mono);font-variant-numeric:tabular-nums;
+  font-size:15px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.zr-stats span{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
+.zr-body,.zr-acts{display:none}
+.zr.open .zr-body{display:flex;flex-direction:column;gap:13px;padding:14px}
+.zr.open .zr-acts{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;padding:0 14px 14px}
+.seg.wide{display:grid;grid-template-columns:1fr 1fr;width:100%}
+.seg.wide button{padding:8px 6px;font-size:13px}
+.secs{display:flex;flex-direction:column;gap:7px}
+.secrow{display:flex;align-items:center;gap:7px}
+.secrow .sn{font-family:var(--f-mono);font-weight:700;font-size:13px;width:22px;text-align:center;
+  color:var(--ink-3);flex:none}
+.secrow input{flex:1;min-width:0;padding:7px 9px;font-size:14.5px}
+
+.dayhead{display:flex;align-items:center;gap:14px;padding:14px 16px;border-bottom:1px solid var(--rule-2)}
+.ring{width:48px;height:48px;flex:none}
+.ring circle{fill:none;stroke:var(--rule-2);stroke-width:4}
+.ring circle.fg{stroke:var(--ok);stroke-linecap:round;transition:stroke-dasharray .35s}
+.dh-t b{display:block;font-family:var(--f-mono);font-size:21px;font-weight:600;line-height:1.1}
+.dh-t span{font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
+.task .tic{color:var(--ink-3);flex:none;display:flex}
+.task.done .tic{color:var(--ok)}
+.task .chev{color:var(--ink-3);flex:none;margin-left:auto;display:flex}
+.task:not(.dis){cursor:pointer}
+.task:not(.dis):active{background:var(--surface-2)}
+
+.fixgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--rule-2);
+  border-top:1px solid var(--rule-2)}
+.fix{display:flex;flex-direction:column;align-items:flex-start;gap:10px;background:var(--surface);
+  border:none;padding:16px 14px;min-height:96px;text-align:left;color:var(--accent)}
+.fix svg.ic{width:26px;height:26px;stroke-width:1.7}
+.fix .ft{font-size:13.5px;font-weight:600;color:var(--ink);line-height:1.3}
+.fix:active{background:var(--surface-2)}
+@media (min-width:700px){ .fixgrid{grid-template-columns:repeat(4,1fr)} }
 
 .gsteps{list-style:none;margin:0;padding:0}
 .gsteps li{display:flex;gap:12px;padding:13px 16px;border-top:1px solid var(--rule-2);opacity:.45}
@@ -611,6 +671,46 @@ textarea.jsbox{width:100%;min-height:180px;background:var(--surface-2);border:1p
   #printArea .zrblock{page-break-inside:avoid;margin-bottom:12px}
 }
 
+/* ========================== BARRE D'ONGLETS MOBILE =====================
+   Sur téléphone l'application se limite au jour de rallye : appareil, ZR,
+   déroulé, dépannage. Les leçons et l'entraînement restent sur grand écran.
+   ===================================================================== */
+.tabbar{display:none;position:fixed;left:0;right:0;bottom:0;z-index:45;
+  grid-template-columns:repeat(4,1fr);gap:0;
+  background:var(--surface);border-top:1px solid var(--rule);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  box-shadow:0 -6px 18px -14px #0007}
+.tabbar button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  border:none;background:none;padding:8px 2px 7px;color:var(--ink-3);min-height:54px}
+.tabbar svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.9;
+  stroke-linecap:round;stroke-linejoin:round}
+.tabbar span{font-size:10.5px;font-weight:600;letter-spacing:.02em}
+.tabbar button[aria-selected="true"]{color:var(--accent)}
+.tabbar button[aria-selected="true"] svg{stroke-width:2.15}
+
+@media (max-width:1040px){
+  body.mob .mainnav{display:none}
+  body.mob main{padding-bottom:calc(66px + env(safe-area-inset-bottom,0px))}
+  body.mob .tabbar{display:grid}
+  body.mob.mt-device .course{display:none}
+  body.mob:not(.mt-device) .bench{display:none}
+  body.mob.guiding .bench{display:flex;order:-1}
+  body.mob.guiding .tabbar{display:none}
+  body.mob.guiding main{padding-bottom:0}
+}
+
+/* console compacte sur téléphone : les commandes, rien d'autre */
+@media (max-width:700px){
+  .console .bar{gap:7px}
+  #selProfile{order:3;flex:1 0 100%;min-width:0}
+  .console .bar .spacer{display:none}
+  #tfSeg{margin-left:auto !important}
+  .driver .dl,.driver .dnote,.gd-key{display:none}
+  .driver{padding:9px 11px}
+  .remote{width:100%}
+  .remote .s3{flex:1;text-align:center}
+}
+
 /* ================================ VUE COURSE ==========================
    Téléphone en paysage : l'appareil en grand, les chiffres à côté, rien d'autre.
    ===================================================================== */
@@ -643,7 +743,8 @@ textarea.jsbox{width:100%;min-height:180px;background:var(--surface-2);border:1p
 .ck-run .btn{padding:9px 6px;font-size:14px;font-weight:600}
 
 @media (orientation:landscape) and (max-height:560px){
-  header.top, footer, .a2hs, .ctx, .console, .course, .rothint{display:none !important}
+  header.top, footer, .a2hs, .ctx, .console, .course, .rothint, .tabbar{display:none !important}
+  body.mob .bench{display:grid !important}
   body{padding:0 !important;overflow:hidden}
   main{display:block;padding:0;max-width:none;height:100dvh}
   .bench{position:static;display:grid;height:100dvh;gap:7px;
@@ -719,8 +820,8 @@ footer button:hover{color:var(--ink)}
   <div class="right">
     <span class="lbl">Appareil</span>
     <div class="seg" id="modelSeg" role="group" aria-label="Choix de l'appareil">
-      <button data-model="classic" aria-pressed="true">Blunik Classic</button>
-      <button data-model="ii" aria-pressed="false">Blunik II</button>
+      <button data-model="classic" aria-pressed="true"><span class="full">Blunik </span>Classic</button>
+      <button data-model="ii" aria-pressed="false"><span class="full">Blunik </span>II</button>
     </div>
     <button class="btn" id="btnHelp">Aide</button>
   </div>
@@ -827,6 +928,7 @@ footer button:hover{color:var(--ink)}
         <button class="btn primary" id="btnRun">Rouler</button>
         <button class="btn" id="btnStop">Arrêt</button>
         <select id="selProfile" aria-label="Profil de route"></select>
+        <div class="spacer"></div>
         <div class="seg" id="tfSeg" role="group" aria-label="Vitesse de simulation" style="margin-left:auto">
           <button data-tf="1" aria-pressed="true">×1</button>
           <button data-tf="2" aria-pressed="false">×2</button>
@@ -874,10 +976,17 @@ footer button:hover{color:var(--ink)}
   </div>
 </main>
 
+<nav class="tabbar" id="tabbar" role="tablist" aria-label="Sections">
+  <button data-mt="device" role="tab" aria-selected="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.2" y="5" width="19.6" height="14" rx="2.4"/><rect x="4.6" y="7.4" width="10.4" height="5.2" rx="1"/><circle cx="18.2" cy="9.4" r="1.5"/><circle cx="18.2" cy="14.4" r="1.5"/><path d="M5 15.6h8"/></svg><span>Appareil</span></button>
+  <button data-mt="zr" role="tab" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5h16M4 12h16M4 18.5h10"/></svg><span>ZR</span></button>
+  <button data-mt="day" role="tab" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6"/><path d="m8.2 12.2 2.7 2.7 5-5.4"/></svg><span>Déroulé</span></button>
+  <button data-mt="fix" role="tab" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.6 21.4 20H2.6z"/><path d="M12 9.6v4.2"/><circle cx="12" cy="17" r="1.15" fill="currentColor" stroke="none"/></svg><span>Dépannage</span></button>
+</nav>
+
 <div id="printArea"></div>
 
 <footer>
-  <span>Simulateur Blunik — v1.2</span>
+  <span>Simulateur Blunik — v1.3</span>
   <span class="sep"></span>
   <button id="btnSources">Sources et conformité</button>
   <button id="btnWake" class="hidden">Écran allumé : non</button>
@@ -2705,6 +2814,35 @@ function renderRef(){
   $('#refPanel').innerHTML = h;
 }
 
+/* ================================ ICONES ===============================
+   Tracé au trait, jamais de caractère : rendu identique sur tous les appareils. */
+const ICO = {
+  power :'<path d="M12 3.4v8.2"/><path d="M7.4 6.3a7.6 7.6 0 1 0 9.2 0"/>',
+  clock :'<circle cx="12" cy="12" r="8.6"/><path d="M12 7.1v5.2l3.3 1.9"/>',
+  ruler :'<rect x="2.4" y="8" width="19.2" height="8" rx="1.6"/><path d="M7 8v3.4M12 8v4.6M17 8v3.4"/>',
+  prog  :'<path d="M5 6.5h14M5 12h14M5 17.5h14"/><circle cx="9" cy="6.5" r="2.1"/><circle cx="15" cy="12" r="2.1"/><circle cx="8" cy="17.5" r="2.1"/>',
+  flag  :'<path d="M5.4 21V3.6"/><path d="M5.4 4.6h11.9l-2 3.7 2 3.7H5.4z"/>',
+  table :'<rect x="3" y="4.2" width="18" height="15.6" rx="2"/><path d="M3 9.4h18M9.6 9.4V19.8"/>',
+  play  :'<path d="M8 5.4 18.6 12 8 18.6z"/>',
+  stop  :'<rect x="6.4" y="6.4" width="11.2" height="11.2" rx="1.6"/>',
+  plus  :'<path d="M12 5v14M5 12h14"/>',
+  trash :'<path d="M4.6 6.8h14.8M9.6 6.8V4.6h4.8v2.2M6.6 6.8l.9 13a1.4 1.4 0 0 0 1.4 1.3h6.2a1.4 1.4 0 0 0 1.4-1.3l.9-13"/>',
+  down  :'<path d="M12 3.6v11.6M7.4 10.8 12 15.4l4.6-4.6M4.4 19.8h15.2"/>',
+  up    :'<path d="M12 15.4V3.8M7.4 8.4 12 3.8l4.6 4.6M4.4 19.8h15.2"/>',
+  right :'<path d="m9.4 5.6 6.4 6.4-6.4 6.4"/>',
+  car   :'<path d="M3.4 15.4h17.2M5.6 15.4l1.7-5a2 2 0 0 1 1.9-1.3h5.6a2 2 0 0 1 1.9 1.3l1.7 5"/><rect x="3.4" y="15.4" width="17.2" height="3.4" rx="1.2"/><path d="M7 18.8v1.6M17 18.8v1.6"/>',
+  turn  :'<path d="M12 5V2L7.6 6.2 12 10.4V7.4"/><path d="M12 7.4a6.6 6.6 0 1 1-6.6 6.6"/>',
+  alert :'<path d="M12 3.8 21.2 20H2.8z"/><path d="M12 9.8V14"/><circle cx="12" cy="17" r="1.1" fill="currentColor" stroke="none"/>',
+  wrong :'<path d="M6 20V9.6a4.2 4.2 0 0 1 4.2-4.2h7.4"/><path d="m14.4 2.2 3.6 3.2-3.6 3.2"/>',
+  ruler2:'<path d="M4 12h16"/><path d="m8.6 7.4-4.6 4.6 4.6 4.6M15.4 7.4l4.6 4.6-4.6 4.6"/>',
+  sign  :'<rect x="4.6" y="4" width="14.8" height="9.6" rx="1.6"/><path d="M12 13.6V21"/>',
+  pause :'<path d="M9.4 6v12M14.6 6v12"/>',
+  key   :'<rect x="3.6" y="4.8" width="16.8" height="14.4" rx="2"/><path d="M8 9.6h8M8 14.4h4.6"/>',
+  eye   :'<path d="M2.6 12S6.2 5.8 12 5.8 21.4 12 21.4 12 17.8 18.2 12 18.2 2.6 12 2.6 12z"/><circle cx="12" cy="12" r="2.8"/>',
+  bolt  :'<path d="M13.4 2.6 5.6 13.4h5.4l-.6 8 7.8-10.8h-5.4z"/>',
+};
+const icon = (n, cls) => '<svg class="ic'+(cls?' '+cls:'')+'" viewBox="0 0 24 24" aria-hidden="true">'+(ICO[n]||'')+'</svg>';
+
 /* ============================== CONSOLE ================================= */
 function renderPanels(){
   const name = screen().name;
@@ -3077,134 +3215,178 @@ function stepsStart(z){
 }
 
 /* =============================== RENDU ================================== */
+/* ------------------------- étapes du jour de rallye --------------------- */
 function rallyTasks(){
   const T = [
-    {id:'power', t:'Mise en route', d:'Allumer l\'appareil', run:()=>guide('Mise en route', stepsPower())},
-    {id:'sync',  t:'Synchronisation de l\'horloge', d:'Caler l\'appareil sur l\'heure officielle', run:()=>guide('Synchronisation de l\'horloge', stepsSync(), true)},
-    {id:'calib', t:'Étalonnage', d: num(RALLY.calib)>0 ? 'Zone de '+num(RALLY.calib).toFixed(3)+' km' : 'Distance de la zone à renseigner', run:()=>guide('Étalonnage', stepsCalib())},
+    {id:'power', ic:'power', t:'Mise en route', d:'Allumer l\'appareil',
+     run:()=>guide('Mise en route', stepsPower())},
+    {id:'sync',  ic:'clock', t:'Horloge', d:'Synchroniser sur l\'heure officielle',
+     run:()=>guide('Synchronisation de l\'horloge', stepsSync(), true)},
+    {id:'calib', ic:'ruler', t:'Étalonnage',
+     d: num(RALLY.calib)>0 ? num(RALLY.calib).toFixed(3)+' km' : 'Distance à renseigner',
+     run:()=>guide('Étalonnage', stepsCalib())},
   ];
   RALLY.zrs.forEach((z,i)=>{
-    T.push({id:'prog'+i, t:'Programmer ST'+pad(z.st,2)+(z.name?' — '+z.name:''),
-            d: zrValid(z) ? zrSections(z).length+' tronçon'+(zrSections(z).length>1?'s':'')+' · '+zrTotal(z).toFixed(3)+' km' : 'Données incomplètes',
+    const n = zrSections(z).length;
+    T.push({id:'prog'+i, ic:'prog', t:'Programmer ST'+pad(z.st,2),
+            d: zrValid(z) ? zrTotal(z).toFixed(3)+' km · '+n+' tronçon'+(n>1?'s':'') : 'À compléter',
             dis:!zrValid(z), run:()=>guide('Programmer ST'+pad(z.st,2), stepsProgram(z))});
   });
   RALLY.zrs.forEach((z,i)=>{
-    T.push({id:'start'+i, t:'Départ ST'+pad(z.st,2)+(z.start?' à '+z.start:''),
-            d:'Procédure de départ et de course', dis:!zrValid(z),
+    T.push({id:'start'+i, ic:'flag', t:'Départ ST'+pad(z.st,2),
+            d: z.start || 'Heure à renseigner', dis:!zrValid(z),
             run:()=>guide('Départ ST'+pad(z.st,2), stepsStart(z), true, hhmmss(z.start))});
   });
   return T;
 }
 
+/* -------------------------- sections de l'écran ------------------------- */
+/* Sur téléphone chaque onglet n'affiche que ce qui le concerne.           */
+const mobOn  = () => document.body.classList.contains('mob');
+const rSect  = () => mobOn() ? (MTAB==='zr' ? 'zr' : MTAB==='day' ? 'day' : MTAB==='fix' ? 'fix' : 'none') : 'all';
+const openZR = new Set();
+
+function clockCard(){
+  return '<div class="card"><div class="clockbox">'+
+    '<div class="bigclock" id="rClock">--:--:--<small id="rTenth">.0</small></div>'+
+    '<div class="clockside">'+
+      '<div class="g-l">Minute suivante</div><div class="mono" id="rNext">—</div>'+
+      '<div class="g-l" style="margin-top:8px">À saisir</div><div class="mono" id="rTarget">—</div>'+
+    '</div></div><div class="minbar"><i id="rBar"></i></div></div>';
+}
+
+function zrCard(x,i){
+  const ok = zrValid(x), secs = zrSections(x), open = openZR.has(i) || !ok;
+  const dur = ok ? fmtDur(zrTime(x)) : '—';
+  let h = '<div class="zr'+(open?' open':'')+'" data-i="'+i+'">'+
+    '<div class="zr-hd" data-fold="'+i+'">'+
+      '<span class="zr-n">ST'+pad(x.st,2)+'</span>'+
+      '<input class="zr-name" data-f="name" data-i="'+i+'" value="'+esc(x.name)+'" placeholder="Nom de la ZR">'+
+      (ok ? '<span class="zr-go">'+(x.start||'—')+'</span>'
+          : '<span class="pill warn">à compléter</span>')+
+      '<span class="fold">'+icon('right','sm')+'</span>'+
+    '</div>'+
+    '<div class="zr-stats">'+
+      '<div><b>'+(ok?zrTotal(x).toFixed(3):'—')+'</b><span>km</span></div>'+
+      '<div><b>'+dur+'</b><span>durée</span></div>'+
+      '<div><b>'+(secs.length>1 ? secs.length+' tronçons'
+                 : (secs[0]?secs[0].as.toFixed(MODEL==='ii'?2:1)+' km/h':'—'))+'</b>'+
+        '<span>'+(secs.length>1?'moyennes':'moyenne')+'</span></div>'+
+    '</div>'+
+    '<div class="zr-body">'+
+      '<div class="grid3">'+
+        fld('Secteur','','number',x.st,'1',i,'st')+
+        fld('Départ','','text',x.start,'10:15:00',i,'start')+
+        fld('Offset km','','text',x.off,'0',i,'off')+
+      '</div>'+
+      '<div class="seg wide" data-i="'+i+'">'+
+        '<button data-mode="single" data-i="'+i+'" aria-pressed="'+(x.mode==='single')+'">Moyenne unique</button>'+
+        '<button data-mode="sections" data-i="'+i+'" aria-pressed="'+(x.mode==='sections')+'">Par tronçons</button>'+
+      '</div>';
+  if(x.mode==='single'){
+    h += '<div class="grid2">'+
+         fld('Moyenne km/h','','text',x.as,'48.20',i,'as')+
+         fld('Distance km','','text',x.end,'20.100',i,'end')+'</div>';
+  } else {
+    h += '<div class="secs">';
+    x.sections.forEach((sc,j)=>{
+      h += '<div class="secrow"><span class="sn">'+IDX[j]+'</span>'+
+           '<input data-i="'+i+'" data-s="'+j+'" data-f="as" value="'+esc(sc.as)+'" placeholder="48.20" inputmode="decimal">'+
+           '<input data-i="'+i+'" data-s="'+j+'" data-f="end" value="'+esc(sc.end)+'" placeholder="4.510" inputmode="decimal">'+
+           '<button class="ib" data-delsec="'+i+'.'+j+'" aria-label="Supprimer le tronçon">'+icon('trash','sm')+'</button></div>';
+    });
+    h += '<button class="btn sm ghost" data-addsec="'+i+'">'+icon('plus','sm')+'Tronçon</button></div>';
+  }
+  h += '</div>'+
+    '<div class="zr-acts">'+
+      '<button data-guide="'+i+'">'+icon('prog')+'<span>Procédure</span></button>'+
+      '<button data-pace="'+i+'">'+icon('table')+'<span>Tableau</span></button>'+
+      '<button data-load="'+i+'">'+icon('car')+'<span>Simuler</span></button>'+
+      '<button data-del="'+i+'" class="dang">'+icon('trash')+'<span>Supprimer</span></button>'+
+    '</div></div>';
+  return h;
+}
+
 function renderRally(){
-  const z = RALLY.zrs;
+  const z = RALLY.zrs, sect = rSect(), all = sect==='all';
   let h = '';
 
-  /* --- en-tête du carnet --- */
-  h += '<div class="card"><div class="hd"><h2>Carnet de rallye</h2>'+
-       '<span class="k-l" id="rSaved">enregistré sur cet appareil</span></div><div class="body">'+
-       '<div class="grid2">'+
-       fld('Nom du rallye','r-name','text',RALLY.name,'Rallye des Vins')+
-       fld('Date','r-date','date',RALLY.date,'')+
-       fld('Zone d\'étalonnage (km)','r-calib','text',RALLY.calib,'12.340')+
-       fld('Correction d\'horloge (s)','r-off','number',RALLY.off,'0')+
-       '</div>'+
-       '<div class="row-btns"><button class="btn sm" id="rExport">Exporter</button>'+
-       '<button class="btn sm" id="rImport">Importer</button>'+
-       '<button class="btn sm" id="rClear">Vider le carnet</button></div>'+
-       '<input type="file" id="rFile" accept="application/json" class="hidden">'+
-       '</div></div>';
-
-  /* --- horloge de référence --- */
-  h += '<div class="card"><div class="hd"><h2>Heure de référence</h2>'+
-       '<span class="k-l">horloge de cet appareil</span></div>'+
-       '<div class="clockbox"><div class="bigclock" id="rClock">--:--:--<small id="rTenth">.0</small></div>'+
-       '<div class="clockside"><div class="g-l">Prochaine minute</div><div class="mono" id="rNext">—</div>'+
-       '<div class="g-l" style="margin-top:8px">Heure à saisir (+30 s)</div><div class="mono" id="rTarget">—</div></div></div>'+
-       '<div class="body" style="border-top:1px solid var(--rule-2)"><p class="sub">Saisissez l\'heure indiquée, validez quand l\'horloge l\'atteint.</p></div></div>';
-
-  /* --- zones de régularité --- */
-  h += '<div class="card"><div class="hd"><h2>Zones de régularité</h2>'+
-       '<span class="k-l">'+z.length+' ZR</span></div>';
-  if(!z.length){
-    h += '<div class="body"><p class="sub">Aucune ZR. Ajoutez-en une avec les données du road-book.</p></div>';
+  /* ---- en-tête du carnet ---- */
+  if(all || sect==='zr'){
+    h += '<div class="card"><div class="hd"><h2>Carnet</h2>'+
+         '<span class="k-l">'+z.length+' ZR</span></div><div class="body">'+
+         '<div class="grid2">'+
+         fld('Rallye','r-name','text',RALLY.name,'Rallye des Vins')+
+         fld('Date','r-date','date',RALLY.date,'')+
+         fld('Zone d\'étalonnage km','r-calib','text',RALLY.calib,'12.340')+
+         fld('Correction horloge s','r-off','number',RALLY.off,'0')+
+         '</div>'+
+         '<div class="iconrow">'+
+           '<button data-act="pace"'+(z.filter(zrValid).length?'':' disabled')+'>'+icon('table')+'<span>Tableau</span></button>'+
+           '<button data-act="export">'+icon('down')+'<span>Exporter</span></button>'+
+           '<button data-act="import">'+icon('up')+'<span>Importer</span></button>'+
+           '<button data-act="clear" class="dang">'+icon('trash')+'<span>Vider</span></button>'+
+         '</div>'+
+         '<input type="file" id="rFile" accept="application/json" class="hidden">'+
+         '</div></div>';
   }
-  z.forEach((x,i)=>{
-    const ok = zrValid(x);
-    h += '<div class="zr" data-i="'+i+'">'+
-      '<div class="zr-hd"><span class="zr-n">ST'+pad(x.st,2)+'</span>'+
-      '<input class="zr-name" data-f="name" data-i="'+i+'" value="'+esc(x.name)+'" placeholder="Nom de la ZR">'+
-      '<span class="pill '+(ok?'ok':'warn')+'">'+(ok? zrTotal(x).toFixed(3)+' km · '+fmtDur(zrTime(x)) :'à compléter')+'</span>'+
-      '<button class="btn sm" data-del="'+i+'" title="Supprimer">Supprimer</button></div>'+
-      '<div class="zr-body"><div class="grid3">'+
-        fld('Secteur','','number',x.st,'1',i,'st')+
-        fld('Heure de départ','','text',x.start,'10:15:00',i,'start')+
-        fld('Offset (km)','','text',x.off,'0',i,'off')+
-      '</div>'+
-      '<div class="modesw"><span class="lbl">Type de ZR</span>'+
-        '<div class="seg"><button data-mode="single" data-i="'+i+'" aria-pressed="'+(x.mode==='single')+'">Moyenne unique</button>'+
-        '<button data-mode="sections" data-i="'+i+'" aria-pressed="'+(x.mode==='sections')+'">Moyennes par tronçons</button></div></div>';
-    if(x.mode==='single'){
-      h += '<div class="grid2">'+
-           fld('Moyenne imposée (km/h)','','text',x.as,'48.20',i,'as')+
-           fld('Distance de la ZR (km)','','text',x.end,'20.100',i,'end')+
-           '</div>';
-    } else {
-      h += '<div class="scroll"><table class="ref sect"><thead><tr><th>Tronçon</th><th>Moyenne (km/h)</th><th>Jusqu\'au km</th><th></th></tr></thead><tbody>';
-      x.sections.forEach((s,j)=>{
-        h += '<tr><td class="c1">'+IDX[j]+'</td>'+
-             '<td><input data-i="'+i+'" data-s="'+j+'" data-f="as" value="'+esc(s.as)+'" placeholder="48.20"></td>'+
-             '<td><input data-i="'+i+'" data-s="'+j+'" data-f="end" value="'+esc(s.end)+'" placeholder="4.510"></td>'+
-             '<td><button class="btn sm" data-delsec="'+i+'.'+j+'">×</button></td></tr>';
-      });
-      h += '</tbody></table></div><div class="row-btns"><button class="btn sm" data-addsec="'+i+'">Ajouter un tronçon</button></div>';
-    }
-    h += '<div class="row-btns"><button class="btn sm" data-guide="'+i+'">Voir la procédure</button>'+
-         '<button class="btn sm" data-pace="'+i+'">Tableau de marche</button>'+
-         '<button class="btn sm" data-load="'+i+'">Charger dans le simulateur</button></div>';
-    h += '</div></div>';
-  });
-  h += '<div class="body" style="border-top:1px solid var(--rule-2)"><div class="row-btns" style="margin:0">'+
-       '<button class="btn primary" id="rAdd">Ajouter une ZR</button>'+
-       '<button class="btn" id="rPace"'+(z.filter(zrValid).length?'':' disabled')+'>Tableau de marche complet</button>'+
-       '</div></div></div>';
 
-  /* --- déroulé du jour --- */
+  /* ---- horloge de référence ---- */
+  if(all || sect==='zr' || sect==='day') h += clockCard();
+
+  /* ---- zones de régularité ---- */
+  if(all || sect==='zr'){
+    h += '<div class="card"><div class="hd"><h2>Zones de régularité</h2></div>';
+    if(!z.length) h += '<div class="body"><p class="sub">Aucune ZR. Ajoutez-en une avec les données du road-book.</p></div>';
+    z.forEach((x,i)=>{ h += zrCard(x,i); });
+    h += '<div class="body" style="border-top:1px solid var(--rule-2)">'+
+         '<button class="btn primary wide" id="rAdd">'+icon('plus','sm')+'Ajouter une ZR</button></div></div>';
+  }
+
+  /* ---- déroulé du jour ---- */
   const T = rallyTasks();
   const done = T.filter(t=>RALLY.prog[t.id]).length;
-  h += '<div class="card"><div class="hd"><h2>Déroulé du jour</h2><span class="k-l">'+done+' / '+T.length+'</span></div>'+
-       '<div class="tasks">';
-  T.forEach((t,i)=>{
-    h += '<div class="task'+(RALLY.prog[t.id]?' done':'')+(t.dis?' dis':'')+'">'+
-      '<button class="tick" data-tick="'+t.id+'" aria-label="Marquer comme fait"></button>'+
-      '<span class="tinfo"><span class="tt">'+t.t+'</span><span class="td">'+t.d+'</span></span>'+
-      '<button class="btn sm" data-task="'+i+'"'+(t.dis?' disabled':'')+'>Ouvrir</button></div>';
-  });
-  h += '</div></div>';
+  if(all || sect==='day'){
+    const pct = T.length ? done/T.length*100 : 0;
+    h += '<div class="card"><div class="dayhead">'+
+      '<svg class="ring" viewBox="0 0 40 40" aria-hidden="true">'+
+        '<circle cx="20" cy="20" r="16.5"/>'+
+        '<circle cx="20" cy="20" r="16.5" class="fg" stroke-dasharray="'+
+          (pct*1.0367).toFixed(1)+' 999" transform="rotate(-90 20 20)"/></svg>'+
+      '<div class="dh-t"><b>'+done+' / '+T.length+'</b><span>étapes</span></div>'+
+      '</div><div class="tasks">';
+    T.forEach((t,i)=>{
+      h += '<div class="task'+(RALLY.prog[t.id]?' done':'')+(t.dis?' dis':'')+'"'+
+        (t.dis?'':' data-task="'+i+'"')+'>'+
+        '<button class="tick" data-tick="'+t.id+'" aria-label="Fait"></button>'+
+        '<span class="tic">'+icon(t.ic)+'</span>'+
+        '<span class="tinfo"><span class="tt">'+t.t+'</span><span class="td">'+t.d+'</span></span>'+
+        (t.dis?'':'<span class="chev">'+icon('right','sm')+'</span>')+'</div>';
+    });
+    h += '</div></div>';
+  }
 
-  /* --- assistant « que faire si » --- */
-  const WI = whatIf();
-  h += '<div class="card"><div class="hd"><h2>Que faire si…</h2>'+
-       '<span class="k-l">dépannage en course</span></div>'+
-       
-       '<div class="tasks">';
-  WI.forEach((w,i)=>{
-    h += '<div class="task">'+
-      '<span class="wico">?</span>'+
-      '<span class="tinfo"><span class="tt">'+w.t+'</span><span class="td">'+w.d+'</span></span>'+
-      '<button class="btn sm" data-wi="'+i+'">Ouvrir</button></div>';
-  });
-  h += '</div></div>';
+  /* ---- dépannage ---- */
+  if(all || sect==='fix'){
+    const WI = whatIf();
+    h += '<div class="card"><div class="hd"><h2>Que faire si…</h2></div><div class="fixgrid">';
+    WI.forEach((w,i)=>{
+      h += '<button class="fix" data-wi="'+i+'">'+icon(w.ic,'lg')+
+           '<span class="ft">'+w.short+'</span></button>';
+    });
+    h += '</div></div>';
+  }
 
   $('#rallyPanel').innerHTML = h;
   wireRally(T);
   tickRally();
 }
 function esc(v){ return String(v==null?'':v).replace(/"/g,'&quot;'); }
-function fmtDur(s){ s=Math.round(s); return Math.floor(s/60)+' min '+pad(s%60,2); }
+function fmtDur(s){ s=Math.round(s); return Math.floor(s/60)+':'+pad(s%60,2); }
 function fld(label,id,type,val,ph,i,f){
   return '<label class="f"><span>'+label+'</span><input '+(id?'id="'+id+'" ':'')+
-    (i!=null?'data-i="'+i+'" data-f="'+f+'" ':'')+'type="'+type+'" value="'+esc(val)+'" placeholder="'+ph+'"></label>';
+    (i!=null?'data-i="'+i+'" data-f="'+f+'" ':'')+'type="'+type+'" value="'+esc(val)+'" placeholder="'+ph+'"'+
+    (type==='text'?' inputmode="decimal"':'')+'></label>';
 }
 
 function wireRally(T){
@@ -3218,47 +3400,67 @@ function wireRally(T){
     if(s!=null) RALLY.zrs[i].sections[+s][f]=e.target.value;
     else RALLY.zrs[i][f]= f==='st' ? (parseInt(e.target.value,10)||1) : e.target.value;
     saveRally(); refreshZRBadges();
-    const p=$('#rPace'); if(p) p.disabled = !RALLY.zrs.some(zrValid);
   });
-  on('.modesw button','click', e=>{
-    RALLY.zrs[+e.target.dataset.i].mode = e.target.dataset.mode; saveRally(); renderRally();
+  on('.zr-hd','click', e=>{
+    if(e.target.closest('input')) return;
+    const i = +e.currentTarget.dataset.fold;
+    if(openZR.has(i)) openZR.delete(i); else openZR.add(i);
+    e.currentTarget.parentNode.classList.toggle('open', openZR.has(i) || !zrValid(RALLY.zrs[i]));
   });
-  on('[data-addsec]','click', e=>{ RALLY.zrs[+e.target.dataset.addsec].sections.push({as:'',end:''}); saveRally(); renderRally(); });
-  on('[data-delsec]','click', e=>{ const [i,j]=e.target.dataset.delsec.split('.').map(Number);
-    RALLY.zrs[i].sections.splice(j,1); saveRally(); renderRally(); });
-  on('[data-del]','click', e=>{ if(confirm('Supprimer cette ZR ?')){ RALLY.zrs.splice(+e.target.dataset.del,1); saveRally(); renderRally(); } });
-  on('[data-guide]','click', e=>{ const z=RALLY.zrs[+e.target.dataset.guide];
+  on('.seg.wide button','click', e=>{
+    RALLY.zrs[+e.currentTarget.dataset.i].mode = e.currentTarget.dataset.mode;
+    openZR.add(+e.currentTarget.dataset.i); saveRally(); renderRally();
+  });
+  on('[data-addsec]','click', e=>{ const i=+e.currentTarget.dataset.addsec;
+    RALLY.zrs[i].sections.push({as:'',end:''}); openZR.add(i); saveRally(); renderRally(); });
+  on('[data-delsec]','click', e=>{ const [i,j]=e.currentTarget.dataset.delsec.split('.').map(Number);
+    RALLY.zrs[i].sections.splice(j,1); openZR.add(i); saveRally(); renderRally(); });
+  on('[data-del]','click', e=>{ if(confirm('Supprimer cette ZR ?')){
+    RALLY.zrs.splice(+e.currentTarget.dataset.del,1); openZR.clear(); saveRally(); renderRally(); } });
+  on('[data-guide]','click', e=>{ const z=RALLY.zrs[+e.currentTarget.dataset.guide];
     guide('Programmer ST'+pad(z.st,2), stepsProgram(z)); });
-  on('[data-load]','click', e=>loadZRIntoSim(RALLY.zrs[+e.target.dataset.load]));
-  on('[data-pace]','click', e=>showPace(+e.target.dataset.pace));
-  on('[data-wi]','click', e=>{ const w = whatIf()[+e.target.dataset.wi];
+  on('[data-load]','click', e=>loadZRIntoSim(RALLY.zrs[+e.currentTarget.dataset.load]));
+  on('[data-pace]','click', e=>showPace(+e.currentTarget.dataset.pace));
+  on('[data-wi]','click', e=>{ const w = whatIf()[+e.currentTarget.dataset.wi];
     guide('Que faire si : '+w.t, w.s.filter(Boolean)); });
-  on('[data-tick]','click', e=>{ const id=e.target.dataset.tick;
+  on('[data-tick]','click', e=>{ e.stopPropagation();
+    const id=e.currentTarget.dataset.tick;
     RALLY.prog[id]=!RALLY.prog[id]; saveRally(); renderRally(); });
-  on('[data-task]','click', e=>T[+e.target.dataset.task].run());
-  const add=$('#rAdd'); if(add) add.addEventListener('click',()=>{ RALLY.zrs.push(newZR()); saveRally(); renderRally(); });
+  on('[data-task]','click', e=>{ if(e.target.closest('.tick')) return;
+    T[+e.currentTarget.dataset.task].run(); });
+  const add=$('#rAdd'); if(add) add.addEventListener('click',()=>{
+    openZR.add(RALLY.zrs.length); RALLY.zrs.push(newZR()); saveRally(); renderRally(); });
 
-  const pc=$('#rPace'); if(pc) pc.addEventListener('click', ()=>showPace(null));
-  const ex=$('#rExport'); if(ex) ex.addEventListener('click', exportRally);
-  const im=$('#rImport'); if(im) im.addEventListener('click', importRally);
+  on('[data-act]','click', e=>{
+    const a = e.currentTarget.dataset.act;
+    if(a==='pace') showPace(null);
+    else if(a==='export') exportRally();
+    else if(a==='import') importRally();
+    else if(a==='clear' && confirm('Effacer toutes les données du carnet ?')){
+      RALLY={name:'',date:'',calib:'',off:0,zrs:[],prog:{}}; openZR.clear(); saveRally(); renderRally(); }
+  });
   const f=$('#rFile'); if(f) f.addEventListener('change', e=>{
     const file=e.target.files[0]; if(!file) return;
     const r=new FileReader();
     r.onload=()=>applyImport(r.result);
     r.readAsText(file); e.target.value='';
   });
-  const cl=$('#rClear'); if(cl) cl.addEventListener('click',()=>{
-    if(confirm('Effacer toutes les données du carnet ?')){
-      RALLY={name:'',date:'',calib:'',off:0,zrs:[],prog:{}}; saveRally(); renderRally(); }
-  });
 }
 function refreshZRBadges(){
   $$('.zr').forEach(el=>{
     const z = RALLY.zrs[+el.dataset.i]; if(!z) return;
-    const p = el.querySelector('.pill'), ok = zrValid(z);
-    p.className = 'pill '+(ok?'ok':'warn');
-    p.textContent = ok ? zrTotal(z).toFixed(3)+' km · '+fmtDur(zrTime(z)) : 'à compléter';
+    const ok = zrValid(z), secs = zrSections(z);
+    const p = el.querySelector('.pill'), g = el.querySelector('.zr-go');
+    if(ok && g) g.textContent = z.start || '—';
+    if(!ok && p) p.textContent = 'à compléter';
     el.querySelector('.zr-n').textContent = 'ST'+pad(z.st,2);
+    const st = el.querySelectorAll('.zr-stats b');
+    if(st.length===3){
+      st[0].textContent = ok ? zrTotal(z).toFixed(3) : '—';
+      st[1].textContent = ok ? fmtDur(zrTime(z)) : '—';
+      st[2].textContent = secs.length>1 ? secs.length+' tronçons'
+                        : (secs[0] ? secs[0].as.toFixed(MODEL==='ii'?2:1)+' km/h' : '—');
+    }
   });
 }
 
@@ -3270,6 +3472,7 @@ function tickRally(){
   const th = $('#rTenth'); if(th) th.textContent = '.'+refTenths();
   const rem = 60 - (Math.floor(t)%60);
   const n = $('#rNext'); if(n) n.textContent = rem+' s';
+  const bar = $('#rBar'); if(bar) bar.style.width = ((60-rem)/60*100).toFixed(1)+'%';
   const tg = $('#rTarget');
   if(tg){ const target = (Math.floor(t/30)+1)*30 + 30;
           tg.textContent = refClockAt(target); }
@@ -3288,7 +3491,9 @@ function loadZRIntoSim(z){
   S.total=0; S.partial=0; C.realDist=0; C.v=0; C.run=false;
   W.t = S.clock;
   setProfile('zr20');
-  showView('practice'); practiceSig=''; renderAll();
+  if(document.body.classList.contains('mob')) setMTab('device');
+  else showView('practice');
+  practiceSig=''; renderAll();
 }
 
 /* --------------------------- sauvegarde du carnet ----------------------- */
@@ -3329,7 +3534,9 @@ function importRally(){
     '<div class="row-btns" style="margin:0 0 12px"><button class="btn" id="jsFile">Choisir un fichier</button></div>'+
     '<textarea id="jsIn" class="jsbox" placeholder=\'{ "name": "...", "zrs": [ ... ] }\'></textarea>'+
     '<div class="row-btns"><button class="btn primary" id="jsLoad">Charger</button></div></div>');
-  $('#jsFile').onclick = ()=>$('#rFile').click();
+  const jf = $('#jsFile'), rf = $('#rFile');
+  if(jf) jf.style.display = rf ? '' : 'none';
+  if(jf && rf) jf.onclick = ()=>rf.click();
   $('#jsLoad').onclick = ()=>applyImport($('#jsIn').value);
 }
 function applyImport(txt){
@@ -3448,7 +3655,8 @@ function printPace(list){
 function whatIf(){
   const ii = MODEL==='ii';
   return [
-  { t:'Je suis parti en retard sur l\'heure de départ',
+  { ic:'clock', short:'Départ en retard',
+    t:'Je suis parti en retard sur l\'heure de départ',
     d:'Le commissaire a donné le départ après l\'heure prévue',
     s:[
       {t:'Ne touchez pas à la programmation du secteur : l\'heure théorique reste celle du carnet.'},
@@ -3456,7 +3664,8 @@ function whatIf(){
       {t:'L\'appareil compte le retard dès la première seconde. Le pilote le rattrape progressivement, sans à-coups.'},
       {t:'Si le retard dépasse une minute, prévenez le pilote : il vaut mieux le rattraper sur toute la ZR que d\'un coup.'}
     ]},
-  { t:'Je me suis trompé de route',
+  { ic:'wrong', short:'Erreur de route',
+    t:'Je me suis trompé de route',
     d:'Demi-tour, la distance mesurée est fausse',
     s:[
       {t:'Faites demi-tour immédiatement et revenez au dernier point sûr du road-book.'},
@@ -3465,7 +3674,8 @@ function whatIf(){
          : {t:'Plus simple : au prochain repère du road-book, ouvrez '+KB('UPDATE TOTAL')+' et saisissez la distance exacte du road-book.'},
       {t:'Vérifiez ensuite l\'écart affiché : il doit redevenir cohérent.'}
     ]},
-  { t:'Ma distance ne colle pas au road-book',
+  { ic:'ruler2', short:'Distance fausse',
+    t:'Ma distance ne colle pas au road-book',
     d:'Écart constaté à un repère kilométrique',
     s:[
       {t:'Attendez un repère franc et sûr du road-book (pont, panneau, croisement).'},
@@ -3475,7 +3685,8 @@ function whatIf(){
          : {t:'Saisissez la distance du road-book, validez avec '+KB('SELECT')+'.', k:'SELECT'},
       {t:'Un écart qui grandit régulièrement vient de l\'étalonnage, pas d\'une erreur ponctuelle. Un changement de pneus ou de pression suffit.'}
     ]},
-  { t:'La moyenne change à un panneau',
+  { ic:'sign', short:'Moyenne qui change',
+    t:'La moyenne change à un panneau',
     d:'Nouvelle moyenne imposée en cours de ZR',
     s:[
       {t:'Cette moyenne devait être programmée avant le départ, comme un tronçon supplémentaire.'},
@@ -3483,7 +3694,8 @@ function whatIf(){
       {t:'En course, le pilote suit la nouvelle moyenne à la montre : l\'appareil restera décalé jusqu\'à la fin.'},
       {t:'Notez-le pour la ZR suivante : ajoutez un tronçon dans le carnet, puis reprogrammez.'}
     ]},
-  { t:'Nous sommes arrêtés en pleine ZR',
+  { ic:'pause', short:'Arrêt en ZR',
+    t:'Nous sommes arrêtés en pleine ZR',
     d:'Neutralisation, incident, contrôle',
     s:[
       {t:'Ne coupez rien : l\'appareil continue de compter le temps, c\'est ce que fait le chronomètre officiel.'},
@@ -3491,7 +3703,8 @@ function whatIf(){
       {t:'Au redémarrage, le retard est affiché. Le pilote le rattrape dans les portions rapides, jamais en épingle.'},
       {t:'Si l\'organisation neutralise la ZR, la réclamation se fait au contrôle, pas sur l\'appareil.'}
     ]},
-  { t:'J\'ai oublié d\'appuyer sur START au départ',
+  { ic:'flag', short:'START oublié',
+    t:'J\'ai oublié d\'appuyer sur START au départ',
     d:'Le secteur n\'a pas démarré',
     s:[
       {t:'Appuyez sur '+KB('START')+' dès que vous vous en apercevez.', k:'START'},
@@ -3500,7 +3713,8 @@ function whatIf(){
       {t:'Vérifiez sur l\'écran de régularité que la distance parcourue depuis le départ correspond au road-book ; corrigez-la si besoin.'},
       {t:'Prévenez le pilote de l\'ampleur du retard avant qu\'il n\'accélère.'}
     ]},
-  { t:'L\'appareil s\'est éteint',
+  { ic:'bolt', short:'Appareil éteint',
+    t:'L\'appareil s\'est éteint',
     d:'Coupure d\'alimentation en course',
     s:[
       {t:'Rallumez avec '+KB('START / ON')+'.', k:'START'},
@@ -3509,7 +3723,8 @@ function whatIf(){
       {t:'Au repère, remettez la distance à la valeur du road-book, puis relancez le secteur suivant normalement.'},
       {t:'Vérifiez la fixation du câble d\'alimentation avant la ZR suivante.'}
     ]},
-  { t:'Je ne sais plus où j\'en suis',
+  { ic:'eye', short:'Reprendre la main',
+    t:'Je ne sais plus où j\'en suis',
     d:'Reprendre la main calmement',
     s:[
       {t:'Appuyez sur '+KB('VIEW')+' pour retrouver l\'écran de régularité.', k:'VIEW'},
@@ -3684,6 +3899,8 @@ const HELP_HTML =
   '<div class="body" style="border-top:1px solid var(--rule-2)">'+
   '<h3 style="font-size:14px;margin-bottom:6px">Le pilote</h3>'+
   '<p class="sub">La voiture roule seule. Le pilote simulé tient la moyenne quand la route le permet, ralentit là où elle ne le permet pas et rattrape ensuite, en se corrigeant sur son afficheur déporté. Vous n\'avez que la commande <b>Rouler / Arrêt</b>, comme en course.</p>'+
+  '<h3 style="font-size:14px;margin:14px 0 6px">Sur téléphone</h3>'+
+  '<p class="sub">L\'application se limite au jour de rallye : <b>Appareil</b>, <b>ZR</b>, <b>Déroulé</b>, <b>Dépannage</b>. Les leçons, l\'entraînement et la référence restent disponibles sur ordinateur et tablette.</p>'+
   '<h3 style="font-size:14px;margin:14px 0 6px">Vue course</h3>'+
   '<p class="sub">Tournez le téléphone : l\'appareil passe en grand, avec l\'écart, les distances, la moyenne et l\'heure à côté. Revenez au portrait pour le carnet et les leçons.</p>'+
   '<h3 style="font-size:14px;margin:14px 0 6px">Le jour du rallye</h3>'+
@@ -3707,8 +3924,34 @@ const SOURCES_HTML =
   '<p class="sub">Blunik est une marque de Blunik Technology. Ce simulateur est un outil d\'entraînement indépendant, sans lien avec le constructeur, et ne remplace pas la notice de l\'appareil.</p></div>';
 
 /* ==========================================================================
-   APPLICATION MOBILE : écran allumé, installation, mode hors ligne
+   APPLICATION MOBILE : le jour du rallye seulement
+   Sur téléphone on garde l'appareil, le carnet, le déroulé et le dépannage.
+   Les leçons, l'entraînement et la référence restent sur grand écran.
    ========================================================================== */
+let MTAB = 'device';
+const MOBQ = matchMedia('(max-width:1040px)');
+const MTABS = ['device','zr','day','fix'];
+
+function mobActive(){
+  return MOBQ.matches && (matchMedia('(hover: none)').matches || 'ontouchstart' in window);
+}
+function setMTab(t){
+  if(!MTABS.includes(t)) t = 'device';
+  MTAB = t;
+  MTABS.forEach(x=>document.body.classList.toggle('mt-'+x, x===t));
+  $$('#tabbar button').forEach(b=>b.setAttribute('aria-selected', b.dataset.mt===t ? 'true':'false'));
+  showView('rally');
+  window.scrollTo(0,0);
+}
+function applyMobMode(){
+  const m = mobActive();
+  const was = document.body.classList.contains('mob');
+  document.body.classList.toggle('mob', m);
+  if(m){ setMTab(MTAB); }
+  else if(was){ MTABS.forEach(x=>document.body.classList.remove('mt-'+x)); showView('lessons'); }
+}
+
+/* --- écran allumé, installation, mode hors ligne --- */
 const standalone = () =>
   window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
 
@@ -3823,7 +4066,10 @@ function init(){
   setModel('classic');
   wireGuide();
   initWake(); initA2HS(); initSW(); initRotHint();
+  $$('#tabbar button').forEach(b=>b.addEventListener('click', ()=>setMTab(b.dataset.mt)));
+  MOBQ.addEventListener('change', applyMobMode);
   showView('lessons');
+  applyMobMode();
   requestAnimationFrame(t=>{ lastT=t; requestAnimationFrame(tick); });
 }
 init();
