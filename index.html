@@ -558,36 +558,54 @@ input[type=text]:focus,input[type=number]:focus{border-color:var(--accent);outli
 .task.done .tt{color:var(--ink-3);text-decoration:line-through;text-decoration-color:var(--rule)}
 .td{font-size:12.5px;color:var(--ink-3)}
 
-/* ------------------------------------------------ contrôles horaires */
-.chnext{background:var(--bench);color:#eef1f2;padding:14px 16px 16px}
-.chnext .cl{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:#8fa3ae;font-weight:700}
-.chnext .who{display:flex;align-items:baseline;gap:9px;margin:2px 0 8px}
-.chnext .who b{font-family:var(--f-display);font-size:20px;font-weight:700;letter-spacing:.02em}
-.chnext .who span{font-family:var(--f-mono);font-size:16px;color:#a8bcc7}
-.chnext .cd{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-weight:600;
-  font-size:clamp(38px,13vw,58px);line-height:1;letter-spacing:-.01em}
-.chnext.ok .cd{color:#57d98a} .chnext.warn .cd{color:#ffc65c} .chnext.bad .cd{color:#ff7a70}
-.chnext .cs{font-family:var(--f-mono);font-size:12.5px;color:#8fa3ae;margin-top:5px}
-.chnext.none .cd{color:#5b6a72;font-size:26px}
-
-.chbase{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid var(--rule-2);
-  background:var(--surface-2)}
-.chbase .bl{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:700;flex:none}
-.chbase input{max-width:120px;text-align:center;font-family:var(--f-mono);font-size:15px}
-.chrow{display:flex;align-items:center;gap:9px;padding:9px 14px;border-top:1px solid var(--rule-2)}
-.chrow:first-child{border-top:none}
-.chrow.next{background:var(--accent-soft)}
-.chrow .cn{font-family:var(--f-mono);font-weight:700;font-size:12.5px;background:var(--ink);color:var(--surface);
-  border-radius:6px;padding:4px 7px;flex:none;min-width:44px;text-align:center}
-.chrow.done .cn{background:var(--ok)}
-.chrow input{width:74px;flex:none;text-align:center;font-family:var(--f-mono);font-size:14.5px;padding:6px 4px}
-.chrow .arw{color:var(--ink-3);flex:none}
-.chrow .at{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:16px;font-weight:600;
-  flex:1;min-width:0;text-align:right;color:var(--ink)}
-.chrow.done .at{color:var(--ok)}
-.chrow .st{border:1px solid var(--rule);background:var(--surface);border-radius:8px;padding:6px;
-  color:var(--ink-3);flex:none}
-.chrow.done .st{color:var(--ok);border-color:var(--ok)}
+/* ------------------------------------------------ contrôles horaires
+   Quatre cartes : deux saisies, deux résultats. La valeur est un champ
+   natif : sur iPhone, la touche ouvre la molette du système.            */
+.chgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px 14px}
+.chc{background:var(--surface);border:1px solid var(--rule);border-radius:var(--r);
+  display:flex;flex-direction:column;overflow:hidden;box-shadow:var(--shadow);min-width:0}
+.chc .hd2{display:flex;align-items:center;gap:6px;padding:9px 11px 8px;
+  border-bottom:1px solid var(--rule-2)}
+.chc .hd2 span{font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;
+  color:var(--ink-3);font-weight:700;line-height:1.25;min-height:2.5em;display:flex;align-items:center}
+.chc .val{flex:1;display:flex;align-items:center;justify-content:center;padding:14px 6px;
+  overflow:hidden;min-width:0}
+.chc input[type=time]{-webkit-appearance:none;appearance:none;border:none;background:none;
+  font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:clamp(19px,6vw,30px);
+  font-weight:600;color:var(--ink);text-align:center;width:100%;min-width:0;padding:0;
+  min-height:44px;line-height:1.1}
+.chc input[type=time]::-webkit-date-and-time-value{text-align:center;margin:0}
+.chc input[type=time]::-webkit-calendar-picker-indicator{display:none}
+.chc input[type=time]:focus{outline:none;color:var(--accent)}
+.chc .out{font-family:var(--f-mono);font-variant-numeric:tabular-nums;
+  font-size:clamp(20px,6.2vw,30px);font-weight:600;color:var(--ink);text-align:center;
+  width:100%;min-width:0;padding:0 2px;white-space:nowrap}
+.chc .chips{display:flex;gap:5px;padding:8px;justify-content:center;align-items:center;
+  flex-wrap:wrap;margin-top:auto;background:var(--surface-2);border-top:1px solid var(--rule-2)}
+.chc .chips .wide{flex:1 0 100%}
+/* durée : deux listes natives — sur iPhone, la molette du système */
+.dur{display:flex;align-items:baseline;justify-content:center;gap:2px;width:100%;min-width:0}
+.dur select{-webkit-appearance:none;appearance:none;border:none;background:none;
+  font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:clamp(19px,6vw,30px);
+  font-weight:600;color:var(--ink);padding:4px 1px;text-align:right;text-align-last:right;
+  min-height:44px;line-height:1.1}
+.dur select:focus{outline:none;color:var(--accent)}
+.dur i{font-style:normal;font-family:var(--f-body);font-size:12px;font-weight:600;
+  color:var(--ink-3);margin-right:5px}
+.chc .chips button{border:1px solid var(--rule);background:var(--surface-2);border-radius:999px;
+  padding:4px 9px;font-size:11.5px;font-weight:600;color:var(--ink-2);white-space:nowrap}
+.chc .chips button:active{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-ink)}
+.chc .set{border:none;background:var(--accent-ink);color:#fff;font-weight:600;font-size:13px;
+  padding:11px 6px;width:100%;letter-spacing:.01em}
+.chc.res .val{padding:22px 6px}
+.chc .band{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;
+  border-radius:7px;padding:7px 6px}
+.chc .band.ok{background:var(--ok);color:#fff}
+.chc .band.warn{background:var(--warn);color:#fff}
+.chc .band.bad{background:var(--bad);color:#fff}
+.chc .band .sg{font-size:.75em;font-weight:700}
+.chc .band .out{color:#fff;font-size:clamp(18px,5.3vw,26px)}
+@media (max-width:360px){ .chc .chips button{padding:4px 7px;font-size:11px} }
 
 /* ------------------------------------------- carnet, version graphique */
 .minbar{height:4px;background:var(--rule-2)}
@@ -1040,7 +1058,7 @@ footer button:hover{color:var(--ink)}
 <div id="printArea"></div>
 
 <footer>
-  <span>Simulateur Blunik — v1.5</span>
+  <span>Simulateur Blunik — v1.6</span>
   <span class="sep"></span>
   <button id="btnSources">Sources et conformité</button>
   <button id="btnWake" class="hidden">Écran allumé : non</button>
@@ -3158,62 +3176,45 @@ function setModel(id){
    ========================================================================== */
 
 const RKEY = 'blunik.carnet.v1';
-let RALLY = { name:'', date:'', calib:'', off:0, zrs:[], prog:{}, chStart:'', chs:[] };
+let RALLY = { name:'', date:'', calib:'', off:0, zrs:[], prog:{}, chPt:'', chImp:'' };
 try{ const raw = localStorage.getItem(RKEY); if(raw) RALLY = Object.assign(RALLY, JSON.parse(raw)); }catch(e){}
 function saveRally(){ try{ localStorage.setItem(RKEY, JSON.stringify(RALLY)); }catch(e){} }
-function blankRally(){ return {name:'',date:'',calib:'',off:0,zrs:[],prog:{},chStart:'',chs:[]}; }
-if(!Array.isArray(RALLY.chs)) RALLY.chs = [];
-
-/* ====================== CONTRÔLES HORAIRES (CH) =========================
-   Le copilote note l'heure de pointage et le temps imparti ; l'application
-   enchaîne les heures d'arrivée et décompte le temps restant au prochain CH.
-   ===================================================================== */
-/* « 47 » = 47 min · « 1:12 » ou « 1h12 » = 1 h 12 · « 0:47:30 » accepté */
-function durSec(v){
-  const t = String(v||'').trim().replace(',','.');
-  if(!t) return 0;
-  const m = t.match(/^(\d{1,2})\s*[:hH]\s*(\d{1,2})(?:\s*[:mM]?\s*(\d{1,2}))?$/);
-  if(m) return (+m[1])*3600 + (+m[2])*60 + (+(m[3]||0));
-  const n = parseFloat(t);
-  return isFinite(n) ? Math.round(n*60) : 0;
-}
-function fmtDurHM(s){
-  s = Math.max(0, Math.round(s));
-  const h = Math.floor(s/3600), m = Math.floor(s%3600/60);
-  return h ? h+' h '+pad(m,2) : m+' min';
-}
-/* heure du jour, en secondes, sur l'horloge de référence */
-function nowSec(){
-  const d = new Date(refNow()*1000);
-  return d.getHours()*3600 + d.getMinutes()*60 + d.getSeconds() + d.getMilliseconds()/1000;
-}
-const hhmm = t => { let x = Math.round(t)%86400; if(x<0) x+=86400;
-  return pad(Math.floor(x/3600),2)+':'+pad(Math.floor(x%3600/60),2)+':'+pad(x%60,2); };
-
-/* enchaînement : chaque CH part de l'heure réellement pointée au précédent,
-   ou de l'heure théorique si le pointage n'est pas encore fait */
-function chRows(){
-  let base = hhmmss(RALLY.chStart);
-  return (RALLY.chs||[]).map((c,i)=>{
-    const imp = durSec(c.imp);
-    const arr = (base!=null && imp>0) ? base + imp : null;
-    const real = hhmmss(c.real);
-    const row = { i, n: c.n || ('CH'+(i+1)), imp, arr, real };
-    base = real!=null ? real : arr;
-    return row;
-  });
-}
-function chNext(){
-  const rows = chRows();
-  return rows.find(r => r.real == null && r.arr != null) || null;
-}
-
+function blankRally(){ return {name:'',date:'',calib:'',off:0,zrs:[],prog:{},chPt:'',chImp:''}; }
 
 /* heure de référence : horloge de la machine, corrigée si besoin */
 function refNow(){ return Date.now()/1000 + (+RALLY.off||0); }
 function refClock(){ const d = new Date(refNow()*1000);
   return pad(d.getHours(),2)+':'+pad(d.getMinutes(),2)+':'+pad(d.getSeconds(),2); }
 function refTenths(){ const t = refNow(); return Math.floor((t%1)*10); }
+
+/* ====================== CONTRÔLE HORAIRE (CH) ===========================
+   Heure de pointage + temps imparti  ->  heure d'arrivée + temps restant.
+   Une liaison à la fois : au CH suivant, on repointe.                     */
+const hm2s = v => {
+  const m = String(v||'').match(/^(\d{1,2}):(\d{2})(?::(\d{2}))?$/);
+  return m ? (+m[1])*3600 + (+m[2])*60 + (+(m[3]||0)) : null;
+};
+const s2hm  = t => { let x=Math.round(t)%86400; if(x<0) x+=86400;
+  return pad(Math.floor(x/3600),2)+':'+pad(Math.floor(x%3600/60),2); };
+const s2hms = t => { const x=Math.max(0,Math.round(t));
+  return pad(Math.floor(x/3600),2)+':'+pad(Math.floor(x%3600/60),2)+':'+pad(x%60,2); };
+
+/* heure du jour, en secondes, sur l'horloge de référence */
+function nowSec(){
+  const d = new Date(refNow()*1000);
+  return d.getHours()*3600 + d.getMinutes()*60 + d.getSeconds() + d.getMilliseconds()/1000;
+}
+/* heure d'arrivée théorique au prochain CH */
+function chArrival(){
+  const pt = hm2s(RALLY.chPt), imp = hm2s(RALLY.chImp);
+  return (pt == null || imp == null) ? null : (pt + imp) % 86400;
+}
+/* ajoute des minutes à un champ heure, en restant sur 24 h */
+function chBump(k, min){
+  const cur = hm2s(RALLY[k]);
+  const base = cur == null ? (k === 'chPt' ? nowSec() : 0) : cur;
+  RALLY[k] = s2hm(base + min*60);
+}
 
 /* ------------------------------- données ZR ----------------------------- */
 function newZR(){
@@ -3366,38 +3367,34 @@ function clockCard(){
     '</div></div><div class="minbar"><i id="rBar"></i></div></div>';
 }
 
-/* ------------------------- bloc contrôles horaires ---------------------- */
+/* ------------------------- bloc contrôle horaire ------------------------ */
 function chCard(){
-  const rows = chRows(), nx = chNext();
-  let h = '<div class="card">';
+  const card = (cls, label, inner, chips, set) =>
+    '<div class="chc'+(cls?' '+cls:'')+'"><div class="hd2"><span>'+label+'</span></div>'+
+    '<div class="val">'+inner+'</div>'+
+    (chips ? '<div class="chips">'+chips+'</div>' : '')+
+    (set ? set : '')+'</div>';
+  const chip = (k,d,t) => '<button data-chb="'+k+'.'+d+'">'+t+'</button>';
+  const opts = (n, sel, w) => { let o=''; for(let i=0;i<n;i++)
+    o += '<option value="'+i+'"'+(i===sel?' selected':'')+'>'+(w?pad(i,w):i)+'</option>'; return o; };
 
-  /* prochain CH : compte à rebours */
-  h += '<div class="chnext" id="chNext"><span class="cl">Prochain CH</span>'+
-       '<div class="who"><b id="chWho">—</b><span id="chArr"></span></div>'+
-       '<div class="cd" id="chCd">--:--</div>'+
-       '<div class="cs" id="chCs">Renseignez l\'heure de pointage et le temps imparti</div></div>';
-
-  /* base : heure de pointage de départ */
-  h += '<div class="chbase"><span class="bl">Pointage départ</span>'+
-       '<input id="chStart" type="text" inputmode="numeric" value="'+esc(RALLY.chStart)+'" placeholder="08:31:00">'+
-       '<button class="ib" data-chnow="-1" aria-label="Pointer maintenant">'+icon('clock','sm')+'</button></div>';
-
-  /* liste des CH */
-  rows.forEach(r=>{
-    const c = RALLY.chs[r.i];
-    h += '<div class="chrow'+(r.real!=null?' done':(nx && nx.i===r.i?' next':''))+'" data-i="'+r.i+'">'+
-      '<span class="cn">'+r.n+'</span>'+
-      '<input data-ch="'+r.i+'" data-f="imp" value="'+esc(c.imp)+'" placeholder="0:47" inputmode="numeric" aria-label="Temps imparti">'+
-      '<span class="arw">'+icon('right','sm')+'</span>'+
-      '<span class="at">'+(r.real!=null ? hhmm(r.real) : (r.arr!=null ? hhmm(r.arr) : '—'))+'</span>'+
-      '<button class="st" data-chnow="'+r.i+'" aria-label="Pointer maintenant">'+icon('clock','sm')+'</button>'+
-      '<button class="ib" data-chdel="'+r.i+'" aria-label="Supprimer">'+icon('trash','sm')+'</button>'+
-      '</div>';
-  });
-  if(!rows.length) h += '<div class="body"><p class="sub">Aucun CH. Ajoutez le premier et son temps imparti.</p></div>';
-  h += '<div class="body" style="border-top:1px solid var(--rule-2)">'+
-       '<button class="btn primary wide" id="chAdd">'+icon('plus','sm')+'Ajouter un CH</button></div>';
-  return h + '</div>';
+  return '<div class="card"><div class="chgrid">'+
+    card('', 'Heure de pointage',
+      '<input type="time" id="chPt" value="'+esc(RALLY.chPt)+'" aria-label="Heure de pointage">',
+      '<button class="wide" data-chnow="1">Maintenant</button>'+chip('chPt',-1,'−1')+chip('chPt',1,'+1'),
+      '<button class="set" data-chset="chPt">Définir heure</button>') +
+    card('', 'Temps imparti',
+      '<div class="dur">'+
+        '<select id="chImpH" aria-label="Heures">'+opts(10, hm2s(RALLY.chImp)!=null?Math.floor(hm2s(RALLY.chImp)/3600):0)+'</select><i>h</i>'+
+        '<select id="chImpM" aria-label="Minutes">'+opts(60, hm2s(RALLY.chImp)!=null?Math.floor(hm2s(RALLY.chImp)%3600/60):0, 2)+'</select><i>min</i>'+
+      '</div>',
+      chip('chImp',5,'+5')+chip('chImp',10,'+10')+chip('chImp',20,'+20'),
+      '') +
+    card('res', 'Heure d\'arrivée', '<div class="out" id="chArr">--:--</div>') +
+    card('res', 'Temps restant',
+      '<div class="band" id="chBand"><span class="sg" id="chSg"></span>'+
+      '<span class="out" id="chRem">--:--:--</span></div>') +
+    '</div></div>';
 }
 
 function zrCard(x,i){
@@ -3587,21 +3584,23 @@ function wireRally(T){
     else if(a==='clear' && confirm('Effacer toutes les données du carnet ?')){
       RALLY=blankRally(); openZR.clear(); saveRally(); renderRally(); }
   });
-  /* contrôles horaires */
-  const cst=$('#chStart');
-  if(cst) cst.addEventListener('input', ()=>{ RALLY.chStart=cst.value; saveRally(); refreshCH(); });
-  on('input[data-ch]','input', e=>{
-    RALLY.chs[+e.target.dataset.ch][e.target.dataset.f] = e.target.value;
-    saveRally(); refreshCH();
+  /* contrôle horaire */
+  const pt = $('#chPt');
+  if(pt) pt.addEventListener('input', ()=>{ RALLY.chPt = pt.value; saveRally(); tickCH(); });
+  const ih = $('#chImpH'), im = $('#chImpM');
+  const readImp = ()=>{ if(!ih||!im) return;
+    RALLY.chImp = pad(+ih.value,2)+':'+pad(+im.value,2); saveRally(); tickCH(); };
+  if(ih) ih.addEventListener('change', readImp);
+  if(im) im.addEventListener('change', readImp);
+  on('[data-chset]','click', e=>{
+    const el = $('#'+e.currentTarget.dataset.chset); if(!el) return;
+    try{ el.showPicker ? el.showPicker() : el.focus(); }catch(err){ el.focus(); }
   });
-  on('[data-chnow]','click', e=>{
-    const i = +e.currentTarget.dataset.chnow, t = hhmm(nowSec());
-    if(i < 0) RALLY.chStart = t; else RALLY.chs[i].real = (RALLY.chs[i].real ? '' : t);
-    saveRally(); renderRally();
+  on('[data-chnow]','click', ()=>{ RALLY.chPt = s2hm(nowSec()); saveRally(); syncCH(); tickCH(); });
+  on('[data-chb]','click', e=>{
+    const [k,d] = e.currentTarget.dataset.chb.split('.');
+    chBump(k, +d); saveRally(); syncCH(); tickCH();
   });
-  on('[data-chdel]','click', e=>{ RALLY.chs.splice(+e.currentTarget.dataset.chdel,1); saveRally(); renderRally(); });
-  const ca=$('#chAdd'); if(ca) ca.addEventListener('click', ()=>{
-    RALLY.chs.push({n:'CH'+(RALLY.chs.length+1), imp:'', real:''}); saveRally(); renderRally(); });
 
   const f=$('#rFile'); if(f) f.addEventListener('change', e=>{
     const file=e.target.files[0]; if(!file) return;
@@ -3628,41 +3627,34 @@ function refreshZRBadges(){
   });
 }
 
-/* compte à rebours du prochain CH, rafraîchi avec l'horloge */
-const fmtCd = s => { s=Math.max(0,Math.round(s));
-  const h=Math.floor(s/3600), m=Math.floor(s%3600/60), q=s%60;
-  return (h ? h+':'+pad(m,2) : pad(m,2))+':'+pad(q,2); };
+/* recopie l'état dans les champs après un raccourci */
+function syncCH(){
+  const pt = $('#chPt'); if(pt && pt.value !== RALLY.chPt) pt.value = RALLY.chPt;
+  const t = hm2s(RALLY.chImp), ih = $('#chImpH'), im = $('#chImpM');
+  if(ih && im && t != null){
+    ih.value = String(Math.min(9, Math.floor(t/3600)));
+    im.value = String(Math.floor(t%3600/60));
+  }
+}
 
+/* résultats du contrôle horaire, rafraîchis avec l'horloge */
 function tickCH(){
-  const box = $('#chNext'); if(!box) return;
-  const nx = chNext();
-  const who=$('#chWho'), ar=$('#chArr'), cd=$('#chCd'), cs=$('#chCs');
-  if(!nx){
-    box.className = 'chnext none';
-    who.textContent = '—'; ar.textContent = ''; cd.textContent = '--:--';
-    cs.textContent = 'Renseignez l\'heure de pointage et le temps imparti';
+  const arrEl = $('#chArr'); if(!arrEl) return;
+  const arr = chArrival(), band = $('#chBand'), sg = $('#chSg'), rem = $('#chRem');
+  if(arr == null){
+    if(arrEl.textContent !== '--:--') arrEl.textContent = '--:--';
+    band.className = 'band'; sg.textContent = ''; rem.textContent = '--:--:--';
     return;
   }
-  let rem = nx.arr - nowSec();
-  if(rem < -43200) rem += 86400; if(rem > 43200) rem -= 86400;
-  box.className = 'chnext ' + (rem <= 0 ? 'bad' : (rem <= 300 ? 'warn' : 'ok'));
-  if(who.textContent !== nx.n) who.textContent = nx.n;
-  const a = hhmm(nx.arr); if(ar.textContent !== a) ar.textContent = a;
-  cd.textContent = (rem < 0 ? '+' : '') + fmtCd(Math.abs(rem));
-  const sub = (rem < 0 ? 'Heure dépassée · ' : 'Arrivée ') + a + ' · imparti ' + fmtDurHM(nx.imp);
-  if(cs.textContent !== sub) cs.textContent = sub;
-}
-/* met à jour les heures d'arrivée sans reconstruire la liste (saisie en cours) */
-function refreshCH(){
-  const rows = chRows(), nx = chNext();
-  $$('.chrow').forEach(el=>{
-    const r = rows[+el.dataset.i]; if(!r) return;
-    el.querySelector('.at').textContent =
-      r.real != null ? hhmm(r.real) : (r.arr != null ? hhmm(r.arr) : '—');
-    el.classList.toggle('done', r.real != null);
-    el.classList.toggle('next', !!(nx && nx.i === r.i));
-  });
-  tickCH();
+  const a = s2hm(arr);
+  if(arrEl.textContent !== a) arrEl.textContent = a;
+  let d = arr - nowSec();
+  if(d < -43200) d += 86400; if(d > 43200) d -= 86400;
+  const cls = 'band ' + (d <= 0 ? 'bad' : (d <= 300 ? 'warn' : 'ok'));
+  if(band.className !== cls) band.className = cls;
+  const s = d < 0 ? '+' : '';
+  if(sg.textContent !== s) sg.textContent = s;
+  rem.textContent = s2hms(Math.abs(d));
 }
 
 /* horloge en direct */
@@ -3746,7 +3738,6 @@ function applyImport(txt){
   try{ d = JSON.parse(txt); }catch(e){}
   if(!d || !Array.isArray(d.zrs)){ alert('Sauvegarde non reconnue. Vérifiez le fichier ou le texte collé.'); return; }
   RALLY = Object.assign(blankRally(), d);
-  RALLY.chs = Array.isArray(RALLY.chs) ? RALLY.chs : [];
   RALLY.zrs = RALLY.zrs.map(z=>Object.assign({st:1,name:'',start:'',mode:'single',as:'',end:'',off:'',dur:'',sections:[]}, z));
   saveRally(); $('#modal').classList.add('hidden');
   showView('rally');
@@ -4105,7 +4096,7 @@ const HELP_HTML =
   '<h3 style="font-size:14px;margin:14px 0 6px">Sur téléphone</h3>'+
   '<p class="sub">L\'application se limite au jour de rallye : <b>Appareil</b>, <b>Horaire</b>, <b>ZR</b>, <b>Déroulé</b>, <b>Dépannage</b>. Les leçons, l\'entraînement et la référence restent disponibles sur ordinateur et tablette.</p>'+
   '<h3 style="font-size:14px;margin:14px 0 6px">Contrôles horaires</h3>'+
-  '<p class="sub">Onglet <b>Horaire</b> : saisissez l\'heure de pointage du départ et le temps imparti de chaque liaison ; les heures d\'arrivée aux CH s\'enchaînent toutes seules et le temps restant au prochain se décompte en direct. À chaque CH, le bouton horloge inscrit l\'heure réellement pointée : les CH suivants se recalent dessus.</p>'+
+  '<p class="sub">Onglet <b>Horaire</b> : l\'heure de pointage et le temps imparti se règlent avec les sélecteurs de l\'iPhone ; l\'heure d\'arrivée et le temps restant au prochain CH se calculent tout seuls. <b>Maintenant</b> inscrit l\'heure courante, les raccourcis ajustent à la minute ou par pas de cinq. Au CH suivant, on repointe.</p>'+
   '<h3 style="font-size:14px;margin:14px 0 6px">Vue course</h3>'+
   '<p class="sub">Tournez le téléphone : l\'appareil passe en grand, avec l\'écart, les distances, la moyenne et l\'heure à côté. Revenez au portrait pour le carnet et les leçons.</p>'+
   '<h3 style="font-size:14px;margin:14px 0 6px">Le jour du rallye</h3>'+

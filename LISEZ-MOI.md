@@ -54,7 +54,7 @@ L'icône apparaît sur l'écran d'accueil. Elle s'ouvre en plein écran, avec so
 - **Carnet de rallye** : les données saisies restent sur l'appareil. Utilisez
   *Exporter* pour en garder une copie.
 - **Mise à jour** : redéposez les fichiers sur GitHub, puis changez la ligne
-  `const CACHE = 'blunik-v1.5'` de `sw.js` (par exemple en `v1.2`). Sans ce
+  `const CACHE = 'blunik-v1.6'` de `sw.js` (par exemple en `v1.2`). Sans ce
   changement, les iPhones déjà installés garderont l'ancienne version.
 - L'application est indépendante de Blunik Technology et ne remplace pas la
   notice de l'appareil.
